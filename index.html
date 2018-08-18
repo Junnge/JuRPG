@@ -37,9 +37,12 @@
     	rand = Math.round(rand);
     	return rand;
   	}
+  	var xp=0;
 	function forage(argument) {
+		xp++;
 		document.getElementById('text_box').innerHTML += "<p>You found "+randomInt(1, 3)+" [log] and get 1XP</p>";
 		document.getElementById('text_box').scrollTop = 9999;
+		document.getElementById('exp_bar').innerHTML = "Опыт: " + xp;
 	}
 	function show_text_box(argument) {
 		document.getElementById('text_box').style = "visibility: visible;"
