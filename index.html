@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>JuRPG</title>
+	<link type="text/css" rel="stylesheet" href="style.css" /> 
+	<link type="text/css" rel="stylesheet" href="reset.css" /> 
+</head>
+<body>
+<div id="main_box">
+	<div id="action_buttons">
+		<button id="forage_button" onclick="forage()">Forage</button>
+		<button id="chop_button" onclick="">Chop</button>
+		<button id="fish_button" onclick="fish()">Fish</button>
+		<button id="mine_button" onclick="mine()">Mine</button>
+	</div>
+	<div id="hero_status">
+		<p id="health_bar">Health -</p>
+		<p id="exp_bar">Exp -</p>
+	</div>
+	<div id="nav_buttons">
+		<button id="text_button" onclick="show_text_box()">Info</button>
+		<button id="map_button" onclick="show_map_box()">Map</button>
+		<button id="status_button" onclick="show_status_box()">Status</button>
+	</div>
+	<div id="content_box">
+		<div id="text_box">		
+		</div>
+		<div id="map_box">
+		</div>
+		<div id="status_box">
+		</div>		
+	</div>
+</div>
+<script type="text/javascript">
+	function randomInt(min, max) {
+    	var rand = min - 0.5 + Math.random() * (max - min + 1)
+    	rand = Math.round(rand);
+    	return rand;
+  	}
+	function forage(argument) {
+		document.getElementById('text_box').innerHTML += "<p>You found "+randomInt(1, 3)+" [log] and get 1XP</p>";
+		document.getElementById('text_box').scrollTop = 9999;
+	}
+	function show_text_box(argument) {
+		document.getElementById('text_box').style = "visibility: visible;"
+		document.getElementById('map_box').style = "visibility: hidden;"
+		document.getElementById('status_box').style = "visibility: hidden;"
+	}
+	function show_status_box(argument) {
+		document.getElementById('text_box').style = "visibility: hidden;"
+		document.getElementById('map_box').style = "visibility: hidden;"
+		document.getElementById('status_box').style = "visibility: visible;"
+	}
+	function show_map_box(argument) {
+		document.getElementById('text_box').style = "visibility: hidden;"
+		document.getElementById('map_box').style = "visibility: visible;"
+		document.getElementById('status_box').style = "visibility: hidden;"	
+	}
+</script>
+</body>
+</html>
