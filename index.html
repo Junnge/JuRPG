@@ -2,15 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>JuRPG</title>
+	<meta charset="utf-8" />
 	<link type="text/css" rel="stylesheet" href="style.css" /> 
 	<link type="text/css" rel="stylesheet" href="reset.css" /> 
 </head>
 <body>
 <div id="main_box">
 	<div id="action_buttons">
-		<button id="forage_button" onclick="forage()">Forage</button>
-		<button id="chop_button" onclick="">Chop</button>
-		<button id="fish_button" onclick="fish()">Fish</button>
+		<button id="forage_button" onclick="forage()">Охота</button>
+		<button id="chop_button" onclick="">Выживание</button>
+		<button id="fish_button" onclick="fish()">Путешествие</button>
 		<button id="mine_button" onclick="mine()">Mine</button>
 	</div>
 	<div id="hero_status">
@@ -38,11 +39,16 @@
     	return rand;
   	}
   	var xp=0;
+  	var forage_cd=0;
 	function forage(argument) {
-		xp++;
-		document.getElementById('text_box').innerHTML += "<p>You found "+randomInt(1, 3)+" [log] and get 1XP</p>";
-		document.getElementById('text_box').scrollTop = 9999;
-		document.getElementById('exp_bar').innerHTML = "Опыт: " + xp;
+		if (forage_cd==0) {
+			xp++;
+			document.getElementById('text_box').innerHTML += "<p>You found "+randomInt(1, 3)+" [log] and get 1XP</p>";
+			document.getElementById('text_box').scrollTop = 9999;
+			document.getElementById('exp_bar').innerHTML = "Опыт: " + xp;
+			forage_cd=1;
+			setTimeout(function(){forage_cd=0;}, 10000);
+		} else alert("CD!");
 	}
 	function show_text_box(argument) {
 		document.getElementById('text_box').style = "visibility: visible;"
