@@ -26,18 +26,25 @@ arrEnemies[2] = {
 	exp : 4
 }
 arrEnemies[3] = {
-	name : "raider",
+	name : "Рейдер",
 	hp : 50,
 	dmg : 4,
 	exp : 10,
-	loot : [0,2]
+	loot : [
+    {item: 'gun10mm', rare: 8},
+    {item: 'stimpack', rare: 20}
+    ]
 }
 arrEnemies[4] = {
-	name : "raider_leader",
+	name : "Лидер рейдеров",
 	hp : 70,
 	dmg : 6,
 	exp : 30,
-	loot : [0,1,2]
+	loot : [
+    {item: 'letherarmor', rare: 1},
+    {item: 'gun10mm', rare: 8},
+    {item: 'stimpack', rare: 20}
+    ]
 }
 
 
@@ -54,6 +61,10 @@ arrItems.gun10mm = {
 arrItems.stimpack = {
 	name: "Стимулятор",
 	price: 50
+}
+arrItems.letherarmor = {
+	name: "Кожаная Броня",
+	price: 150
 }
 
 
@@ -150,7 +161,7 @@ function hunt() {
 		hunt_cd = 1;
 		//Активация кулдауна способности 
 		setTimeout(function(){hunt_cd=0;}, 10000); 
-	} else status_update("<p>Вы устали!</p>");
+	} else status_update("<p>Враговы устали!</p>");
 }
 
 //Пуьешествие в постоши, генерация событий 
@@ -181,20 +192,24 @@ function change_enemy(id){
 		enemyObject["hp"] = 0;
 		enemyObject["dmg"] = 0;
 		enemyObject["exp"] = 0;
+		enemyObject["loot"] = 0;
 	} else {
 		enemyObject["name"] = arrEnemies[id].name;
 		enemyObject["hp"] = arrEnemies[id].hp;
 		enemyObject["dmg"] = arrEnemies[id].dmg;
 		enemyObject["exp"] = arrEnemies[id].exp;
+		enemyObject["loot"] = arrEnemies[id].loot;
 	}
 }
 
 //Смерть монстра, выдача опыта и сброс объкта
 function kill_current_enemy(){ 
 	player.give_exp(enemyObject.exp);
-	var loot = randomInt(1, 10);
-	inv.add("cap", loot);
-	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта, и нашли "+loot+" крышеки</p>");
+	var rand_caps_amount = randomInt(1, 10);
+	var rand_loot = loot(enemyObject.loot);
+	inv.add("cap", rand_caps_amount);
+	inv.add(rand_loot, 1);
+	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта, нашли "+rand_caps_amount+" [Крышка] и ["+arrItems[rand_loot].name+"]</p>");
 	change_enemy(-1);      
 	status_update();  
 }
@@ -248,3 +263,38 @@ function onWheel(e) {
 	document.getElementById('text_box').scrollTop += delta*3;
 	e.preventDefault ? e.preventDefault() : (e.returnValue = false);
 }
+
+
+function loot(lootlist){
+	var weightsum = 0;
+	for(var i = 0; i < lootlist.length; i++){
+		weightsum += lootlist[i].rare;
+	}
+	rand = randomInt(1, weightsum);
+	var i = 0;
+	var tmp = 0;
+	while(tmp < rand){
+		tmp += lootlist[i].rare;
+		i++;
+		//console.log(tmp,' ', i);
+	}
+	console.log('dice=',rand,'loot=',lootlist[i-1]);
+	return lootlist[i-1].item;
+
+	/*var sums = [];
+	for(var i = 0; i < list.length; i++){
+		sums[i]=0;
+		for (var j = 0; j <= i; j++) {
+			sums[i]+=list[j].rare;
+		}
+	}
+	for(var i = 0; i < sums.length; i++){
+		if(sums[i]>=rand){
+			console.log(list[i]);
+			break;
+		}
+	}
+	console.log(sums, rand);*/
+
+}
+
