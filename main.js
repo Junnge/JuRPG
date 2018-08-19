@@ -42,19 +42,20 @@ arrEnemies[4] = {
 
 
 //Массив предметов
-var arrItems = [];
-arrItems[0] = {
-	name: "Крышки",
+var arrItems = {};
+arrItems.cap = {
+	name: "Крышка",
 	price: 1
 }
-arrItems[1] = {
+arrItems.gun10mm = {
 	name: "10мм пистолет",
 	price: 100
 }
-arrItems[2] = {
+arrItems.stimpack = {
 	name: "Стимулятор",
 	price: 50
 }
+
 
 //Массив локаций
 var arrLocations = []; 
@@ -81,11 +82,8 @@ function Player(name){ //Описание класса игрока
 	this.skill_points = 0;
 	this.base_damage = 1;
 	this.location = 0;
-	this.inv = [];
-	this.inv[0] = {
-		id: 1,
-		count: 1
-	}
+	inv.add("gun10mm", 1)
+
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
 	this.give_exp = function(x){ 
 		this.exp = this.exp + x;
@@ -108,20 +106,39 @@ function Player(name){ //Описание класса игрока
 		return 10 * (this.lvl + 1);
 	}
 
-	//Добавление предмета в инвентарь
-	this.add_item = function(item_id, item_count){
-		for (var i = 0; i < this.inv.length; i++) {
-			if (this.inv[i].id == item_id){
-				this.inv[i].count += item_count;
-				return 0;
-			}
+}
+
+function Inv() {
+	this.stuff = {};
+	
+	this.remove = function(item, count){
+		if (this.stuff[item] >= count){
+			this.stuff[item] -= count
+		} else {
+		// you can't do this	
 		}
-		this.inv.push({id: item_id, count: item_count});
+	}
+	
+	this.add = function(item, count){
+		if (item in this.stuff) {
+			this.stuff[item] += count
+		} else {
+			this.stuff[item] = count
+		}
+	}
+
+	this.show = function(){
+		document.getElementById('status_box').innerHTML = '';
+		for (var item in this.stuff) {
+			document.getElementById('status_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
+		}
 	}
 }
 
 //Создание игрока
+var inv = new Inv();
 var player = new Player('whoever'); 
+
 
 //флаг кулдауна на действие 
 var hunt_cd=0; 
@@ -176,7 +193,7 @@ function change_enemy(id){
 function kill_current_enemy(){ 
 	player.give_exp(enemyObject.exp);
 	var loot = randomInt(1, 10);
-	player.add_item(0, loot);
+	inv.add("cap", loot);
 	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта, и нашли "+loot+" крышеки</p>");
 	change_enemy(-1);      
 	status_update();  
@@ -191,13 +208,6 @@ function status_update(text) {
 	document.getElementById('text_box').scrollTop = 9999;
 }
 
-//Отображение инвентаря 
-function show_inv(){
-	document.getElementById('status_box').innerHTML = '';
-	for (var i = 0; i < player.inv.length; i++) {
-		document.getElementById('status_box').innerHTML += '<p>'+arrItems[player.inv[i].id].name+" ("+player.inv[i].count+")</p>";
-	}
-}
 
 //Отображение элементов интерфейса 
 function show_box(box, button) {
