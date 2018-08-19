@@ -18,15 +18,15 @@
 	</div>
 	<div id="content_box">
 		<div id="nav_buttons">
-			<button id="text_button" onclick="show_text_box()">Info</button><br>
-			<button id="map_button" onclick="show_map_box()">Map</button><br>
-			<button id="status_button" onclick="show_status_box()">Status</button><br>
+			<button id="text_button" onclick="show_text_box()">Инфо</button><br>
+			<button id="map_button" onclick="show_map_box()">Карта</button><br>
+			<button id="status_button" onclick="show_status_box()">Статус</button><br>
 		</div>
 		<div id="action_buttons">
-			<button id="forage_button" onclick="forage()">Охота</button>
-			<button id="chop_button" onclick="">Выживание</button>
-			<button id="fish_button" onclick="adventure()">Путешествие</button>
-			<button id="mine_button" onclick="fight()">Атака</button>
+			<button id="hunt_button" onclick="hunt()">Охота</button>
+			<button id="search_button" onclick="">Поиск</button>
+			<button id="adv_button" onclick="adventure()">Путешествие</button>
+			<button id="fight_button" onclick="fight()">Атака</button>
 		</div>
 		<div id="text_box">		
 		</div>
@@ -61,7 +61,7 @@
 
   	var enemyObject = new Object();
 
-	function forage(argument) {
+	function hunt(argument) {
 		if (forage_cd==0) {
 			xp++;
 			document.getElementById('text_box').innerHTML += "<p>Вы поймали "+randomInt(2, 4)+" ящерицы и получили 1XP</p>";
