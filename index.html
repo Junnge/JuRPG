@@ -7,7 +7,7 @@
 	<link type="text/css" rel="stylesheet" href="reset.css" /> 
 	<link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
 </head>
-<body onload="status_update()">
+<body onload="status_update('Добро пожаловать в пустошь.'); show_box('text_box', 'text_button')">
 <div id="main_box">
 	<div id="content_box">
 		<div id="text_box"></div>
@@ -25,7 +25,10 @@
 			 onmouseover="document.getElementById('fight_button').src='img/buttons/fight_button_active.png'"
 			 onmouseout="document.getElementById('fight_button').src='img/buttons/fight_button_unactive.png'"></img>
 		</div>
-		<div id="map_box"></div>
+		<div id="map_box">
+			<img src="img/map_ico/city_r.png" id="ruined_city">
+			<img src="img/map_ico/vault.png" id="vault">
+		</div>
 		<div id="status_box"></div>		
 	</div>
 	<div id="enemy_status">

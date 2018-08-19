@@ -76,7 +76,7 @@ function hunt() {
 function adventure(){
 	var id = randomInt(0, arrEnemies.length-1);
 	change_enemy(id)
-	status_update("</p>Вы встретили "+enemyObject.name+"</p>");
+	status_update("</p>Вы встретили ["+enemyObject.name+"]</p>");
 }
 
 function fight(){

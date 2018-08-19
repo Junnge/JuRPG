@@ -54,7 +54,22 @@
 	visibility: hidden;
 	position: absolute;
 	top: 0;
-	background-image: url('map.png');
+	background-image: url('img/map.png');
+}
+#map_box > img{
+	position: absolute;
+}
+#map_box > img:hover{
+	width: 45px;
+	height: 45px;
+}
+#ruined_city{
+	top: 210px;
+	left: 410px;
+}
+#vault{
+	top: 80px;
+	left: 80px;
 }
 #status_box{
 	border: 1px solid #23FB8E;
