@@ -122,11 +122,16 @@ function status_update(text) {
 	document.getElementById('text_box').scrollTop = 9999;
 }
 
-function show_box(box) {
+function show_box(box, button) {
+document.getElementById('text_button').src = "button_unactive.png";
+document.getElementById('map_button').src = "button_unactive.png";
+document.getElementById('status_button').src = "button_unactive.png";
 document.getElementById('text_box').style = "visibility: hidden;"
 document.getElementById('map_box').style = "visibility: hidden;"
 document.getElementById('status_box').style = "visibility: hidden;"
 document.getElementById('action_buttons').style = "visibility: hidden;"
 document.getElementById(box).style = "visibility: visible;"
+document.getElementById(button).src = "button_active.png";
+
 	if (box == 'text_box') {document.getElementById('action_buttons').style = "visibility: visible;"}
 }

@@ -9,6 +9,17 @@
 </head>
 <body onload="status_update()">
 <div id="main_box">
+	<div id="content_box">
+		<div id="text_box"></div>
+		<div id="action_buttons">
+			<button id="hunt_button" onclick="hunt()">Охота</button>
+			<button id="search_button" onclick="">Поиск</button>
+			<button id="adv_button" onclick="adventure()">Путешествие</button>
+			<button id="fight_button" onclick="fight()">Атака</button>	
+		</div>
+		<div id="map_box"></div>
+		<div id="status_box"></div>		
+	</div>
 	<div id="enemy_status">
 		<p id="enemy_name">Имя: </p>
 		<p id="health_bar_enemy">Здоровье: </p>
@@ -17,24 +28,10 @@
 		<p id="health_bar_hero">Здоровье: </p>
 		<p id="exp_bar">Опыт:</p>
 	</div>
-	<div id="content_box">
-		<div id="nav_buttons">
-			<button id="text_button" onclick="show_box('text_box')">Инфо</button><br>
-			<button id="map_button" onclick="show_box('map_box')">Карта</button><br>
-			<button id="status_button" onclick="show_box('status_box')">Статус</button><br>
-		</div>
-		<div id="action_buttons">
-			<button id="hunt_button" onclick="hunt()">Охота</button>
-			<button id="search_button" onclick="">Поиск</button>
-			<button id="adv_button" onclick="adventure()">Путешествие</button>
-			<button id="fight_button" onclick="fight()">Атака</button>
-		</div>
-		<div id="text_box">		
-		</div>
-		<div id="map_box">
-		</div>
-		<div id="status_box">
-		</div>		
+	<div id="nav_buttons">
+		<img src="button_active.png" id="text_button" onclick="show_box('text_box', 'text_button')"></img><br>
+		<img src="button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"></img><br>
+		<img src="button_unactive.png" id="status_button" onclick="show_box('status_box', 'status_button')"></img><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>
