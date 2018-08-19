@@ -25,6 +25,20 @@ arrEnemies[2] = {
 	dmg : 2,
 	exp : 4
 }
+//Массив предметов
+var arrItems = [];
+arrItems[0] = {
+	name: "Крышки",
+	price: 1
+}
+arrItems[1] = {
+	name: "10мм пистолет",
+	price: 100
+}
+arrItems[2] = {
+	name: "Стимулятор",
+	price: 50
+}
 
 //Пустой объект для заполнение его активным монстром 
 var enemyObject = new Object(); 
@@ -41,7 +55,11 @@ function Player(name){ //Описание класса игрока
 	this.exp = 0;
 	this.skill_points = 0;
 	this.base_damage = 1;
-	
+	this.inv = [];
+	this.inv[0] = {
+		id: 1,
+		count: 1
+	}
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
 	this.give_exp = function(x){ 
 		this.exp = this.exp + x;
@@ -62,6 +80,17 @@ function Player(name){ //Описание класса игрока
 	//Подсчет необходимиого кол-ва опыта для поднятия уровня 
 	this.get_next_lvl_exp = function(){ 
 		return 10 * (this.lvl + 1);
+	}
+
+	//Добавление предмета в инвентарь
+	this.add_item = function(item_id, item_count){
+		for (var i = 0; i < this.inv.length; i++) {
+			if (this.inv[i].id == item_id){
+				this.inv[i].count += item_count;
+				return 0;
+			}
+		}
+		this.inv.push({id: item_id, count: item_count});
 	}
 }
 
@@ -120,7 +149,9 @@ function change_enemy(id){
 //Смерть монстра, выдача опыта и сброс объкта
 function kill_current_enemy(){ 
 	player.give_exp(enemyObject.exp);
-	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта</p>");
+	var loot = randomInt(1, 10);
+	player.add_item(0, loot);
+	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта, и нашли "+loot+" крышек</p>");
 	change_enemy(-1);      
 	status_update();  
 }
@@ -132,6 +163,14 @@ function status_update(text) {
 	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
 	document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
 	document.getElementById('text_box').scrollTop = 9999;
+}
+
+//Отображение инвентаря 
+function show_inv(){
+	document.getElementById('status_box').innerHTML = '';
+	for (var i = 0; i < player.inv.length; i++) {
+		document.getElementById('status_box').innerHTML += '<p>'+arrItems[player.inv[i].id].name+" ("+player.inv[i].count+")</p>";
+	}
 }
 
 //Отображение элементов интерфейса 

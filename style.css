@@ -79,6 +79,15 @@
 	position: absolute;
 	top: 0;
 }
+#status_box > p{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
+#status_box > p:hover{
+	text-decoration: underline;
+}
+
 #action_buttons{
 	height: 40px;
 	width: 530px;
