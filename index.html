@@ -9,12 +9,12 @@
 <body>
 <div id="main_box">
 	<div id="enemy_status">
-		<p id="enemy_name">Name -</p>
-		<p id="health_bar_enemy">Health -</p>
+		<p id="enemy_name">Имя: </p>
+		<p id="health_bar_enemy">Здоровье: </p>
 	</div>
 	<div id="hero_status">
-		<p id="health_bar_hero">Health -</p>
-		<p id="exp_bar">Exp -</p>
+		<p id="health_bar_hero">Здоровье: </p>
+		<p id="exp_bar">Опыт:</p>
 	</div>
 	<div id="content_box">
 		<div id="nav_buttons">
@@ -78,16 +78,17 @@
 		enemyObject["dmg"] = arrEnemies[id].dmg;
 		enemyObject["exp"] = arrEnemies[id].exp;
 		document.getElementById('text_box').innerHTML += "<p>Вы встретили "+enemyObject.name+"</p>";
-		document.getElementById('health_bar_enemy').innerHTML = "Имя: "+enemyObject.hp;
-		document.getElementById('enemy_name').innerHTML = "Здоровье: "+enemyObject.name;
+		document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
+		document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
 	}
 	function fight(){
 		if(enemyObject.hp > 0){
 			var damage = 1 + randomInt(1, 6);
 			enemyObject.hp -= damage;
+			if (enemyObject.hp<0) {enemyObject.hp=0;}
 			document.getElementById('text_box').innerHTML += "<p>Вы нанесли ["+enemyObject.name+"] "+damage+" урона</p>";
-			document.getElementById('health_bar_enemy').innerHTML = "Имя: "+enemyObject.hp;
-			document.getElementById('enemy_name').innerHTML = "Здоровье: "+enemyObject.name;
+			document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
+			document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
 		}
 	}
 	function show_text_box(argument) {
