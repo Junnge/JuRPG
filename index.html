@@ -11,7 +11,7 @@
 	<div id="action_buttons">
 		<button id="forage_button" onclick="forage()">Охота</button>
 		<button id="chop_button" onclick="">Выживание</button>
-		<button id="fish_button" onclick="fish()">Путешествие</button>
+		<button id="fish_button" onclick="adventure()">Путешествие</button>
 		<button id="mine_button" onclick="mine()">Mine</button>
 	</div>
 	<div id="hero_status">
@@ -40,6 +40,23 @@
   	}
   	var xp=0;
   	var forage_cd=0;
+
+  	var arrEnemies = []; //Массив монстров
+  	arrEnemies[0] = {
+  		name : "Койот",
+  		hp : 25,
+  		dmg : 1,
+  		exp : 3
+  	}
+  	arrEnemies[1] = {
+  		name : "Скорпион",
+  		hp : 35,
+  		dmg : 2,
+  		exp : 5
+  	}
+
+  	var enemyObject = new Object();
+
 	function forage(argument) {
 		if (forage_cd==0) {
 			xp++;
@@ -48,7 +65,15 @@
 			document.getElementById('exp_bar').innerHTML = "Опыт: " + xp;
 			forage_cd=1;
 			setTimeout(function(){forage_cd=0;}, 10000);
-		} else alert("CD!");
+		} else document.getElementById('text_box').innerHTML += "<p>Вы устали!</p>";
+	}
+	function adventure(){
+		var id = randomInt(0, 1);
+		enemyObject["name"] = arrEnemies[id].name;
+		enemyObject["hp"] = arrEnemies[id].hp;
+		enemyObject["dmg"] = arrEnemies[id].dmg;
+		enemyObject["exp"] = arrEnemies[id].exp;
+		document.getElementById('text_box').innerHTML += "<p>You found "+enemyObject.name+"</p>";
 	}
 	function show_text_box(argument) {
 		document.getElementById('text_box').style = "visibility: visible;"
