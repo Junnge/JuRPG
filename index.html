@@ -58,19 +58,25 @@
   		dmg : 2,
   		exp : 5
   	}
+  	arrEnemies[2] = {
+  		name : "Геккон",
+  		hp : 30,
+  		dmg : 2,
+  		exp : 4
+  	}
 
   	var enemyObject = new Object();
 
 	function hunt(argument) {
 		if (forage_cd==0) {
 			xp++;
-			status_update("<p>Вы поймали "+randomInt(2, 4)+" ящерицы и получили 1XP</p>")
+			status_update("<p>Вы поймали "+randomInt(2, 4)+" ящерицы и получили 1XP</p>");
 			forage_cd = 1;
 			setTimeout(function(){forage_cd=0;}, 10000);
 		} else status_update("<p>Вы устали!</p>");
 	}
 	function adventure(){
-		var id = randomInt(0, 1);
+		var id = randomInt(0, arrEnemies.length-1);
 		enemyObject["name"] = arrEnemies[id].name;
 		enemyObject["hp"] = arrEnemies[id].hp;
 		enemyObject["dmg"] = arrEnemies[id].dmg;
