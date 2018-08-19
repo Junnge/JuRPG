@@ -28,7 +28,7 @@ arrEnemies[2] = {
 
 var enemyObject = new Object();
 
-enemyObject["name"] = "Рядом нет врагов";
+enemyObject["name"] = "Врагов нет";
 enemyObject["hp"] = 0;
 enemyObject["dmg"] = 0;
 enemyObject["exp"] = 0;
@@ -94,7 +94,7 @@ function fight(){
 
 function change_enemy(id){
 	if (id == -1) {
-		enemyObject["name"] = "Рядом нет врагов";
+		enemyObject["name"] = "Врагов нет";
 		enemyObject["hp"] = 0;
 		enemyObject["dmg"] = 0;
 		enemyObject["exp"] = 0;
@@ -123,15 +123,15 @@ function status_update(text) {
 }
 
 function show_box(box, button) {
-document.getElementById('text_button').src = "button_unactive.png";
-document.getElementById('map_button').src = "button_unactive.png";
-document.getElementById('status_button').src = "button_unactive.png";
+document.getElementById('text_button').src = "img/buttons/button_unactive.png";
+document.getElementById('map_button').src = "img/buttons/button_unactive.png";
+document.getElementById('status_button').src = "img/buttons/button_unactive.png";
 document.getElementById('text_box').style = "visibility: hidden;"
 document.getElementById('map_box').style = "visibility: hidden;"
 document.getElementById('status_box').style = "visibility: hidden;"
 document.getElementById('action_buttons').style = "visibility: hidden;"
 document.getElementById(box).style = "visibility: visible;"
-document.getElementById(button).src = "button_active.png";
+document.getElementById(button).src = "img/buttons/button_active.png";
 
 	if (box == 'text_box') {document.getElementById('action_buttons').style = "visibility: visible;"}
 }

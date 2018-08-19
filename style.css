@@ -8,16 +8,18 @@
 	position: relative;
 }
 #hero_status{
-	height: 50px;
-	width: 170px;
+	height: 30px;
+	width: 150px;
+	padding: 10px;
 	border: 1px solid #23FB8E;
 	position: absolute;
 	top: 240px;
 	left: 75px;
 }
 #enemy_status{
-	height: 50px;
-	width: 170px;
+	height: 30px;
+	width: 150px;
+	padding: 10px;
 	border: 1px solid #23FB8E;
 	position: absolute;
 	top: 290px;
@@ -31,10 +33,8 @@
 	top: 373px;
 	left: 60px;
 }
-#action_buttons > button{
-	width: auto;
-	margin-left: 3px;
-	margin-top: 9px;
+#nav_buttons > img{
+	padding-top: 5px;
 }
 #text_box{
 	border: 1px solid #23FB8E;
@@ -72,8 +72,10 @@
 	margin-top: 350px;
 	top: 0;
 }
-#nav_buttons > img{
-	padding-top: 5px;
+#action_buttons > img{
+	width: auto;
+	margin-left: 15px;
+	margin-top: 9px;
 }
 #content_box{
 	position: relative;

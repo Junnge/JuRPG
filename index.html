@@ -12,10 +12,18 @@
 	<div id="content_box">
 		<div id="text_box"></div>
 		<div id="action_buttons">
-			<button id="hunt_button" onclick="hunt()">Охота</button>
-			<button id="search_button" onclick="">Поиск</button>
-			<button id="adv_button" onclick="adventure()">Путешествие</button>
-			<button id="fight_button" onclick="fight()">Атака</button>	
+			<img src="img/buttons/hunt_button_unactive.png" id="hunt_button" onclick="hunt()"
+			 onmouseover="document.getElementById('hunt_button').src='img/buttons/hunt_button_active.png'"
+			 onmouseout="document.getElementById('hunt_button').src='img/buttons/hunt_button_unactive.png'"></img>
+			 <img src="img/buttons/search_button_unactive.png" id="search_button" onclick="hunt()"
+			 onmouseover="document.getElementById('search_button').src='img/buttons/search_button_active.png'"
+			 onmouseout="document.getElementById('search_button').src='img/buttons/search_button_unactive.png'"></img>
+			 <img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()"
+			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
+			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img>
+			 <img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()"
+			 onmouseover="document.getElementById('fight_button').src='img/buttons/fight_button_active.png'"
+			 onmouseout="document.getElementById('fight_button').src='img/buttons/fight_button_unactive.png'"></img>
 		</div>
 		<div id="map_box"></div>
 		<div id="status_box"></div>		
@@ -29,9 +37,9 @@
 		<p id="exp_bar">Опыт:</p>
 	</div>
 	<div id="nav_buttons">
-		<img src="button_active.png" id="text_button" onclick="show_box('text_box', 'text_button')"></img><br>
-		<img src="button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"></img><br>
-		<img src="button_unactive.png" id="status_button" onclick="show_box('status_box', 'status_button')"></img><br>
+		<img src="img/buttons/button_active.png" id="text_button" onclick="show_box('text_box', 'text_button')"></img><br>
+		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"></img><br>
+		<img src="img/buttons/button_unactive.png" id="status_button" onclick="show_box('status_box', 'status_button')"></img><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>
