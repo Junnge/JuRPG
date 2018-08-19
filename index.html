@@ -78,6 +78,17 @@
 		enemyObject["dmg"] = arrEnemies[id].dmg;
 		enemyObject["exp"] = arrEnemies[id].exp;
 		document.getElementById('text_box').innerHTML += "<p>Вы встретили "+enemyObject.name+"</p>";
+		document.getElementById('health_bar_enemy').innerHTML = "Имя: "+enemyObject.hp;
+		document.getElementById('enemy_name').innerHTML = "Здоровье: "+enemyObject.name;
+	}
+	function fight(){
+		if(enemyObject.hp > 0){
+			var damage = 1 + randomInt(1, 6);
+			enemyObject.hp -= damage;
+			document.getElementById('text_box').innerHTML += "<p>Вы нанесли ["+enemyObject.name+"] "+damage+" урона</p>";
+			document.getElementById('health_bar_enemy').innerHTML = "Имя: "+enemyObject.hp;
+			document.getElementById('enemy_name').innerHTML = "Здоровье: "+enemyObject.name;
+		}
 	}
 	function show_text_box(argument) {
 		document.getElementById('text_box').style = "visibility: visible;"
