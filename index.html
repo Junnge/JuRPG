@@ -18,9 +18,9 @@
 	</div>
 	<div id="content_box">
 		<div id="nav_buttons">
-			<button id="text_button" onclick="show_text_box()">Инфо</button><br>
-			<button id="map_button" onclick="show_map_box()">Карта</button><br>
-			<button id="status_button" onclick="show_status_box()">Статус</button><br>
+			<button id="text_button" onclick="show_box('text_box')">Инфо</button><br>
+			<button id="map_button" onclick="show_box('map_box')">Карта</button><br>
+			<button id="status_button" onclick="show_box('status_box')">Статус</button><br>
 		</div>
 		<div id="action_buttons">
 			<button id="hunt_button" onclick="hunt()">Охота</button>
@@ -80,6 +80,7 @@
 		document.getElementById('text_box').innerHTML += "<p>Вы встретили "+enemyObject.name+"</p>";
 		document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
 		document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
+		document.getElementById('text_box').scrollTop = 9999;
 	}
 	function fight(){
 		if(enemyObject.hp > 0){
@@ -89,25 +90,16 @@
 			document.getElementById('text_box').innerHTML += "<p>Вы нанесли ["+enemyObject.name+"] "+damage+" урона</p>";
 			document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
 			document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
+			document.getElementById('text_box').scrollTop = 9999;
 		}
 	}
-	function show_text_box(argument) {
-		document.getElementById('text_box').style = "visibility: visible;"
-		document.getElementById('map_box').style = "visibility: hidden;"
-		document.getElementById('status_box').style = "visibility: hidden;"
-		document.getElementById('action_buttons').style = "visibility: visible;"
-	}
-	function show_status_box(argument) {
-		document.getElementById('text_box').style = "visibility: hidden;"
-		document.getElementById('map_box').style = "visibility: hidden;"
-		document.getElementById('status_box').style = "visibility: visible;"
-		document.getElementById('action_buttons').style = "visibility: hidden;"
-	}
-	function show_map_box(argument) {
-		document.getElementById('text_box').style = "visibility: hidden;"
-		document.getElementById('map_box').style = "visibility: visible;"
-		document.getElementById('status_box').style = "visibility: hidden;"	
-		document.getElementById('action_buttons').style = "visibility: hidden;"
+	function show_box(box) {
+        document.getElementById('text_box').style = "visibility: hidden;"
+        document.getElementById('map_box').style = "visibility: hidden;"
+        document.getElementById('status_box').style = "visibility: hidden;"
+        document.getElementById('action_buttons').style = "visibility: hidden;"
+        document.getElementById(box).style = "visibility: visible;"
+    	if (box == 'text_box') {document.getElementById('action_buttons').style = "visibility: visible;"}
 	}
 </script>
 </body>
