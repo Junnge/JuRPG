@@ -28,25 +28,60 @@ arrEnemies[2] = {
 
 var enemyObject = new Object();
 
-function hunt(argument) {
+enemyObject["name"] = "Рядом нет врагов";
+enemyObject["hp"] = 0;
+enemyObject["dmg"] = 0;
+enemyObject["exp"] = 0;
+
+
+function Player(name) {
+	this.name = name;
+	this.lvl = 0;
+	this.exp = 0;
+	this.skill_points = 0;
+	this.base_damage = 1;
+	
+	this.give_exp = function(x) {
+		this.exp = this.exp + x;
+		while (this.exp >= this.get_next_lvl_exp()) {
+			this.lvlup();
+		}
+	}
+	
+	this.lvlup = function() {
+		this.base_damage++;
+		this.skill_points++;
+		this.exp = this.exp - this.get_next_lvl_exp();
+		this.lvl = this.lvl + 1;
+		status_update("<p>Теперь вы "+this.lvl+" уровня</p>");
+	}
+	
+	this.get_next_lvl_exp = function() {
+		return 10 * (this.lvl + 1);
+	}
+}
+
+
+var player = new Player('whoever');
+
+function hunt() {
 	if (forage_cd==0) {
-		xp++;
+		player.give_exp(1);
 		status_update("<p>Вы поймали "+randomInt(2, 4)+" ящерицы и получили 1XP</p>");
 		forage_cd = 1;
 		setTimeout(function(){forage_cd=0;}, 10000);
 	} else status_update("<p>Вы устали!</p>");
 }
+
 function adventure(){
 	var id = randomInt(0, arrEnemies.length-1);
-	enemyObject["name"] = arrEnemies[id].name;
-	enemyObject["hp"] = arrEnemies[id].hp;
-	enemyObject["dmg"] = arrEnemies[id].dmg;
-	enemyObject["exp"] = arrEnemies[id].exp;
+	change_enemy(id)
 	status_update("</p>Вы встретили "+enemyObject.name+"</p>");
 }
+
 function fight(){
 	if(enemyObject.hp > 0){
-		var damage = 1 + randomInt(1, 6);
+		var damage = player.base_damage + randomInt(1, 6);
 		enemyObject.hp -= damage;
 		if (enemyObject.hp<=0) {
 			enemyObject.hp=0;
@@ -55,10 +90,11 @@ function fight(){
 			status_update("<p>Вы нанесли ["+enemyObject.name+"] "+damage+" урона</p>");
 		}
 	}
-}    
+}
+
 function change_enemy(id){
 	if (id == -1) {
-		enemyObject["name"] = "No enemy";
+		enemyObject["name"] = "Рядом нет врагов";
 		enemyObject["hp"] = 0;
 		enemyObject["dmg"] = 0;
 		enemyObject["exp"] = 0;
@@ -68,22 +104,24 @@ function change_enemy(id){
 		enemyObject["dmg"] = arrEnemies[id].dmg;
 		enemyObject["exp"] = arrEnemies[id].exp;
 	}
-}    
-function kill_current_enemy(){
-	give_xp(enemyObject.exp);
-	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта</p>");
-	change_enemy(-1)        
-}    
-function give_xp(x) {
-	xp += x;
 }
+
+function kill_current_enemy(){
+	player.give_exp(enemyObject.exp);
+	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта</p>");
+	change_enemy(-1);      
+	status_update();  
+}
+
+
 function status_update(text) {
-	document.getElementById('text_box').innerHTML += text;
-	document.getElementById('exp_bar').innerHTML = "Опыт: " + xp;
+	if (text!=undefined) {document.getElementById('text_box').innerHTML += text;}	
+	document.getElementById('exp_bar').innerHTML = "Опыт: " + player.exp + " | " + player.get_next_lvl_exp();
 	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
 	document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
 	document.getElementById('text_box').scrollTop = 9999;
 }
+
 function show_box(box) {
 document.getElementById('text_box').style = "visibility: hidden;"
 document.getElementById('map_box').style = "visibility: hidden;"
