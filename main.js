@@ -11,19 +11,31 @@ arrEnemies[0] = {
 	name : "Койот",
 	hp : 25,
 	dmg : 1,
-	exp : 3
+	exp : 3,
+	loot : [
+    {item: 'wolfleather', rare: 1},
+    {item: 'meat', rare: 5}
+    ]
 }
 arrEnemies[1] = {
 	name : "Скорпион",
 	hp : 35,
 	dmg : 2,
-	exp : 5
+	exp : 5,
+	loot : [
+    {item: 'radtail', rare: 1},
+    {item: 'meat', rare: 5}
+    ]
 }
 arrEnemies[2] = {
 	name : "Геккон",
 	hp : 30,
 	dmg : 2,
-	exp : 4
+	exp : 4,
+	loot : [
+    {item: 'gecleather', rare: 1},
+    {item: 'meat', rare: 5}
+    ]
 }
 arrEnemies[3] = {
 	name : "Рейдер",
@@ -66,6 +78,24 @@ arrItems.letherarmor = {
 	name: "Кожаная Броня",
 	price: 150
 }
+arrItems.meat = {
+	name: "Мясо монстра",
+	price: 10
+}
+arrItems.radtail = {
+	name: "Хвост радскорпиона",
+	price: 100
+}
+arrItems.gecleather = {
+	name: "Шкура геккона",
+	price: 100
+}
+arrItems.wolfleather = {
+	name: "Шкура койота",
+	price: 100
+}
+
+
 
 
 //Массив локаций
@@ -75,6 +105,12 @@ arrLocations[0] = {
     radiation: 0,
     items_ids : [0, 2],
     mob_ids: [3, 4]
+}
+arrLocations[1] = {
+    name : "Одинокая скала",
+    radiation: 0,
+    items_ids : [0, 2],
+    mob_ids: [0, 1, 2]
 }
 
 //Пустой объект для заполнение его активным монстром 
@@ -116,6 +152,11 @@ function Player(name){ //Описание класса игрока
 	this.get_next_lvl_exp = function(){ 
 		return 10 * (this.lvl + 1);
 	}
+	this.travel = function(id){
+		this.location = id;
+		show_box('text_box', 'text_button');
+		status_update('<p>Вы добрались до ['+arrLocations[id].name+']</p>');
+	}
 
 }
 
@@ -124,7 +165,7 @@ function Inv() {
 	
 	this.remove = function(item, count){
 		if (this.stuff[item] >= count){
-			this.stuff[item] -= count
+			this.stuff[item] -= count;
 		} else {
 		// you can't do this	
 		}
