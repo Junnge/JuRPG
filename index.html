@@ -64,12 +64,10 @@
 	function hunt(argument) {
 		if (forage_cd==0) {
 			xp++;
-			document.getElementById('text_box').innerHTML += "<p>Вы поймали "+randomInt(2, 4)+" ящерицы и получили 1XP</p>";
-			document.getElementById('exp_bar').innerHTML = "Опыт: " + xp;
+			status_update("<p>Вы поймали "+randomInt(2, 4)+" ящерицы и получили 1XP</p>")
 			forage_cd = 1;
 			setTimeout(function(){forage_cd=0;}, 10000);
-		} else document.getElementById('text_box').innerHTML += "<p>Вы устали!</p>";
-		document.getElementById('text_box').scrollTop = 9999;
+		} else status_update("<p>Вы устали!</p>");
 	}
 	function adventure(){
 		var id = randomInt(0, 1);
@@ -77,21 +75,22 @@
 		enemyObject["hp"] = arrEnemies[id].hp;
 		enemyObject["dmg"] = arrEnemies[id].dmg;
 		enemyObject["exp"] = arrEnemies[id].exp;
-		document.getElementById('text_box').innerHTML += "<p>Вы встретили "+enemyObject.name+"</p>";
-		document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
-		document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
-		document.getElementById('text_box').scrollTop = 9999;
+		status_update("</p>Вы встретили "+enemyObject.name+"</p>");
 	}
 	function fight(){
 		if(enemyObject.hp > 0){
 			var damage = 1 + randomInt(1, 6);
 			enemyObject.hp -= damage;
 			if (enemyObject.hp<0) {enemyObject.hp=0;}
-			document.getElementById('text_box').innerHTML += "<p>Вы нанесли ["+enemyObject.name+"] "+damage+" урона</p>";
-			document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
-			document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
-			document.getElementById('text_box').scrollTop = 9999;
+			status_update("<p>Вы нанесли ["+enemyObject.name+"] "+damage+" урона</p>");
 		}
+	}
+	function status_update(text) {
+		document.getElementById('text_box').innerHTML += text;
+		document.getElementById('exp_bar').innerHTML = "Опыт: " + xp;
+		document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
+		document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
+		document.getElementById('text_box').scrollTop = 9999;
 	}
 	function show_box(box) {
         document.getElementById('text_box').style = "visibility: hidden;"
