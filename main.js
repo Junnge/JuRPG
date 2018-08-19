@@ -25,6 +25,22 @@ arrEnemies[2] = {
 	dmg : 2,
 	exp : 4
 }
+arrEnemies[3] = {
+	name : "raider",
+	hp : 50,
+	dmg : 4,
+	exp : 10,
+	loot : [0,2]
+}
+arrEnemies[4] = {
+	name : "raider_leader",
+	hp : 70,
+	dmg : 6,
+	exp : 30,
+	loot : [0,1,2]
+}
+
+
 //Массив предметов
 var arrItems = [];
 arrItems[0] = {
@@ -38,6 +54,15 @@ arrItems[1] = {
 arrItems[2] = {
 	name: "Стимулятор",
 	price: 50
+}
+
+//Массив локаций
+var arrLocations = []; 
+arrLocations[0] = {
+    name : "Руины",
+    radiation: 0,
+    items_ids : [0, 2],
+    mob_ids: [3, 4]
 }
 
 //Пустой объект для заполнение его активным монстром 
@@ -55,6 +80,7 @@ function Player(name){ //Описание класса игрока
 	this.exp = 0;
 	this.skill_points = 0;
 	this.base_damage = 1;
+	this.location = 0;
 	this.inv = [];
 	this.inv[0] = {
 		id: 1,
@@ -112,7 +138,7 @@ function hunt() {
 
 //Пуьешествие в постоши, генерация событий 
 function adventure(){	
-	var id = randomInt(0, arrEnemies.length-1);
+	var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
 	change_enemy(id);
 	status_update("</p>Вы встретили ["+enemyObject.name+"]</p>");
 }
@@ -151,7 +177,7 @@ function kill_current_enemy(){
 	player.give_exp(enemyObject.exp);
 	var loot = randomInt(1, 10);
 	player.add_item(0, loot);
-	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта, и нашли "+loot+" крышек</p>");
+	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта, и нашли "+loot+" крышеки</p>");
 	change_enemy(-1);      
 	status_update();  
 }
