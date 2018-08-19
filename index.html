@@ -111,7 +111,7 @@
   }    
   function kill_current_enemy(){
       give_xp(enemyObject.exp);
-      status_update("<p>Вы убили ["+enemyObject.name+"]</p>");
+      status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта</p>");
       change_enemy(-1)        
   }    
   function give_xp(x) {
