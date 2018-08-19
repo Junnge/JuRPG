@@ -8,22 +8,22 @@
 </head>
 <body>
 <div id="main_box">
-	<div id="action_buttons">
-		<button id="forage_button" onclick="forage()">Охота</button>
-		<button id="chop_button" onclick="">Выживание</button>
-		<button id="fish_button" onclick="adventure()">Путешествие</button>
-		<button id="mine_button" onclick="mine()">Mine</button>
-	</div>
-	<div id="hero_status">
-		<p id="health_bar">Health -</p>
-		<p id="exp_bar">Exp -</p>
-	</div>
 	<div id="nav_buttons">
 		<button id="text_button" onclick="show_text_box()">Info</button>
 		<button id="map_button" onclick="show_map_box()">Map</button>
 		<button id="status_button" onclick="show_status_box()">Status</button>
 	</div>
+	<div id="hero_status">
+		<p id="health_bar">Health -</p>
+		<p id="exp_bar">Exp -</p>
+	</div>
 	<div id="content_box">
+		<div id="action_buttons">
+			<button id="forage_button" onclick="forage()">Охота</button>
+			<button id="chop_button" onclick="">Выживание</button>
+			<button id="fish_button" onclick="adventure()">Путешествие</button>
+			<button id="mine_button" onclick="fight()">Атака</button>
+		</div>
 		<div id="text_box">		
 		</div>
 		<div id="map_box">
@@ -79,16 +79,19 @@
 		document.getElementById('text_box').style = "visibility: visible;"
 		document.getElementById('map_box').style = "visibility: hidden;"
 		document.getElementById('status_box').style = "visibility: hidden;"
+		document.getElementById('action_buttons').style = "visibility: visible;"
 	}
 	function show_status_box(argument) {
 		document.getElementById('text_box').style = "visibility: hidden;"
 		document.getElementById('map_box').style = "visibility: hidden;"
 		document.getElementById('status_box').style = "visibility: visible;"
+		document.getElementById('action_buttons').style = "visibility: hidden;"
 	}
 	function show_map_box(argument) {
 		document.getElementById('text_box').style = "visibility: hidden;"
 		document.getElementById('map_box').style = "visibility: visible;"
 		document.getElementById('status_box').style = "visibility: hidden;"	
+		document.getElementById('action_buttons').style = "visibility: hidden;"
 	}
 </script>
 </body>

@@ -10,7 +10,7 @@
 	width: 130px;
 	border: 1px solid black;
 }
-#action_buttons{
+#nav_buttons{
 	height: 40px;
 	width: 267px;
 	border: 1px solid black;
@@ -24,9 +24,10 @@
 #text_box{
 	border: 1px solid black;
 	width: 284px;
-	height: 191px;
+	height: 151px;
 	visibility: visible;
 	position: absolute;
+	margin-top: 41px; 
 	top: 0;
 	overflow: auto;
 }
@@ -47,10 +48,12 @@
 	position: absolute;
 	top: 0;
 }
-#nav_buttons{
+#action_buttons{
 	height: 40px;
-	width: 398px;
+	width: 284px;
 	border: 1px solid black;
+	position: absolute;
+	top: 0;
 }
 #nav_buttons > button{
 	width: 60px;
