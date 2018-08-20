@@ -6,59 +6,10 @@ function randomInt(min, max) {
 }
 
 //Массив монстров
-var arrEnemies = []; 
-arrEnemies[0] = {
-	name : "Койот",
-	hp : 25,
-	dmg : 1,
-	exp : 3,
-	loot : [
-    {item: 'wolfleather', rare: 1},
-    {item: 'meat', rare: 5}
-    ]
-}
-arrEnemies[1] = {
-	name : "Скорпион",
-	hp : 35,
-	dmg : 2,
-	exp : 5,
-	loot : [
-    {item: 'radtail', rare: 1},
-    {item: 'meat', rare: 5}
-    ]
-}
-arrEnemies[2] = {
-	name : "Геккон",
-	hp : 30,
-	dmg : 2,
-	exp : 4,
-	loot : [
-    {item: 'gecleather', rare: 1},
-    {item: 'meat', rare: 5}
-    ]
-}
-arrEnemies[3] = {
-	name : "Рейдер",
-	hp : 50,
-	dmg : 4,
-	exp : 10,
-	loot : [
-    {item: 'gun10mm', rare: 8},
-    {item: 'stimpack', rare: 20}
-    ]
-}
-arrEnemies[4] = {
-	name : "Лидер рейдеров",
-	hp : 70,
-	dmg : 6,
-	exp : 30,
-	loot : [
-    {item: 'leatherarmor', rare: 1},
-    {item: 'gun10mm', rare: 8},
-    {item: 'stimpack', rare: 20}
-    ]
-}
+var arrEnemies;
 var arrItems;
+var arrLocations
+
 function loadJSON(file, callback, dataarrayid) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
@@ -76,32 +27,20 @@ function jsoncallback(text, dataarrayid){
 }
 
 // 0 - предметы 1 - мобы 2 - локации
-var arrItems;
 var dataArrays = [0,0,0];
 
 loadJSON("data/items.json", jsoncallback, 0);
-//loadJSON("data/enemies.json", jsoncallback, 1);
-//loadJSON("data/locations.json", jsoncallback, 2);
-//arrItems = dataArrays[0];
+loadJSON("data/enemies.json", jsoncallback, 1);
+loadJSON("data/locations.json", jsoncallback, 2);
+
 
 function arrLoad(argument) {
 	arrItems = dataArrays[0];
+	arrEnemies = dataArrays[1];
+	arrLocations = dataArrays[2]
 	console.log(arrItems);
-}
-
-//Массив локаций
-var arrLocations = []; 
-arrLocations[0] = {
-    name : "Руины",
-    radiation: 0,
-    items_ids : [0, 2],
-    mob_ids: [3, 4]
-}
-arrLocations[1] = {
-    name : "Одинокая скала",
-    radiation: 0,
-    items_ids : [0, 2],
-    mob_ids: [0, 1, 2]
+	console.log(arrEnemies);
+	console.log(arrLocations);
 }
 
 //Пустой объект для заполнение его активным монстром 

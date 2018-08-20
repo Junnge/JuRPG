@@ -39,7 +39,7 @@
 		    {"item": "stimpack", "rare": 20}
 	    ]
 	},
-	"raderlead" : {
+	"raiderlead" : {
 		"name" : "Лидер рейдеров",
 		"hp" : 70,
 		"dmg" : 6,
@@ -49,5 +49,5 @@
 		    {"item": "gun10mm", "rare": 8},
 		    {"item": "stimpack", "rare": 20}
 	    ]
-	},
+	}
 }
