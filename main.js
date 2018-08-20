@@ -95,15 +95,15 @@ arrItems.wolfleather = {
 	price: 100
 }
 
-var requestURL = 'https://junnge.github.io/JuRPG/items.json';
+var requestURL = 'items.json';
 var request = new XMLHttpRequest();
 request.open('GET', requestURL);
 request.responseType = 'text';
 request.send();
-
+var itemsjson;
 request.onload = function() {
 	var itemsjsonText = request.response;
-	var itemsjson = JSON.parse(itemsjsonText);
+	itemsjson = JSON.parse(itemsjsonText);
 
 }
 
