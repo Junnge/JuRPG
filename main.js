@@ -5,11 +5,6 @@ function randomInt(min, max) {
 	return rand;
 }
 
-//Массив монстров
-var arrEnemies;
-var arrItems;
-var arrLocations;
-
 function loadJSON(file, callback, dataarrayid) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
@@ -26,9 +21,11 @@ function jsoncallback(text, dataarrayid){
 	dataArrays[dataarrayid] = JSON.parse(text);
 }
 
-// 0 - предметы 1 - мобы 2 - локации
-var dataArrays = [0,0,0];
 
+var arrEnemies;
+var arrItems;
+var arrLocations;
+var dataArrays = [0,0,0];
 loadJSON("data/items.json", jsoncallback, 0);
 loadJSON("data/enemies.json", jsoncallback, 1);
 loadJSON("data/locations.json", jsoncallback, 2);
@@ -49,16 +46,33 @@ function arrLoad(argument) {
 }
 arrLoad();
 
-//Пустой объект для заполнение его активным монстром 
-var enemyObject = new Object(); 
-
-enemyObject["name"] = "Врагов нет";
-enemyObject["hp"] = 0;
-enemyObject["dmg"] = 0;
-enemyObject["exp"] = 0;
 
 
-function Player(name){ //Описание класса игрока
+function Enemy(){
+	function change(id){ 
+		this.name = arrEnemies[id].name;
+		this.hp = arrEnemies[id].hp;
+		this.dmg = arrEnemies[id].dmg;
+		this.exp = arrEnemies[id].exp;
+		this.loot = arrEnemies[id].loot;
+	}
+	
+	function reduce_hp(damage){
+		this.hp -= damage;
+		if (this.hp <= 0) this.hp = 0;
+	}
+	function is_dead(){
+		return this.hp == 0;
+	}
+
+}
+
+// объект для заполнения его активным монстром 
+var enemyObject = new Enemy(); 
+enemyObject.change("emptyenemy");
+
+	
+function Player(name){  
 	this.name = name;
 	this.lvl = 0;
 	this.exp = 0;
@@ -144,17 +158,16 @@ function hunt() {
 //Пуьешествие в постоши, генерация событий 
 function adventure(){	
 	var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
-	change_enemy(id);
+	enemyObject.change(id);
 	status_update(`Вы встретили [${enemyObject.name}]`);
 }
 
 //Бой с монстром
 function fight(){ 
-	if(enemyObject.hp > 0){
+	if !(enemyObject.is_dead()){
 		var damage = player.base_damage + randomInt(1, 6);
-		enemyObject.hp -= damage;
-		if (enemyObject.hp<=0) {
-			enemyObject.hp=0;
+		enemyObject.reduce_hp(damage)
+		if (enemyObject.is_dead()) {
 			kill_current_enemy();
 		} else {
 			status_update(`Вы нанесли [${enemyObject.name}] ${damage} урона`);
@@ -162,22 +175,6 @@ function fight(){
 	}
 }
 
-//Заполнения объекта монстра 
-function change_enemy(id){ 
-	if (id == -1) {
-		enemyObject["name"] = "Врагов нет";
-		enemyObject["hp"] = 0;
-		enemyObject["dmg"] = 0;
-		enemyObject["exp"] = 0;
-		enemyObject["loot"] = 0;
-	} else {
-		enemyObject["name"] = arrEnemies[id].name;
-		enemyObject["hp"] = arrEnemies[id].hp;
-		enemyObject["dmg"] = arrEnemies[id].dmg;
-		enemyObject["exp"] = arrEnemies[id].exp;
-		enemyObject["loot"] = arrEnemies[id].loot;
-	}
-}
 
 //Смерть монстра, выдача опыта и сброс объкта
 function kill_current_enemy(){ 
@@ -187,7 +184,7 @@ function kill_current_enemy(){
 	inv.add("cap", rand_caps_amount);
 	inv.add(rand_loot, 1);
 	status_update(`Вы убили [${enemyObject.name}] и получили ${enemyObject.exp} опыта, нашли ${rand_caps_amount} [Крышка] и [${arrItems[rand_loot].name}]`);
-	change_enemy(-1);      
+	enemyObject.change("emptyenemy");     
 	status_update();  
 }
 
@@ -274,4 +271,3 @@ function loot(lootlist){
 	console.log(sums, rand);*/
 
 }
-
