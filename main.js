@@ -145,7 +145,7 @@ function Player(name){ //Описание класса игрока
 		this.skill_points++;
 		this.exp = this.exp - this.get_next_lvl_exp();
 		this.lvl = this.lvl + 1;
-		status_update("<p>Теперь вы "+this.lvl+" уровня</p>");
+		status_update(`Теперь вы $(this.lvl) уровня`);
 	}
 	
 	//Подсчет необходимиого кол-ва опыта для поднятия уровня 
@@ -155,7 +155,7 @@ function Player(name){ //Описание класса игрока
 	this.travel = function(id){
 		this.location = id;
 		show_box('text_box', 'text_button');
-		status_update('<p>Вы добрались до ['+arrLocations[id].name+']</p>');
+		status_update(`Вы добрались до [$(arrLocations[id].name)]`);
 	}
 
 }
@@ -198,18 +198,18 @@ var hunt_cd=0;
 function hunt() { 
 	if (hunt_cd==0){
 		player.give_exp(1);
-		status_update("<p>Вы поймали "+randomInt(2, 4)+" ящерицы и получили 1XP</p>");
+		status_update(`Вы поймали $(randomInt(2, 4)) ящерицы и получили 1XP`);
 		hunt_cd = 1;
 		//Активация кулдауна способности 
 		setTimeout(function(){hunt_cd=0;}, 10000); 
-	} else status_update("<p>Враговы устали!</p>");
+	} else status_update("Вы устали!");
 }
 
 //Пуьешествие в постоши, генерация событий 
 function adventure(){	
 	var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
 	change_enemy(id);
-	status_update("</p>Вы встретили ["+enemyObject.name+"]</p>");
+	status_update(`Вы встретили [$(enemyObject.name)]`);
 }
 
 //Бой с монстром
@@ -221,7 +221,7 @@ function fight(){
 			enemyObject.hp=0;
 			kill_current_enemy();
 		} else {
-			status_update("<p>Вы нанесли ["+enemyObject.name+"] "+damage+" урона</p>");
+			status_update(`Вы нанесли [$(enemyObject.name)] $(damage) урона`);
 		}
 	}
 }
@@ -250,14 +250,14 @@ function kill_current_enemy(){
 	var rand_loot = loot(enemyObject.loot);
 	inv.add("cap", rand_caps_amount);
 	inv.add(rand_loot, 1);
-	status_update("<p>Вы убили ["+enemyObject.name+"] и получили "+enemyObject.exp+" опыта, нашли "+rand_caps_amount+" [Крышка] и ["+arrItems[rand_loot].name+"]</p>");
+	status_update(`Вы убили [$(enemyObject.name)] и получили $(enemyObject.exp) опыта, нашли $(rand_caps_amount) [Крышка] и [$(arrItems[rand_loot].name)]`);
 	change_enemy(-1);      
 	status_update();  
 }
 
 //Вывод text в лог сообщений, обновление всех показателей на панелях
 function status_update(text) { 
-	if (text!=undefined) {document.getElementById('text_box').innerHTML += text;}	
+	if (text!=undefined) {document.getElementById('text_box').innerHTML += "<p>" + text + "</p>";}	
 	document.getElementById('exp_bar').innerHTML = "Опыт: " + player.exp + " | " + player.get_next_lvl_exp();
 	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
 	document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
