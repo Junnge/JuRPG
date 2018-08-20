@@ -73,7 +73,7 @@ function loadJSON(file, callback) {
 
 
 //Массив предметов
-var arrItems = loadJSON("data/items.json", JSON.parse)
+var arrItems = loadJSON("data/items.json", JSON.parse);
 
 //Массив локаций
 var arrLocations = []; 
