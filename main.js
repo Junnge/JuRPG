@@ -103,9 +103,10 @@ request.send();
 
 request.onload = function() {
 	var itemsjsonText = request.response;
-	var itemsjson = JSON.parse(superHeroesText);
+	var itemsjson = JSON.parse(itemsjsonText);
 
 }
+
 
 
 
