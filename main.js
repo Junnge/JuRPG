@@ -72,7 +72,7 @@ function loadJSON(file, callback, dataarrayid) {
 }
 
 function jsoncallback(text, dataarrayid){
-	dataArrays[id] = JSON.parse(text);
+	dataArrays[dataarrayid] = JSON.parse(text);
 }
 
 // 0 - предметы 1 - мобы 2 - локации
