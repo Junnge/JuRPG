@@ -95,17 +95,25 @@ arrItems.wolfleather = {
 	price: 100
 }
 
-var requestURL = 'items.json';
-var request = new XMLHttpRequest();
-request.open('GET', requestURL);
-request.responseType = 'text';
-request.send();
-var itemsjson;
-request.onload = function() {
-	var itemsjsonText = request.response;
-	itemsjson = JSON.parse(itemsjsonText);
+var arrItemsJSON;
 
+function loadJSON(file, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+        }
+    }
+    rawFile.send(null);
 }
+
+loadJSON("items.json", function(text){
+    arrItemsJSON = JSON.parse(text);
+    console.log(arrItemsJSON);
+});
+
 
 
 
