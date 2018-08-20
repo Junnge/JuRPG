@@ -49,6 +49,8 @@ function arrLoad(argument) {
     }
 }
 
+arrLoad();
+
 //Пустой объект для заполнение его активным монстром 
 var enemyObject = new Object(); 
 
