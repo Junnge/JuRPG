@@ -8,7 +8,7 @@ function randomInt(min, max) {
 //Массив монстров
 var arrEnemies;
 var arrItems;
-var arrLocations
+var arrLocations;
 
 function loadJSON(file, callback, dataarrayid) {
     var rawFile = new XMLHttpRequest();
@@ -35,12 +35,18 @@ loadJSON("data/locations.json", jsoncallback, 2);
 
 
 function arrLoad(argument) {
-	arrItems = dataArrays[0];
-	arrEnemies = dataArrays[1];
-	arrLocations = dataArrays[2]
-	console.log(arrItems);
-	console.log(arrEnemies);
-	console.log(arrLocations);
+	if(dataArrays[dataArrays.length-1] == 0){
+		console.log('loading');
+		setTimeout(arrLoad(), 100);
+	} 
+    else {
+    	arrItems = dataArrays[0];
+		arrEnemies = dataArrays[1];
+		arrLocations = dataArrays[2]
+		console.log(arrItems);
+		console.log(arrEnemies);
+		console.log(arrLocations);
+    }
 }
 
 //Пустой объект для заполнение его активным монстром 
