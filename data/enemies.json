@@ -1,53 +1,53 @@
 {
-	"wolf" :{
-		name : "Койот",
-		hp : 25,
-		dmg : 1,
-		exp : 3,
-		loot : [
-	    {item: 'wolfleather', rare: 1},
-	    {item: 'meat', rare: 5}
+	"wolf" : {
+		"name" : "Койот",
+		"hp" : 25,
+		"dmg" : 1,
+		"exp": 3,
+		"loot" : [
+		    {"item": "wolfleather", "rare": 1},
+		    {"item": "meat", "rare": 5}
 	    ]
-	}
-arrEnemies[1] = {
-	name : "Скорпион",
-	hp : 35,
-	dmg : 2,
-	exp : 5,
-	loot : [
-    {item: 'radtail', rare: 1},
-    {item: 'meat', rare: 5}
-    ]
-}
-arrEnemies[2] = {
-	name : "Геккон",
-	hp : 30,
-	dmg : 2,
-	exp : 4,
-	loot : [
-    {item: 'gecleather', rare: 1},
-    {item: 'meat', rare: 5}
-    ]
-}
-arrEnemies[3] = {
-	name : "Рейдер",
-	hp : 50,
-	dmg : 4,
-	exp : 10,
-	loot : [
-    {item: 'gun10mm', rare: 8},
-    {item: 'stimpack', rare: 20}
-    ]
-}
-arrEnemies[4] = {
-	name : "Лидер рейдеров",
-	hp : 70,
-	dmg : 6,
-	exp : 30,
-	loot : [
-    {item: 'letherarmor', rare: 1},
-    {item: 'gun10mm', rare: 8},
-    {item: 'stimpack', rare: 20}
-    ]
-}
+	},
+	"scorpion" : {
+		"name" : "Скорпион",
+		"hp" : 35,
+		"dmg" : 2,
+		"exp" : 5,
+		"loot" : [
+		    {"item": "radtail", "rare": 1},
+		    {"item": "meat", "rare": 5}
+	    ]
+	},
+	"geccon" : {
+		"name" : "Геккон",
+		"hp" : 30,
+		"dmg" : 2,
+		"exp" : 4,
+		"loot" : [
+		    {"item": "gecleather", "rare": 1},
+		    {"item": "meat", "rare": 5}
+	    ]
+	},
+	"raider" : {
+		"name" : "Рейдер",
+		"hp" : 50,
+		"dmg" : 4,
+		"exp" : 10,
+		"loot" : [
+		    {"item": "gun10mm", "rare": 8},
+		    {"item": "stimpack", "rare": 20}
+	    ]
+	},
+	"raderlead" : {
+		"name" : "Лидер рейдеров",
+		"hp" : 70,
+		"dmg" : 6,
+		"exp" : 30,
+		"loot" : [
+	    {"item": "letherarmor", "rare": 1},
+		    {"item": "gun10mm", "rare": 8},
+		    {"item": "stimpack", "rare": 20}
+	    ]
+	},
 }
