@@ -58,7 +58,7 @@ arrEnemies[4] = {
     {item: 'stimpack', rare: 20}
     ]
 }
-
+var arrItems;
 function loadJSON(file, callback, dataarrayid) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
@@ -81,7 +81,13 @@ var dataArrays = [0,0,0];
 loadJSON("data/items.json", jsoncallback, 0);
 //loadJSON("data/enemies.json", jsoncallback, 1);
 //loadJSON("data/locations.json", jsoncallback, 2);
-var ArrItems = dataArrays[0]
+
+//arrItems = dataArrays[0];
+
+function arrLoad(argument) {
+	arrItems = dataArrays[0];
+	console.log(arrItems);
+}
 
 //Массив локаций
 var arrLocations = []; 
