@@ -53,7 +53,7 @@ arrEnemies[4] = {
 	dmg : 6,
 	exp : 30,
 	loot : [
-    {item: 'letherarmor', rare: 1},
+    {item: 'leatherarmor', rare: 1},
     {item: 'gun10mm', rare: 8},
     {item: 'stimpack', rare: 20}
     ]
@@ -71,11 +71,9 @@ function loadJSON(file, callback) {
     rawFile.send(null);
 }
 
+
 //Массив предметов
-var arrItems;
-loadJSON("data/items.json", function(text){
-    arrItems = JSON.parse(text);
-});
+var arrItems = loadJSON("data/items.json", JSON.parse)
 
 //Массив локаций
 var arrLocations = []; 
