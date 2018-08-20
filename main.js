@@ -59,44 +59,6 @@ arrEnemies[4] = {
     ]
 }
 
-
-//Массив предметов
-var arrItems = {};
-arrItems.cap = {
-	name: "Крышка",
-	price: 1
-}
-arrItems.gun10mm = {
-	name: "10мм пистолет",
-	price: 100
-}
-arrItems.stimpack = {
-	name: "Стимулятор",
-	price: 50
-}
-arrItems.letherarmor = {
-	name: "Кожаная Броня",
-	price: 150
-}
-arrItems.meat = {
-	name: "Мясо монстра",
-	price: 10
-}
-arrItems.radtail = {
-	name: "Хвост радскорпиона",
-	price: 100
-}
-arrItems.gecleather = {
-	name: "Шкура геккона",
-	price: 100
-}
-arrItems.wolfleather = {
-	name: "Шкура койота",
-	price: 100
-}
-
-var arrItemsJSON;
-
 function loadJSON(file, callback) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
@@ -109,14 +71,11 @@ function loadJSON(file, callback) {
     rawFile.send(null);
 }
 
-loadJSON("items.json", function(text){
-    arrItemsJSON = JSON.parse(text);
-    console.log(arrItemsJSON);
+//Массив предметов
+var arrItems;
+loadJSON("data/items.json", function(text){
+    arrItems = JSON.parse(text);
 });
-
-
-
-
 
 //Массив локаций
 var arrLocations = []; 
