@@ -49,7 +49,7 @@ arrLoad();
 
 
 function Enemy(){
-	function change(id){ 
+	this.change = function(id){ 
 		this.name = arrEnemies[id].name;
 		this.hp = arrEnemies[id].hp;
 		this.dmg = arrEnemies[id].dmg;
@@ -57,11 +57,11 @@ function Enemy(){
 		this.loot = arrEnemies[id].loot;
 	}
 	
-	function reduce_hp(damage){
+	this.reduce_hp = function(damage){
 		this.hp -= damage;
 		if (this.hp <= 0) this.hp = 0;
 	}
-	function is_dead(){
+	this.is_dead = function(){
 		return this.hp == 0;
 	}
 
