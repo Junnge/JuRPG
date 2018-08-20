@@ -164,7 +164,7 @@ function adventure(){
 
 //Бой с монстром
 function fight(){ 
-	if !(enemyObject.is_dead()){
+	if (!(enemyObject.is_dead())){
 		var damage = player.base_damage + randomInt(1, 6);
 		enemyObject.reduce_hp(damage)
 		if (enemyObject.is_dead()) {
