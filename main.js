@@ -35,20 +35,18 @@ loadJSON("data/locations.json", jsoncallback, 2);
 
 
 function arrLoad(argument) {
-	if(dataArrays[dataArrays.length-1] == 0){
+	if (dataArrays.some(function(x){return x==0})){
 		console.log('loading');
 		setTimeout(arrLoad, 10);
-	} 
-    else {
-    	arrItems = dataArrays[0];
-		arrEnemies = dataArrays[1];
-		arrLocations = dataArrays[2]
-		console.log(arrItems);
-		console.log(arrEnemies);
-		console.log(arrLocations);
-    }
+		return 0;
+	}
+	arrItems = dataArrays[0];
+	arrEnemies = dataArrays[1];
+	arrLocations = dataArrays[2]
+	console.log(arrItems);
+	console.log(arrEnemies);
+	console.log(arrLocations);
 }
-
 arrLoad();
 
 //Пустой объект для заполнение его активным монстром 
