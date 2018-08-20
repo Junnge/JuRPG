@@ -40,6 +40,7 @@ function arrLoad(argument) {
 	arrItems = dataArrays[0];
 	arrEnemies = dataArrays[1];
 	arrLocations = dataArrays[2]
+	enemyObject.change("emptyenemy");
 	console.log(arrItems);
 	console.log(arrEnemies);
 	console.log(arrLocations);
@@ -69,7 +70,6 @@ function Enemy(){
 
 // объект для заполнения его активным монстром 
 var enemyObject = new Enemy(); 
-enemyObject.change("emptyenemy");
 
 	
 function Player(name){  
@@ -78,7 +78,7 @@ function Player(name){
 	this.exp = 0;
 	this.skill_points = 0;
 	this.base_damage = 1;
-	this.location = 0;
+	this.location = "ruins";
 	inv.add("gun10mm", 1)
 
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
