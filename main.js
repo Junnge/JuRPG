@@ -145,7 +145,7 @@ function Player(name){ //Описание класса игрока
 		this.skill_points++;
 		this.exp = this.exp - this.get_next_lvl_exp();
 		this.lvl = this.lvl + 1;
-		status_update(`Теперь вы $(this.lvl) уровня`);
+		status_update(`Теперь вы ${this.lvl} уровня`);
 	}
 	
 	//Подсчет необходимиого кол-ва опыта для поднятия уровня 
@@ -155,7 +155,7 @@ function Player(name){ //Описание класса игрока
 	this.travel = function(id){
 		this.location = id;
 		show_box('text_box', 'text_button');
-		status_update(`Вы добрались до [$(arrLocations[id].name)]`);
+		status_update(`Вы добрались до [${arrLocations[id].name}]`);
 	}
 
 }
@@ -198,7 +198,7 @@ var hunt_cd=0;
 function hunt() { 
 	if (hunt_cd==0){
 		player.give_exp(1);
-		status_update(`Вы поймали $(randomInt(2, 4)) ящерицы и получили 1XP`);
+		status_update(`Вы поймали ${randomInt(2, 4)} ящерицы и получили 1XP`);
 		hunt_cd = 1;
 		//Активация кулдауна способности 
 		setTimeout(function(){hunt_cd=0;}, 10000); 
@@ -209,7 +209,7 @@ function hunt() {
 function adventure(){	
 	var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
 	change_enemy(id);
-	status_update(`Вы встретили [$(enemyObject.name)]`);
+	status_update(`Вы встретили [${enemyObject.name}]`);
 }
 
 //Бой с монстром
@@ -221,7 +221,7 @@ function fight(){
 			enemyObject.hp=0;
 			kill_current_enemy();
 		} else {
-			status_update(`Вы нанесли [$(enemyObject.name)] $(damage) урона`);
+			status_update(`Вы нанесли [${enemyObject.name}] ${damage} урона`);
 		}
 	}
 }
@@ -250,7 +250,7 @@ function kill_current_enemy(){
 	var rand_loot = loot(enemyObject.loot);
 	inv.add("cap", rand_caps_amount);
 	inv.add(rand_loot, 1);
-	status_update(`Вы убили [$(enemyObject.name)] и получили $(enemyObject.exp) опыта, нашли $(rand_caps_amount) [Крышка] и [$(arrItems[rand_loot].name)]`);
+	status_update(`Вы убили [${enemyObject.name}] и получили ${enemyObject.exp} опыта, нашли ${rand_caps_amount} [Крышка] и [${arrItems[rand_loot].name}]`);
 	change_enemy(-1);      
 	status_update();  
 }
