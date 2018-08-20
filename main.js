@@ -76,12 +76,12 @@ function jsoncallback(text, dataarrayid){
 }
 
 // 0 - предметы 1 - мобы 2 - локации
+var arrItems;
 var dataArrays = [0,0,0];
-//Массив предметов
+
 loadJSON("data/items.json", jsoncallback, 0);
 //loadJSON("data/enemies.json", jsoncallback, 1);
 //loadJSON("data/locations.json", jsoncallback, 2);
-
 //arrItems = dataArrays[0];
 
 function arrLoad(argument) {
