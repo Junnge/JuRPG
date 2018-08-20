@@ -59,21 +59,29 @@ arrEnemies[4] = {
     ]
 }
 
-function loadJSON(file, callback) {
+function loadJSON(file, callback, dataarrayid) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
     rawFile.open("GET", file, true);
     rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
+            callback(rawFile.responseText, dataarrayid);
         }
     }
     rawFile.send(null);
 }
 
+function jsoncallback(text, dataarrayid){
+	dataArrays[id] = JSON.parse(text);
+}
 
+// 0 - предметы 1 - мобы 2 - локации
+var dataArrays = [0,0,0];
 //Массив предметов
-var arrItems = loadJSON("data/items.json", JSON.parse);
+loadJSON("data/items.json", jsoncallback, 0);
+//loadJSON("data/enemies.json", jsoncallback, 1);
+//loadJSON("data/locations.json", jsoncallback, 2);
+var ArrItems = dataArrays[0]
 
 //Массив локаций
 var arrLocations = []; 
