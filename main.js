@@ -37,7 +37,7 @@ loadJSON("data/locations.json", jsoncallback, 2);
 function arrLoad(argument) {
 	if(dataArrays[dataArrays.length-1] == 0){
 		console.log('loading');
-		setTimeout(arrLoad(), 100);
+		setTimeout(arrLoad, 10);
 	} 
     else {
     	arrItems = dataArrays[0];
