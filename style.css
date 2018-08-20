@@ -36,7 +36,7 @@
 #nav_buttons > img{
 	padding-top: 5px;
 }
-#text_box{
+#action_box{
 	border: 1px solid #23FB8E;
 	width: 520px;
 	height: 339px;
@@ -46,6 +46,19 @@
 	overflow: hidden;
 	padding-top: 10px;
 	padding-left: 10px;
+}
+#action_buttons{
+	height: 40px;
+	width: 530px;
+	border: 1px solid #23FB8E;
+	position: absolute;
+	margin-top: 350px;
+	top: 0;
+}
+#action_buttons > img{
+	width: auto;
+	margin-left: 15px;
+	margin-top: 9px;
 }
 #map_box{
 	border: 1px solid #23FB8E;
@@ -71,24 +84,26 @@
 	top: 80px;
 	left: 80px;
 }
-#status_box{
+#stats_box{
 	border: 1px solid #23FB8E;
-	width: 530px;
-	height: 390px;
+	width: 520px;
+	height: 339px;
 	visibility: hidden;
 	position: absolute;
 	top: 0;
+	overflow: hidden;
+	padding-top: 10px;
+	padding-left: 10px;
 }
-#status_box > p{
+#stats_box > p{
 	margin-left: 10px;
 	margin-top: 10px;
 	width: 300px;
 }
-#status_box > p:hover{
+#stats_box > p:hover{
 	text-decoration: underline;
 }
-
-#action_buttons{
+#stats_buttons{
 	height: 40px;
 	width: 530px;
 	border: 1px solid #23FB8E;
@@ -96,7 +111,7 @@
 	margin-top: 350px;
 	top: 0;
 }
-#action_buttons > img{
+#stats_buttons > img{
 	width: auto;
 	margin-left: 15px;
 	margin-top: 9px;

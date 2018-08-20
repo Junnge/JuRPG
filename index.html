@@ -7,10 +7,10 @@
 	<link type="text/css" rel="stylesheet" href="reset.css" /> 
 	<link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
 </head>
-<body onload="status_update('Добро пожаловать в пустошь.'); show_box('text_box', 'text_button');">
+<body onload="status_update('Добро пожаловать в пустошь.'); show_box('action_box', 'action_button');">
 <div id="main_box">
 	<div id="content_box">
-		<div id="text_box"></div>
+		<div id="action_box"></div>
 		<div id="action_buttons">
 			<img src="img/buttons/hunt_button_unactive.png" id="hunt_button" onclick="hunt()"
 			 onmouseover="document.getElementById('hunt_button').src='img/buttons/hunt_button_active.png'"
@@ -25,11 +25,22 @@
 			 onmouseover="document.getElementById('fight_button').src='img/buttons/fight_button_active.png'"
 			 onmouseout="document.getElementById('fight_button').src='img/buttons/fight_button_unactive.png'"></img>
 		</div>
+		<div id="stats_buttons">
+			<img src="img/buttons/hunt_button_unactive.png" id="hero_button" onclick="hunt()"
+			 onmouseover="document.getElementById('hunt_button').src='img/buttons/hunt_button_active.png'"
+			 onmouseout="document.getElementById('hunt_button').src='img/buttons/hunt_button_unactive.png'"></img>
+			 <img src="img/buttons/search_button_unactive.png" id="inv_button" onclick="hunt()"
+			 onmouseover="document.getElementById('search_button').src='img/buttons/search_button_active.png'"
+			 onmouseout="document.getElementById('search_button').src='img/buttons/search_button_unactive.png'"></img>
+			 <img src="img/buttons/adv_button_unactive.png" id="statistic_button" onclick="adventure()"
+			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
+			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img>
+		</div>
 		<div id="map_box">
 			<img src="img/map_ico/city_r.png" id="ruined_city" onclick="player.travel('ruins')">
 			<img src="img/map_ico/rock.png" id="rock" onclick="player.travel('rock')">
 		</div>
-		<div id="status_box"></div>		
+		<div id="stats_box"></div>		
 	</div>
 	<div id="enemy_status">
 		<p id="enemy_name">Имя: </p>
@@ -40,9 +51,9 @@
 		<p id="exp_bar">Опыт:</p>
 	</div>
 	<div id="nav_buttons">
-		<img src="img/buttons/button_active.png" id="text_button" onclick="show_box('text_box', 'text_button')"></img><br>
+		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"></img><br>
 		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"></img><br>
-		<img src="img/buttons/button_unactive.png" id="status_button" onclick="show_box('status_box', 'status_button'); inv.show()"></img><br>
+		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('stats_box', 'stats_button'); inv.show()"></img><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>

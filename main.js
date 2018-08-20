@@ -130,9 +130,9 @@ function Inv() {
 	}
 
 	this.show = function(){
-		document.getElementById('status_box').innerHTML = '';
+		document.getElementById('stats_box').innerHTML = '';
 		for (var item in this.stuff) {
-			document.getElementById('status_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
+			document.getElementById('stats_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
 		}
 	}
 }
@@ -190,31 +190,33 @@ function kill_current_enemy(){
 
 //Вывод text в лог сообщений, обновление всех показателей на панелях
 function status_update(text) { 
-	if (text!=undefined) {document.getElementById('text_box').innerHTML += "<p>" + text + "</p>";}	
+	if (text!=undefined) {document.getElementById('action_box').innerHTML += "<p>" + text + "</p>";}	
 	document.getElementById('exp_bar').innerHTML = "Опыт: " + player.exp + " | " + player.get_next_lvl_exp();
 	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
 	document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
-	document.getElementById('text_box').scrollTop = 9999;
+	document.getElementById('action_box').scrollTop = 9999;
 }
 
 
 //Отображение элементов интерфейса 
 function show_box(box, button) {
-document.getElementById('text_button').src = "img/buttons/button_unactive.png";
+document.getElementById('action_button').src = "img/buttons/button_unactive.png";
 document.getElementById('map_button').src = "img/buttons/button_unactive.png";
-document.getElementById('status_button').src = "img/buttons/button_unactive.png";
-document.getElementById('text_box').style = "visibility: hidden;"
-document.getElementById('map_box').style = "visibility: hidden;"
-document.getElementById('status_box').style = "visibility: hidden;"
-document.getElementById('action_buttons').style = "visibility: hidden;"
+document.getElementById('stats_button').src = "img/buttons/button_unactive.png";
+document.getElementById('action_box').style = "visibility: hidden;";
+document.getElementById('map_box').style = "visibility: hidden;";
+document.getElementById('stats_box').style = "visibility: hidden;";
+document.getElementById('action_buttons').style = "visibility: hidden;";
+document.getElementById('stats_buttons').style = "visibility: hidden;";
 document.getElementById(box).style = "visibility: visible;"
 document.getElementById(button).src = "img/buttons/button_active.png";
 
-	if (box == 'text_box') {document.getElementById('action_buttons').style = "visibility: visible;"}
+	if (box == 'action_box') {document.getElementById('action_buttons').style = "visibility: visible;"}
+	if (box == 'stats_box') {document.getElementById('stats_buttons').style = "visibility: visible;"}
 }
 
 //Очень страшная ф-я для обработки колесика мышки
-var elem = document.getElementById('text_box');
+var elem = document.getElementById('action_box');
 if (elem.addEventListener) {
 	if ('onwheel' in document) {
 		// IE9+, FF17+, Ch31+
@@ -233,8 +235,8 @@ if (elem.addEventListener) {
 function onWheel(e) {
 	e = e || window.event;
 	var delta = e.deltaY || e.detail || e.wheelDelta;
-	var info = document.getElementById('text_box');
-	document.getElementById('text_box').scrollTop += delta*3;
+	var info = document.getElementById('action_box');
+	document.getElementById('action_box').scrollTop += delta*3;
 	e.preventDefault ? e.preventDefault() : (e.returnValue = false);
 }
 
