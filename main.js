@@ -241,6 +241,13 @@ function save_all(){
 	status_update('Игра сохранена!');
 }
 
+function reset(){
+	localStorage.removeItem("enemy");
+	localStorage.removeItem("player");
+	localStorage.removeItem("inv");
+	document.location.reload(true);
+}
+
 setInterval(save_all, 60000);
 
 //Вывод text в лог сообщений, обновление всех показателей на панелях
