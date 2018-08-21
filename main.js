@@ -104,7 +104,7 @@ function Player(name){
 	}
 	this.travel = function(id){
 		this.location = id;
-		show_box('text_box', 'text_button');
+		show_box('action_box', 'action_button');
 		status_update(`Вы добрались до [${arrLocations[id].name}]`);
 	}
 
