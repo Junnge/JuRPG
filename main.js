@@ -287,6 +287,7 @@ function reset(){
 	localStorage.removeItem("enemy");
 	localStorage.removeItem("player");
 	localStorage.removeItem("inv");
+	localStorage.removeItem("special");
 	document.location.reload(true);
 }
 
