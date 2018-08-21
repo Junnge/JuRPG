@@ -7,7 +7,7 @@
 	<link type="text/css" rel="stylesheet" href="reset.css" /> 
 	<link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
 </head>
-<body onload="show_box('hero_box', 'stats_button', 'hero_button')">
+<body onload="show_box('action_box', 'action_button')">
 <div id="main_box">
 	<div id="content_box">
 		<div id="action_box"></div>
@@ -26,10 +26,10 @@
 			 onmouseout="document.getElementById('fight_button').src='img/buttons/fight_button_unactive.png'"></img>
 		</div>
 		<div id="stats_buttons">
-			<img src="img/buttons/hero_button_unactive.png" id="hero_button" onclick="show_box('hero_box', 'stats_button', 'hero_button')"
+			<img src="img/buttons/hero_button_unactive.png" id="hero_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"
 			 onmouseover="document.getElementById('hero_button').src='img/buttons/hero_button_active.png'"
 			 onmouseout="document.getElementById('hero_button').src='img/buttons/hero_button_unactive.png'"></img>
-			 <img src="img/buttons/inv_button_unactive.png" id="inv_button" onclick="show_box('inv_box', 'stats_button', 'inv_button')"
+			 <img src="img/buttons/inv_button_unactive.png" id="inv_button" onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()"
 			 onmouseover="document.getElementById('inv_button').src='img/buttons/inv_button_active.png'"
 			 onmouseout="document.getElementById('inv_button').src='img/buttons/inv_button_unactive.png'"></img>
 			 <img src="img/buttons/statistics_button_unactive.png" id="statistics_button" onclick="show_box('statistics_box', 'stats_button', 'statistics_button')"
