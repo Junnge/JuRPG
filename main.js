@@ -41,10 +41,8 @@ function arrLoad(argument) {
 	arrEnemies = dataArrays[1];
 	arrLocations = dataArrays[2]
 	enemyObject.change("emptyenemy");
-	if ("player" in localStorage){
-		load_all();
-		console.log('loaded');
-	} 
+	if ("player" in localStorage) load_all();
+	status_update('Добро пожаловать в пустошь.'); 
 	console.log(arrItems);
 	console.log(arrEnemies);
 	console.log(arrLocations);
@@ -55,6 +53,7 @@ arrLoad();
 
 function Enemy(){
 	this.change = function(id){ 
+		this.id = id;
 		this.name = arrEnemies[id].name;
 		this.hp = arrEnemies[id].hp;
 		this.dmg = arrEnemies[id].dmg;
@@ -230,12 +229,14 @@ function load_all(){
 	player.load();
 	enemyObject.load();
 	inv.load();
+	console.log('save loaded');
 }
 
 function save_all(){
 	player.save();
 	enemyObject.save();
 	inv.save();
+	console.log('games saved');
 }
 
 setInterval(save_all, 60000);
