@@ -95,14 +95,6 @@
 	padding-top: 10px;
 	padding-left: 10px;
 }
-#stats_box > p{
-	margin-left: 10px;
-	margin-top: 10px;
-	width: 300px;
-}
-#stats_box > p:hover{
-	text-decoration: underline;
-}
 #stats_buttons{
 	height: 40px;
 	width: 530px;
@@ -115,6 +107,53 @@
 	width: auto;
 	margin-left: 15px;
 	margin-top: 9px;
+}
+#hero_box{
+	border: 1px solid #23FB8E;
+	width: 520px;
+	height: 339px;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	overflow: hidden;
+	padding-top: 10px;
+	padding-left: 10px;
+}
+#inv_box{
+	border: 1px solid #23FB8E;
+	width: 530px;
+	height: 349px;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	overflow: hidden;
+}
+#inv_box > p{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
+#inv_box > p:hover{
+	text-decoration: underline;
+}
+#statistics_box{
+	border: 1px solid #23FB8E;
+	width: 520px;
+	height: 339px;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	overflow: hidden;
+	padding-top: 10px;
+	padding-left: 10px;
+}
+#settings_box{
+	border: 1px solid #23FB8E;
+	width: 300px;
+	height: 300px;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
 }
 #content_box{
 	position: relative;

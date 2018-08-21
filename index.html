@@ -26,21 +26,28 @@
 			 onmouseout="document.getElementById('fight_button').src='img/buttons/fight_button_unactive.png'"></img>
 		</div>
 		<div id="stats_buttons">
-			<img src="img/buttons/hunt_button_unactive.png" id="hero_button" onclick="hunt()"
-			 onmouseover="document.getElementById('hunt_button').src='img/buttons/hunt_button_active.png'"
-			 onmouseout="document.getElementById('hunt_button').src='img/buttons/hunt_button_unactive.png'"></img>
-			 <img src="img/buttons/search_button_unactive.png" id="inv_button" onclick="hunt()"
-			 onmouseover="document.getElementById('search_button').src='img/buttons/search_button_active.png'"
-			 onmouseout="document.getElementById('search_button').src='img/buttons/search_button_unactive.png'"></img>
-			 <img src="img/buttons/adv_button_unactive.png" id="statistic_button" onclick="adventure()"
+			<img src="img/buttons/hero_button_unactive.png" id="hero_button" onclick="show_box('hero_box', 'stats_button', 'hero_button')"
+			 onmouseover="document.getElementById('hero_button').src='img/buttons/hero_button_active.png'"
+			 onmouseout="document.getElementById('hero_button').src='img/buttons/hero_button_unactive.png'"></img>
+			 <img src="img/buttons/inv_button_unactive.png" id="inv_button" onclick="show_box('inv_box', 'stats_button', 'inv_button')"
+			 onmouseover="document.getElementById('inv_button').src='img/buttons/inv_button_active.png'"
+			 onmouseout="document.getElementById('inv_button').src='img/buttons/inv_button_unactive.png'"></img>
+			 <img src="img/buttons/statistics_button_unactive.png" id="statistics_button" onclick="show_box('statistics_box', 'stats_button', 'statistics_button')"
+			 onmouseover="document.getElementById('statistics_button').src='img/buttons/statistics_button_active.png'"
+			 onmouseout="document.getElementById('statistics_button').src='img/buttons/statistics_button_unactive.png'"></img>
+			 <!--<img src="img/buttons/settings_button_unactive.png" id="settings_button" onclick="show_box('stats_box', 'stats_button', 'settings_button')"
 			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
-			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img>
+			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img> -->
 		</div>
 		<div id="map_box">
 			<img src="img/map_ico/city_r.png" id="ruined_city" onclick="player.travel('ruins')">
 			<img src="img/map_ico/rock.png" id="rock" onclick="player.travel('rock')">
 		</div>
-		<div id="stats_box"></div>		
+		<div id="hero_box">1</div>
+		<div id="inv_box">2</div>
+		<div id="statistics_box">3</div>
+		<!--<div id="settings_box">4</div>--
+		<div id="stats_box"></div>-->		
 	</div>
 	<div id="enemy_status">
 		<p id="enemy_name">Имя: </p>
@@ -53,7 +60,7 @@
 	<div id="nav_buttons">
 		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"></img><br>
 		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"></img><br>
-		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('stats_box', 'stats_button'); inv.show()"></img><br>
+		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); inv.show()"></img><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>
