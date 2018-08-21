@@ -165,6 +165,7 @@ function Player(name){
 	this.save = function(){
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location];
 		localStorage.player =  arr.join(' ');
+		localStorage.special = JSON.stringify(this.special);
 	}
 	
 	this.load = function(){
@@ -175,6 +176,7 @@ function Player(name){
 		this.skill_points = Number(data[3]);
 		this.base_damage = Number(data[4]);
 		this.location = data[5];
+		this.special = JSON.parse(localStorage.special);
 	}
 
 }
@@ -285,6 +287,7 @@ function reset(){
 	localStorage.removeItem("enemy");
 	localStorage.removeItem("player");
 	localStorage.removeItem("inv");
+	localStorage.removeItem("special");
 	document.location.reload(true);
 }
 
