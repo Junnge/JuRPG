@@ -230,6 +230,7 @@ function load_all(){
 	enemyObject.load();
 	inv.load();
 	console.log('save loaded');
+	status_update('Загружено сохранение!');
 }
 
 function save_all(){
@@ -237,6 +238,7 @@ function save_all(){
 	enemyObject.save();
 	inv.save();
 	console.log('games saved');
+	status_update('Игра сохранена!');
 }
 
 setInterval(save_all, 60000);
