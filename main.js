@@ -148,16 +148,21 @@ function Player(name){
 			this.lvlup();
 		}
 	}
-	
+
 	//Ф-я повышения уровня героя
 	this.lvlup = function(){  
 		this.base_damage++;
 		this.skill_points++;
 		this.exp = this.exp - this.get_next_lvl_exp();
 		this.lvl++;
-		this.hp_max += 10;
+		this.set_hp_max();
 		this.full_heal();
 		status_update(`Теперь вы ${this.lvl} уровня`);
+	}
+	
+	
+	this.set_hp_max = function(argument) {
+		this.hp_max = 100 + this.special.endurance.lvl * 10 + this.lvl * 10;
 	}
 	
 	this.full_heal = function(){
@@ -184,7 +189,7 @@ function Player(name){
 		for (var spec in this.special) {
 			document.getElementById('special_box').innerHTML += `<br><a>${this.special[spec].name}: ${this.special[spec].lvl}</a>`
 			if (this.special_points > 0 && this.special[spec].lvl <10){
-				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats()">`;
+				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats(); player.set_hp_max(); player.heal(10); status_update()">`;
 			}
 		}
 		document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${this.special_points}`;
