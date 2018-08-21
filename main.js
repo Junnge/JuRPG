@@ -1,3 +1,5 @@
+var game_version = 1;
+
 //ф-я для генерации цельных чисел в диапазоне [min, max]
 function randomInt(min, max) { 
 	var rand = min - 0.5 + Math.random() * (max - min + 1)
@@ -270,14 +272,20 @@ function kill_current_enemy(){
 }
 
 function load_all(){
-	player.load();
-	enemyObject.load();
-	inv.load();
-	console.log('save loaded');
-	status_update('Загружено сохранение!');
+	if(localStorage.version == game_version){
+		player.load();
+		enemyObject.load();
+		inv.load();
+		console.log('save loaded');
+		status_update('Загружено сохранение!');
+	} else {
+		alert('Версия игры не совпадает, игра будет сброшена!');
+		reset();
+	}
 }
 
 function save_all(){
+	localStorage.version = game_version;
 	player.save();
 	enemyObject.save();
 	inv.save();
