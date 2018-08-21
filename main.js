@@ -1,4 +1,4 @@
-var game_version = 1;
+var game_version = "1";
 
 //ф-я для генерации цельных чисел в диапазоне [min, max]
 function randomInt(min, max) { 
@@ -43,28 +43,39 @@ function arrLoad(argument) {
 	arrEnemies = dataArrays[1];
 	arrLocations = dataArrays[2]
 	enemyObject.change("emptyenemy");
-	if ("player" in localStorage) load_all();
+	if ("player" in localStorage) {
+		load_all();
+	} else {
+		inv.add("gun10mm", 1);
+	}
 	status_update('Добро пожаловать в пустошь.'); 
 	console.log('arrays loaded');
 }
 arrLoad();
 
-
+// not to be called as functions but as methods
+function heal(amount){
+	this.hp += amount;
+	if (this.hp > this.hp_max) this.hp = this.hp_max;
+}
+function reduce_hp(damage){
+	this.hp -= damage;
+	if (this.hp < 0) this.hp = 0;
+}
 
 function Enemy(){
 	this.change = function(id){ 
 		this.id = id;
 		this.name = arrEnemies[id].name;
 		this.hp = arrEnemies[id].hp;
+		this.hp_max = this.hp;
 		this.dmg = arrEnemies[id].dmg;
 		this.exp = arrEnemies[id].exp;
 		this.loot = arrEnemies[id].loot;
 	}
 	
-	this.reduce_hp = function(damage){
-		this.hp -= damage;
-		if (this.hp <= 0) this.hp = 0;
-	}
+	this.reduce_hp = reduce_hp;
+	this.heal = heal;
 
 	this.is_dead = function(){
 		return this.hp == 0;
@@ -91,10 +102,12 @@ function Player(name){
 	this.lvl = 0;
 	this.exp = 0;
 	this.skill_points = 0;
-	this.special_points = 10;
 	this.base_damage = 1;
 	this.location = "ruins";
-	inv.add("gun10mm", 1)
+	this.hp = 100;
+	this.hp_max = 100;
+	
+	this.special_points = 10;
 	this.special = {
 		strength : {
 			name: "Сила",
@@ -125,7 +138,9 @@ function Player(name){
 			lvl : 1
 		}
 	}
-
+	this.reduce_hp = reduce_hp;
+	this.heal = heal;
+	
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
 	this.give_exp = function(x){ 
 		this.exp = this.exp + x;
@@ -139,8 +154,14 @@ function Player(name){
 		this.base_damage++;
 		this.skill_points++;
 		this.exp = this.exp - this.get_next_lvl_exp();
-		this.lvl = this.lvl + 1;
+		this.lvl++;
+		this.hp_max += 10;
+		this.full_heal();
 		status_update(`Теперь вы ${this.lvl} уровня`);
+	}
+	
+	this.fullheal = function(){
+		this.hp = this.hp_max
 	}
 	
 	//Подсчет необходимиого кол-ва опыта для поднятия уровня 
@@ -173,7 +194,7 @@ function Player(name){
 	}
 
 	this.save = function(){
-		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points];
+		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
 		console.log(JSON.stringify(this.special));
@@ -187,7 +208,9 @@ function Player(name){
 		this.skill_points = Number(data[3]);
 		this.base_damage = Number(data[4]);
 		this.location = data[5];
-		this.special_points = data[6]
+		this.special_points = Number(data[6]);
+		this.hp = Number(data[7]);
+		this.hp_max = Number(data[8]);
 		this.special = JSON.parse(localStorage.special);
 	}
 
@@ -259,7 +282,7 @@ function adventure(){
 function fight(){ 
 	if (!enemyObject.is_dead()){
 		var damage = player.base_damage + randomInt(1, 6);
-		enemyObject.reduce_hp(damage)
+		enemyObject.reduce_hp(damage);
 		if (enemyObject.is_dead()) {
 			kill_current_enemy();
 		} else {
