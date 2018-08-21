@@ -163,9 +163,10 @@ function Player(name){
 	}
 
 	this.save = function(){
-		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location];
+		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
+		console.log(JSON.stringify(this.special));
 	}
 	
 	this.load = function(){
@@ -176,6 +177,7 @@ function Player(name){
 		this.skill_points = Number(data[3]);
 		this.base_damage = Number(data[4]);
 		this.location = data[5];
+		this.special_points = data[6]
 		this.special = JSON.parse(localStorage.special);
 	}
 
