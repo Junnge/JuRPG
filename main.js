@@ -43,9 +43,7 @@ function arrLoad(argument) {
 	enemyObject.change("emptyenemy");
 	if ("player" in localStorage) load_all();
 	status_update('Добро пожаловать в пустошь.'); 
-	console.log(arrItems);
-	console.log(arrEnemies);
-	console.log(arrLocations);
+	console.log('arrays loaded');
 }
 arrLoad();
 
@@ -91,9 +89,40 @@ function Player(name){
 	this.lvl = 0;
 	this.exp = 0;
 	this.skill_points = 0;
+	this.special_points = 10;
 	this.base_damage = 1;
 	this.location = "ruins";
 	inv.add("gun10mm", 1)
+	this.special = {
+		strength : {
+			name: "Сила",
+			lvl : 1
+		},
+		perception : {
+			name: "Наблюдательность",
+			lvl : 1
+		},
+		endurance : {
+			name: "Выносливость",
+			lvl : 1
+		},
+		charisma : {
+			name: "Харизма",
+			lvl : 1
+		},
+		intellegence : {
+			name: "Интеллект",
+			lvl : 1
+		},
+		agility : {
+			name: "Ловкость",
+			lvl : 1
+		},
+		luck : {
+			name: "Удача",
+			lvl : 1
+		}
+	}
 
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
 	this.give_exp = function(x){ 
@@ -120,6 +149,17 @@ function Player(name){
 		this.location = id;
 		show_box('action_box', 'action_button');
 		status_update(`Вы добрались до [${arrLocations[id].name}]`);
+	}
+
+	this.show_stats = function() {
+		document.getElementById('special_box').innerHTML = "";
+		for (var spec in this.special) {
+			document.getElementById('special_box').innerHTML += `<br><a>${this.special[spec].name}: ${this.special[spec].lvl}</a>`
+			if (this.special_points > 0 && this.special[spec].lvl <10){
+				document.getElementById('special_box').innerHTML += `<button onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats()">+1`;
+			}
+		}
+		document.getElementById('special_box').innerHTML += `<p>Осталось очков SPECIAL: ${this.special_points}`;
 	}
 
 	this.save = function(){
@@ -326,7 +366,7 @@ function loot(lootlist){
 		i++;
 		//console.log(tmp,' ', i);
 	}
-	console.log('dice=',rand,'loot=',lootlist[i-1]);
+	//console.log('dice=',rand,'loot=',lootlist[i-1]);
 	return lootlist[i-1].item;
 
 	/*var sums = [];

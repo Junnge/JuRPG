@@ -110,14 +110,29 @@
 }
 #hero_box{
 	border: 1px solid #23FB8E;
-	width: 520px;
-	height: 339px;
+	width: 510px;
+	height: 329px;
 	visibility: hidden;
 	position: absolute;
 	top: 0;
 	overflow: hidden;
-	padding-top: 10px;
-	padding-left: 10px;
+	padding: 10px;
+}
+#special_box > a{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
+#special_box{
+	width: 247px;
+	height: 327px;
+	border: 1px solid #23FB8E;
+}
+#skills_box{
+	width: 247px;
+	height: 327px;
+	border: 1px solid #23FB8E;
+	float: right;
 }
 #inv_box{
 	border: 1px solid #23FB8E;

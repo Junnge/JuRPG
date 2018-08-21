@@ -7,7 +7,7 @@
 	<link type="text/css" rel="stylesheet" href="reset.css" /> 
 	<link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
 </head>
-<body onload="show_box('action_box', 'action_button');">
+<body onload="show_box('hero_box', 'stats_button', 'hero_button')">
 <div id="main_box">
 	<div id="content_box">
 		<div id="action_box"></div>
@@ -43,7 +43,10 @@
 			<img src="img/map_ico/city_r.png" id="ruined_city" onclick="player.travel('ruins')">
 			<img src="img/map_ico/rock.png" id="rock" onclick="player.travel('rock')">
 		</div>
-		<div id="hero_box">1</div>
+		<div id="hero_box">
+			<div id="skills_box"></div>
+			<div id="special_box"></div>
+		</div>
 		<div id="inv_box">2</div>
 		<div id="statistics_box">3</div>
 		<!--<div id="settings_box">4</div>--
@@ -60,7 +63,7 @@
 	<div id="nav_buttons">
 		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"></img><br>
 		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"></img><br>
-		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); inv.show()"></img><br>
+		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"></img><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>
