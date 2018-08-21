@@ -41,6 +41,10 @@ function arrLoad(argument) {
 	arrEnemies = dataArrays[1];
 	arrLocations = dataArrays[2]
 	enemyObject.change("emptyenemy");
+	if ("player" in localStorage){
+		load_all();
+		console.log('loaded');
+	} 
 	console.log(arrItems);
 	console.log(arrEnemies);
 	console.log(arrLocations);
@@ -62,8 +66,19 @@ function Enemy(){
 		this.hp -= damage;
 		if (this.hp <= 0) this.hp = 0;
 	}
+
 	this.is_dead = function(){
 		return this.hp == 0;
+	}
+
+	this.save = function(){
+		localStorage.enemy = `${this.id} ${this.hp}`;
+	}
+	
+	this.load = function(){
+		var data = localStorage.enemy.split(' ');
+		this.change(data[0]);
+		this.hp = data[1];
 	}
 
 }
@@ -108,6 +123,21 @@ function Player(name){
 		status_update(`Вы добрались до [${arrLocations[id].name}]`);
 	}
 
+	this.save = function(){
+		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location];
+		localStorage.player =  arr.join(' ');
+	}
+	
+	this.load = function(){
+		var data = localStorage.player.split(' ');
+		this.name = data[0];
+		this.lvl = data[1];
+		this.exp = data[2];
+		this.skill_points = data[3];
+		this.base_damage = data[4];
+		this.location = data[5];
+	}
+
 }
 
 function Inv() {
@@ -134,6 +164,14 @@ function Inv() {
 		for (var item in this.stuff) {
 			document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
 		}
+	}
+
+	this.save = function(){
+		localStorage.inv = JSON.stringify(this.stuff);
+	}
+	
+	this.load = function(){
+		this.stuff = JSON.parse(localStorage.inv);
 	}
 }
 
@@ -187,6 +225,20 @@ function kill_current_enemy(){
 	enemyObject.change("emptyenemy");     
 	status_update();  
 }
+
+function load_all(){
+	player.load();
+	enemyObject.load();
+	inv.load();
+}
+
+function save_all(){
+	player.save();
+	enemyObject.save();
+	inv.save();
+}
+
+setInterval(save_all, 60000);
 
 //Вывод text в лог сообщений, обновление всех показателей на панелях
 function status_update(text) { 
