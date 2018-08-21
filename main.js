@@ -78,7 +78,7 @@ function Enemy(){
 	this.load = function(){
 		var data = localStorage.enemy.split(' ');
 		this.change(data[0]);
-		this.hp = data[1];
+		this.hp = Number(data[1]);
 	}
 
 }
@@ -131,10 +131,10 @@ function Player(name){
 	this.load = function(){
 		var data = localStorage.player.split(' ');
 		this.name = data[0];
-		this.lvl = data[1];
-		this.exp = data[2];
-		this.skill_points = data[3];
-		this.base_damage = data[4];
+		this.lvl = Number(data[1]);
+		this.exp = Number(data[2]);
+		this.skill_points = Number(data[3]);
+		this.base_damage = Number(data[4]);
 		this.location = data[5];
 	}
 
@@ -202,7 +202,7 @@ function adventure(){
 
 //Бой с монстром
 function fight(){ 
-	if (!(enemyObject.is_dead())){
+	if (!enemyObject.is_dead()){
 		var damage = player.base_damage + randomInt(1, 6);
 		enemyObject.reduce_hp(damage)
 		if (enemyObject.is_dead()) {
