@@ -39,13 +39,14 @@
 #action_box{
 	border: 1px solid #23FB8E;
 	width: 520px;
-	height: 339px;
+	height: 329px;
 	visibility: visible;
 	position: absolute;
 	top: 0;
 	overflow: hidden;
 	padding-top: 10px;
 	padding-left: 10px;
+	padding-bottom: 10px;
 }
 #action_buttons{
 	height: 40px;
@@ -123,10 +124,26 @@
 	margin-top: 10px;
 	width: 300px;
 }
+#special_box > p{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
 #special_box{
 	width: 247px;
-	height: 327px;
+	height: 170px;
 	border: 1px solid #23FB8E;
+}
+#info_box{
+	width: 247px;
+	height: 144px;
+	margin-top: 12px; 
+	border: 1px solid #23FB8E;
+}
+#info_box > p{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
 }
 #skills_box{
 	width: 247px;

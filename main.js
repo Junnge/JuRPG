@@ -148,9 +148,14 @@ function Player(name){
 		return 10 * (this.lvl + 1);
 	}
 	this.travel = function(id){
-		this.location = id;
-		show_box('action_box', 'action_button');
-		status_update(`Вы добрались до [${arrLocations[id].name}]`);
+		if(enemyObject.id == 'emptyenemy'){
+			this.location = id;
+			show_box('action_box', 'action_button');
+			status_update(`Вы добрались до [${arrLocations[id].name}]`);
+		} else {
+			show_box('action_box', 'action_button');
+			status_update('Вы в бою!');
+		} 
 	}
 
 	this.show_stats = function() {
@@ -158,10 +163,13 @@ function Player(name){
 		for (var spec in this.special) {
 			document.getElementById('special_box').innerHTML += `<br><a>${this.special[spec].name}: ${this.special[spec].lvl}</a>`
 			if (this.special_points > 0 && this.special[spec].lvl <10){
-				document.getElementById('special_box').innerHTML += `<button onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats()">+1`;
+				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats()">`;
 			}
 		}
-		document.getElementById('special_box').innerHTML += `<p>Осталось очков SPECIAL: ${this.special_points}`;
+		document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${this.special_points}`;
+
+		document.getElementById('info_box').innerHTML = "";
+		document.getElementById('info_box').innerHTML += `<p>Уровень: ${this.lvl}`;
 	}
 
 	this.save = function(){
@@ -240,9 +248,11 @@ function hunt() {
 
 //Пуьешествие в постоши, генерация событий 
 function adventure(){	
-	var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
-	enemyObject.change(id);
-	status_update(`Вы встретили [${enemyObject.name}]`);
+	if(enemyObject.id == 'emptyenemy'){
+		var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
+		enemyObject.change(id);
+		status_update(`Вы встретили [${enemyObject.name}]`);
+	} else status_update(`Вы в бою!`);
 }
 
 //Бой с монстром
