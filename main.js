@@ -160,7 +160,7 @@ function Player(name){
 		status_update(`Теперь вы ${this.lvl} уровня`);
 	}
 	
-	this.fullheal = function(){
+	this.full_heal = function(){
 		this.hp = this.hp_max
 	}
 	
