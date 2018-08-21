@@ -1,4 +1,4 @@
-var game_version = 1;
+var game_version = "1";
 
 //ф-я для генерации цельных чисел в диапазоне [min, max]
 function randomInt(min, max) { 
