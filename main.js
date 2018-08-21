@@ -341,6 +341,7 @@ function status_update(text) {
 	if (text!=undefined) {document.getElementById('action_box').innerHTML += "<p>" + text + "</p>";}	
 	document.getElementById('exp_bar').innerHTML = "Опыт: " + player.exp + " | " + player.get_next_lvl_exp();
 	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
+	document.getElementById('health_bar_hero').innerHTML = "Здоровье: "+player.hp;
 	document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
 	document.getElementById('action_box').scrollTop = 9999;
 }
