@@ -48,8 +48,7 @@ function arrLoad(argument) {
 	} else {
 		inv.add("gun10mm", 1);
 	}
-	console.log(arrLocations[player.location]);
-	console.log("in arrload");
+	console.log("after this");
 	activity = new Activity(arrLocations[player.location]);
 	status_update('Добро пожаловать в пустошь.'); 
 	console.log('arrays loaded');
@@ -299,7 +298,8 @@ function Activity(loc){
 			this.timestamp = performance.now();
 			status_update(arrActivities[this.type].start + ` [${Math.floor(this.cd/1000)} секунд]`);
 			this.is_cd = true;
-			setTimeout(this.finish, this.cd); 
+			var that = this;
+			setTimeout(function(){that.finish()}, this.cd); 
 		} else {
 			var time_left = this.cd - (performance.now() - this.timestamp);
 			status_update(arrActivities[this.type].process + ` [${Math.floor(time_left/1000)} секунд]`);
@@ -307,11 +307,10 @@ function Activity(loc){
 	}
 	
 	this.finish = function(){
-		console.log(this.items, activity.items);
 		var loot = this.items[randomInt(0, this.items.length-1)];
 		var got_xp = 1;
 		inv.add(loot, 1);
-		player.give_xp(got_xp);
+		player.give_exp(got_xp);
 		this.is_cd = false;
 		status_update(arrActivities[this.type].finish + arrItems[loot.name] + ` и получили ${got_xp} опыта.`);
 
