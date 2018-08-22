@@ -31,7 +31,7 @@ var dataArrays = [0,0,0];
 loadJSON("data/items.json", jsoncallback, 0);
 loadJSON("data/enemies.json", jsoncallback, 1);
 loadJSON("data/locations.json", jsoncallback, 2);
-
+var activity;
 
 function arrLoad(argument) {
 	if (dataArrays.some(function(x){return x==0})){
@@ -50,7 +50,7 @@ function arrLoad(argument) {
 	}
 	console.log(arrLocations[player.location]);
 	console.log("in arrload");
-	activity.change(arrLocations[player.location]);
+	activity = new Activity(arrLocations[player.location]);
 	status_update('Добро пожаловать в пустошь.'); 
 	console.log('arrays loaded');
 }
@@ -186,7 +186,7 @@ function Player(name){
 			status_update(arrActivities[activity.type].process);
 		} else {
 			this.location = id;
-			activity.change(arrLocations[id]);
+			activity = new Activity(arrLocations[id]);
 			show_box('action_box', 'action_button');
 			status_update(`Вы добрались до [${arrLocations[id].name}]`);
 		} 
@@ -286,15 +286,14 @@ var arrActivities = {
 		}
 }
 
-function Activity(){
-	this.change = function(loc){
-		console.log(loc);
-		this.type = loc["activity"];
-		this.items = loc["items"];
-		console.log(this.items[0]);
-		this.is_cd = false;
-		this.cd = arrActivities[this.type].cd;
-	}
+function Activity(loc){
+	console.log(loc);
+	this.type = loc["activity"];
+	this.items = loc["items"];
+	console.log(this.items[0]);
+	this.is_cd = false;
+	this.cd = arrActivities[this.type].cd;
+	
 	this.go = function() { 
 		if (!this.is_cd){
 			this.timestamp = performance.now();
@@ -318,7 +317,7 @@ function Activity(){
 
 	}
 }
-var activity = new Activity();
+
 function start_activity(){
 	activity.go();
 }
