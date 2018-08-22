@@ -291,6 +291,7 @@ function Activity(){
 		console.log(loc);
 		this.type = loc["activity"];
 		this.items = loc["items"];
+		console.log(this.items[0]);
 		this.is_cd = false;
 		this.cd = arrActivities[this.type].cd;
 	}
@@ -307,6 +308,7 @@ function Activity(){
 	}
 	
 	this.finish = function(){
+		console.log(this.items[0]);
 		var loot = this.items[randomInt(0, this.items.length-1)];
 		var got_xp = 1;
 		inv.add(loot, 1);
