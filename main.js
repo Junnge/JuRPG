@@ -260,18 +260,50 @@ function Inv() {
 var inv = new Inv();
 var player = new Player('whoever'); 
 
+var arrActivities = {
 
-//флаг кулдауна на действие 
-var hunt_cd=0; 
-//Охота на зверей
-function hunt() { 
-	if (hunt_cd==0){
-		player.give_exp(1);
-		status_update(`Вы поймали ${randomInt(2, 4)} ящерицы и получили 1XP`);
-		hunt_cd = 1;
-		//Активация кулдауна способности 
-		setTimeout(function(){hunt_cd=0;}, 10000); 
-	} else status_update("Вы устали!");
+		"hunting": {
+			"button": "охота",
+			"start": "Вы отправились на охоту. ",
+			"process": "Вы охотитесь. ",
+			"finish": "Вы поймали ящериц, завялили их ",
+		},
+		
+		"searching": {
+			"button": "поиск",
+			"start": "Вы начали обыск местности. ",
+			"process": "Вы обыскиваете местность. ",
+			"finish": "Вы нашли ",
+		}
+}
+
+function Activity(loc){
+	this.type = loc["activity"];
+	this.items = loc["items"];
+	this.is_cd = false;
+	this.cd = 60000
+
+	this.go = function() { 
+		if (!this.is_cd){
+			this.timestamp = performance.now();
+			status_update(arrActivities[this.type].start + ` [${this.cd/1000} секунд]`);
+			this.is_cd = true;
+			setTimeout(this.finish, this.cd); 
+		} else {
+			var time_left = performance.now() - this.timestamp;
+			status_update(arrActivities[this.type].process + ` [${time_left/1000} секунд]`);
+		}
+	}
+	
+	this.finish = function(){
+		var loot = this.items[randomInt(0, this.items.length-1)];
+		var got_xp = 1
+		inv.add(loot, 1);
+		player.give_xp(got_xp)
+		this.is_cd = false;
+		status_update(arrActivities[this.type].finish + arrItems[loot.name] + ` и получили ${got_xp} опыта.`);
+
+	}
 }
 
 //Пуьешествие в постоши, генерация событий 
