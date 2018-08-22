@@ -288,7 +288,7 @@ function Activity(){
 		this.type = loc["activity"];
 		this.items = loc["items"];
 		this.is_cd = false;
-		this.cd = arrActivities[this.type].cd];
+		this.cd = arrActivities[this.type].cd;
 	}
 	this.go = function() { 
 		if (!this.is_cd){
