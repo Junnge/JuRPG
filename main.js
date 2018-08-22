@@ -308,7 +308,7 @@ function Activity(){
 	}
 	
 	this.finish = function(){
-		console.log(this.items[0]);
+		console.log(this.items, activity.items);
 		var loot = this.items[randomInt(0, this.items.length-1)];
 		var got_xp = 1;
 		inv.add(loot, 1);
