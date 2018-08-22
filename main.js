@@ -49,6 +49,7 @@ function arrLoad(argument) {
 		inv.add("gun10mm", 1);
 	}
 	console.log(arrLocations[player.location]);
+	console.log("in arrload");
 	activity.change(arrLocations[player.location]);
 	status_update('Добро пожаловать в пустошь.'); 
 	console.log('arrays loaded');
@@ -296,12 +297,12 @@ function Activity(){
 	this.go = function() { 
 		if (!this.is_cd){
 			this.timestamp = performance.now();
-			status_update(arrActivities[this.type].start + ` [${this.cd//1000} секунд]`);
+			status_update(arrActivities[this.type].start + ` [${Math.floor(this.cd/1000)} секунд]`);
 			this.is_cd = true;
 			setTimeout(this.finish, this.cd); 
 		} else {
 			var time_left = this.cd - (performance.now() - this.timestamp);
-			status_update(arrActivities[this.type].process + ` [${time_left//1000} секунд]`);
+			status_update(arrActivities[this.type].process + ` [${Math.floor(time_left/1000)} секунд]`);
 		}
 	}
 	
