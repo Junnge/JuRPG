@@ -173,17 +173,21 @@ function Player(name){
 	this.get_next_lvl_exp = function(){ 
 		return 10 * (this.lvl + 1);
 	}
+
 	this.travel = function(id){
-		if(enemyObject.id == 'emptyenemy'){
-			this.location = id;
-			show_box('action_box', 'action_button');
-			status_update(`Вы добрались до [${arrLocations[id].name}]`);
-		} else {
+		if (enemyObject.id != 'emptyenemy') {
 			show_box('action_box', 'action_button');
 			status_update('Вы в бою!');
+		} else if (activity.is_cd){
+			show_box('action_box', 'action_button');
+			status_update(arrActivities[activity.type].process);
+		} else {
+			this.location = id;
+			activity.change(arrLocations[id]);
+			show_box('action_box', 'action_button');
+			status_update(`Вы добрались до [${arrLocations[id].name}]`);
 		} 
 	}
-
 	this.show_stats = function() {
 		document.getElementById('special_box').innerHTML = "";
 		for (var spec in this.special) {
@@ -267,6 +271,7 @@ var arrActivities = {
 			"start": "Вы отправились на охоту. ",
 			"process": "Вы охотитесь. ",
 			"finish": "Вы поймали ящериц, завялили их ",
+			"cd": 15000,
 		},
 		
 		"searching": {
@@ -274,15 +279,17 @@ var arrActivities = {
 			"start": "Вы начали обыск местности. ",
 			"process": "Вы обыскиваете местность. ",
 			"finish": "Вы нашли ",
+			"cd": 20000,
 		}
 }
 
-function Activity(loc){
-	this.type = loc["activity"];
-	this.items = loc["items"];
-	this.is_cd = false;
-	this.cd = 60000
-
+function Activity(){
+	this.change = function(loc){
+		this.type = loc["activity"];
+		this.items = loc["items"];
+		this.is_cd = false;
+		this.cd = arrActivities[this.type].cd];
+	}
 	this.go = function() { 
 		if (!this.is_cd){
 			this.timestamp = performance.now();
@@ -297,13 +304,19 @@ function Activity(loc){
 	
 	this.finish = function(){
 		var loot = this.items[randomInt(0, this.items.length-1)];
-		var got_xp = 1
+		var got_xp = 1;
 		inv.add(loot, 1);
-		player.give_xp(got_xp)
+		player.give_xp(got_xp);
 		this.is_cd = false;
 		status_update(arrActivities[this.type].finish + arrItems[loot.name] + ` и получили ${got_xp} опыта.`);
 
 	}
+}
+var activity = new Activity();
+activity.change(arrLocations[player.location]);
+
+function start_activity(){
+	activity.go();
 }
 
 //Пуьешествие в постоши, генерация событий 
