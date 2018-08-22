@@ -312,7 +312,7 @@ function Activity(loc){
 		inv.add(loot, 1);
 		player.give_exp(got_xp);
 		this.is_cd = false;
-		status_update(arrActivities[this.type].finish + arrItems[loot.name] + ` и получили ${got_xp} опыта.`);
+		status_update(arrActivities[this.type].finish + arrItems[loot].name + ` и получили ${got_xp} опыта.`);
 
 	}
 }
