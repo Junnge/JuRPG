@@ -1,14 +1,17 @@
 {
 	"ruins" : {
-	    "name" : "Руины",
-	    "radiation": 0,
-	    "items_ids" : [0, 2],
-	    "mob_ids": ["raider", "raiderlead"]
+		"name" : "Руины",
+		"radiation": 0,
+		"activity": "searching",
+		"items": ["stimpack", "gun10mm"],
+		"mob_ids": ["raider", "raiderlead"]
 	},
 	"rock" : {
-	    "name" : "Одинокая скала",
-	    "radiation": 0,
-	    "items_ids" : [0, 2],
-	    "mob_ids": ["scorpion", "wolf", "geccon"]
+		"name" : "Одинокая скала",
+		"radiation": 0,
+		"items_ids" : [0, 2],
+		"activity": "hunting",
+		"items": ["meat"],
+		"mob_ids": ["scorpion", "wolf", "geccon"]
 	}
 }
