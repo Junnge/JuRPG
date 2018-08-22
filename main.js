@@ -48,6 +48,7 @@ function arrLoad(argument) {
 	} else {
 		inv.add("gun10mm", 1);
 	}
+	console.log(player.location);
 	activity.change(arrLocations[player.location]);
 	status_update('Добро пожаловать в пустошь.'); 
 	console.log('arrays loaded');
@@ -286,6 +287,7 @@ var arrActivities = {
 
 function Activity(){
 	this.change = function(loc){
+		console.log(loc);
 		this.type = loc["activity"];
 		this.items = loc["items"];
 		this.is_cd = false;
