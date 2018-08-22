@@ -9,7 +9,6 @@
 	"rock" : {
 		"name" : "Одинокая скала",
 		"radiation": 0,
-		"items_ids" : [0, 2],
 		"activity": "hunting",
 		"items": ["meat"],
 		"mob_ids": ["scorpion", "wolf", "geccon"]
