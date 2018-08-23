@@ -231,10 +231,12 @@ function Inv() {
 	this.stuff = {};
 	
 	this.remove = function(item, count){
-		if (this.stuff[item] >= count){
+		if (this.stuff[item] > count){
 			this.stuff[item] -= count;
+		} else if (this.stuff[item] == count){
+			delete this.stuff[item];
 		} else {
-		// you can't do this	
+			throw "Not enough items";
 		}
 	}
 	
