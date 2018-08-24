@@ -1,5 +1,15 @@
 var game_version = "1.01";
 
+var special_visible_names = {
+	strength : "Сила",
+	perception : "Наблюдательность",
+	endurance : "Выносливость",
+	charisma : "Харизма",
+	intellegence : "Интеллект",
+	agility : "Ловкость",
+	luck : "Удача"
+};
+
 //ф-я для генерации цельных чисел в диапазоне [min, max]
 
 function randomInt(min, max) { 
@@ -205,35 +215,14 @@ function Player(name){
 	
 	this.special_points = 10;
 	this.special = {
-		strength : {
-			name: "Сила",
-			lvl : 1
-		},
-		perception : {
-			name: "Наблюдательность",
-			lvl : 1
-		},
-		endurance : {
-			name: "Выносливость",
-			lvl : 1
-		},
-		charisma : {
-			name: "Харизма",
-			lvl : 1
-		},
-		intellegence : {
-			name: "Интеллект",
-			lvl : 1
-		},
-		agility : {
-			name: "Ловкость",
-			lvl : 1
-		},
-		luck : {
-			name: "Удача",
-			lvl : 1
-		}
-	}
+		strength : 1,
+		perception : 1,
+		endurance : 1,
+		charisma : 1,
+		intellegence : 1,
+		agility : 1,
+		luck : 1
+};
 	
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
 	this.give_exp = function(x){ 
@@ -255,7 +244,7 @@ function Player(name){
 	}
 		
 	this.set_hp_max = function(argument) {
-		this.hp_max = 100 + this.special.endurance.lvl * 10 + this.lvl * 10;
+		this.hp_max = 100 + this.special.endurance * 10 + this.lvl * 10;
 	}
 	
 	this.full_heal = function(){
@@ -286,9 +275,9 @@ function Player(name){
 	this.show_stats = function() {
 		document.getElementById('special_box').innerHTML = "";
 		for (var spec in this.special) {
-			document.getElementById('special_box').innerHTML += `<br><a>${this.special[spec].name}: ${this.special[spec].lvl}</a>`
-			if (this.special_points > 0 && this.special[spec].lvl <10){
-				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats(); player.set_hp_max(); player.hp_change(10); status_update()">`;
+			document.getElementById('special_box').innerHTML += `<br><a>${special_visible_names[spec]}: ${this.special[spec]}</a>`
+			if (this.special_points > 0 && this.special[spec] <10){
+				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}']++;player.special_points--; player.show_stats(); player.set_hp_max(); player.hp_change(10); status_update()">`;
 			}
 		}
 		document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${this.special_points}`;
@@ -328,11 +317,11 @@ Player.prototype = Object.create(Char.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.get_accuracy = function() {
-	return (1 - 1 / (this.special.agility.lvl + this.special.luck.lvl / 5 + 2)) 
+	return (1 - 1 / (this.special.agility + this.special.luck / 5 + 2)) 
 }
 
 Player.prototype.get_crit_chance = function() {
-	return 0.08 + this.special.luck.lvl / 100
+	return 0.08 + this.special.luck / 100
 }
 
 Player.prototype.get_crit_mult = function() {
@@ -340,10 +329,15 @@ Player.prototype.get_crit_mult = function() {
 }
 
 Player.prototype.get_stealth = function() {
-	return this.special.perception.lvl / 20 + this.special.luck.lvl / 100
+	return this.special.perception / 20 + this.special.luck / 100
 }
 
-
+function NPC(){
+	this.name = null;
+	this.itemlist = null;
+	this.buylist = null;
+	this.dialog = null;
+}
 function Inv() {
 	this.stuff = {};
 	
