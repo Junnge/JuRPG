@@ -91,7 +91,7 @@ function Char(name, hp, max_hp, weapon, armour){
 	this.is_player = 0
 }
 
-Char.prototype.change_hp = function(amount) {
+Char.prototype.hp_change = function(amount) {
 	this.hp += amount;
 	if (this.hp > this.hp_max) this.hp = this.hp_max;
 	if (this.hp < 0) this.hp = 0;
@@ -275,7 +275,7 @@ function Player(name){
 		for (var spec in this.special) {
 			document.getElementById('special_box').innerHTML += `<br><a>${this.special[spec].name}: ${this.special[spec].lvl}</a>`
 			if (this.special_points > 0 && this.special[spec].lvl <10){
-				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats(); player.set_hp_max(); player.heal(10); status_update()">`;
+				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}'].lvl++;player.special_points--; player.show_stats(); player.set_hp_max(); player.hp_change(10); status_update()">`;
 			}
 		}
 		document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${this.special_points}`;
@@ -337,8 +337,13 @@ function Inv() {
 	this.show = function(){
 		document.getElementById('inv_box').innerHTML = '';
 		for (var item in this.stuff) {
-			document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
+			document.getElementById('inv_box').innerHTML += `<br><a>${arrItems[item].name} (${this.stuff[item]})</a>`
+			if (arrItems[item].heal != undefined && this.stuff[item] > 0){
+				document.getElementById('inv_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.hp_change(arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
+			}
 		}
+			//document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
+		
 	}
 
 	this.save = function(){
@@ -511,7 +516,7 @@ function Fight(player){
 		if (damage < 0) {
 			damage = 0;
 		}
-		b.change_hp(-damage);
+		b.hp_change(-damage);
 		status_update(`[${a.name}] нанес [${b.name}] ${damage} урона с помощью [${a.get_weapon_name()}]`);
 		if (b.hp == 0) {
 			b.die();
