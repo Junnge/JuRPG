@@ -1,4 +1,4 @@
-var game_version = "1.01";
+var game_version = "1.02";
 
 var special_visible_names = {
 	strength : "Сила",
