@@ -117,6 +117,18 @@ Char.prototype.get_weapon_name = function() {
 	return this.weapon.name
 }
 
+Char.prototype.get_accuracy = function() {
+	return 0.7
+}
+
+Char.prototype.get_crit_chance = function() {
+	return 0.1
+}
+
+Char.prototype.get_crit_mult = function() {
+	return 3
+}
+
 function Enemy(id){
 	console.log(id)
 	console.log(arrEnemies)
@@ -311,7 +323,20 @@ function Player(name){
 }
 
 Player.prototype = Object.create(Char.prototype);
-Player.prototype.constructor = Enemy;
+Player.prototype.constructor = Player;
+
+Player.prototype.get_accuracy = function() {
+	return (1 - 1 / (this.special.agility.lvl + 2)) 
+}
+
+Player.prototype.get_crit_chance = function() {
+	return 0.08 + this.special.luck.lvl / 100
+}
+
+Player.prototype.get_crit_mult = function() {
+	return 3
+}
+
 
 function Inv() {
 	this.stuff = {};
@@ -448,6 +473,10 @@ function Fight(player){
 		if (this.get_winner() == 'None'){
 			this.turn();
 		}
+		this.check_win()
+	};
+	
+	this.check_win = function(){
 		if (this.get_winner() == 'Player') {
 			status_update('Вы победили в этом сражении.');
 			this.stop()
@@ -455,7 +484,7 @@ function Fight(player){
 			status_update('Спокойной ночи.');
 			this.stop()
 		}
-	};
+	}
 	
 	this.stop = function(){
 		this.started = 0
@@ -512,7 +541,23 @@ function Fight(player){
 	}
 	
 	this.attack = function(a, b, dist){
-		damage = a.get_attack_damage(dist) - b.get_armour();
+		acc = a.get_accuracy();
+		dice = Math.random();
+		/*console.log('____________')
+		console.log(acc)
+		console.log(dice)
+		console.log(a)*/
+		if (acc < dice) {
+			status_update(`[${a.name}] промахнулся`);
+			return;
+		}
+		dice = Math.random();
+		crit = a.get_crit_chance();
+		if (crit > dice) {
+			damage = Math.trunc(a.get_attack_damage(dist) * a.get_crit_mult() - b.get_armour())
+		} else {
+			damage = a.get_attack_damage(dist) - b.get_armour();
+		}
 		if (damage < 0) {
 			damage = 0;
 		}
@@ -591,6 +636,7 @@ function Fight(player){
 				}
 			}
 		}
+		this.check_win()
 		console.log(this)
 	}
 }
