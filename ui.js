@@ -49,3 +49,24 @@ function onWheel(e) {
 	document.getElementById('action_box').scrollTop += delta*3;
 	e.preventDefault ? e.preventDefault() : (e.returnValue = false);
 }
+
+var action_buttons_elements = document.getElementById('action_buttons');
+action_buttons_elements.addEventListener("mouseover", function mo(s){
+	if (s.target.id == 'activity_button') {
+		s.target.src='img/buttons/'+activity.type+'_button_active.png';
+	} else s.target.src='img/buttons/'+s.target.id+'_active.png';
+});
+action_buttons_elements.addEventListener("mouseout", function mo(s){
+	if (s.target.id == 'activity_button') {
+		s.target.src='img/buttons/'+activity.type+'_button_unactive.png';
+	} else s.target.src='img/buttons/'+s.target.id+'_unactive.png';
+});
+
+var stats_buttons_elements = document.getElementById('stats_buttons');
+stats_buttons_elements.addEventListener("mouseover", function mo(s){
+	s.target.src='img/buttons/'+s.target.id+'_active.png';
+});
+stats_buttons_elements.addEventListener("mouseout", function mo(s){
+	s.target.src='img/buttons/'+s.target.id+'_unactive.png';
+});
+

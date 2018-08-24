@@ -1,71 +1,135 @@
-var game_version = "1";
+var game_version = "1.01";
 
 //ф-я для генерации цельных чисел в диапазоне [min, max]
+
 function randomInt(min, max) { 
 	var rand = min - 0.5 + Math.random() * (max - min + 1)
 	rand = Math.round(rand);
 	return rand;
 }
 
-function loadJSON(file, callback, dataarrayid) {
+function loadJSON(file, callback) {
     var rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
     rawFile.open("GET", file, true);
     rawFile.onreadystatechange = function() {
         if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText, dataarrayid);
+            callback(rawFile.responseText, file);
         }
     }
     rawFile.send(null);
 }
 
-function jsoncallback(text, dataarrayid){
-	dataArrays[dataarrayid] = JSON.parse(text);
+function jsoncallback(text, file){
+	dataArrays[file] = JSON.parse(text);
 }
-
 
 var arrEnemies;
 var arrItems;
 var arrLocations;
-var dataArrays = [0,0,0];
-loadJSON("data/items.json", jsoncallback, 0);
-loadJSON("data/enemies.json", jsoncallback, 1);
-loadJSON("data/locations.json", jsoncallback, 2);
+var arrActivities;
+var dataArrays = {};
+console.log("json loading")
+loadJSON("data/items.json", jsoncallback);
+loadJSON("data/enemies.json", jsoncallback);
+loadJSON("data/locations.json", jsoncallback);
+loadJSON("data/activities.json", jsoncallback);
+
 var activity;
 
+
 function arrLoad(argument) {
-	if (dataArrays.some(function(x){return x==0})){
+	if (Object.keys(dataArrays).length != 4){
 		console.log('loading');
 		setTimeout(arrLoad, 10);
 		return 0;
 	}
-	arrItems = dataArrays[0];
-	arrEnemies = dataArrays[1];
-	arrLocations = dataArrays[2]
-	enemyObject.change("emptyenemy");
+	arrItems = dataArrays["data/items.json"];
+	arrEnemies = dataArrays["data/enemies.json"];
+	arrLocations = dataArrays["data/locations.json"];
+	arrActivities = dataArrays["data/activities.json"];
+	//enemyObject.change("emptyenemy");
 	if ("player" in localStorage) {
 		load_all();
 	} else {
 		inv.add("gun10mm", 1);
 	}
-	console.log("after this");
 	activity = new Activity(arrLocations[player.location]);
+	document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 	status_update('Добро пожаловать в пустошь.'); 
 	console.log('arrays loaded');
 }
 arrLoad();
 
-// not to be called as functions but as methods
-function heal(amount){
+
+function Weapon(name, dmg, range) {
+	this.damage = dmg;
+	this.range = range;
+	this.name = name
+}
+
+function BasicWeapon() {
+	Weapon.call(this, 'Basic Weapon', 20, 1);
+}
+
+function Armour(name, armour) {
+	this.armour = armour;
+	this.name = name
+}
+
+function BasicArmour() {
+	Armour.call(this, 'BasicArmour', 0);
+}
+
+
+function Char(name, hp, max_hp, weapon, armour){
+	this.name = name;
+	this.hp = hp;
+	this.hp_max = max_hp;
+	this.weapon = weapon;
+	this.armour = armour;
+	this.is_player = 0
+}
+
+Char.prototype.change_hp = function(amount) {
 	this.hp += amount;
 	if (this.hp > this.hp_max) this.hp = this.hp_max;
-}
-function reduce_hp(damage){
-	this.hp -= damage;
 	if (this.hp < 0) this.hp = 0;
 }
 
-function Enemy(){
+Char.prototype.is_dead = function() {
+	return this.hp == 0;
+}
+
+Char.prototype.get_attack_damage = function() {
+	return this.weapon.damage;
+}
+
+Char.prototype.get_armour = function() {
+	return this.armour.armour;
+}
+
+Char.prototype.get_attack_range = function() {
+	return 9999
+}
+
+Char.prototype.get_weapon_name = function() {
+	return this.weapon.name
+}
+
+function Enemy(id){
+	console.log(id)
+	console.log(arrEnemies)
+	Char.call(	this, 
+				arrEnemies[id].name, 
+				arrEnemies[id].hp, 
+				arrEnemies[id].hp, 
+				new BasicWeapon(), 
+				new BasicArmour());
+	this.id = id;
+	this.exp = arrEnemies[id].exp;
+	this.loot = arrEnemies[id].loot;
+	
 	this.change = function(id){ 
 		this.id = id;
 		this.name = arrEnemies[id].name;
@@ -76,38 +140,55 @@ function Enemy(){
 		this.loot = arrEnemies[id].loot;
 	}
 	
-	this.reduce_hp = reduce_hp;
-	this.heal = heal;
-
-	this.is_dead = function(){
-		return this.hp == 0;
-	}
-
 	this.save = function(){
 		localStorage.enemy = `${this.id} ${this.hp}`;
+	}
+	
+	this.save_to_string = function(){
+		return `${this.id} ${this.hp}`
+	}
+	
+	this.load_from_string = function(s) {
+		var data = s.split(' ');
+		this.change(data[0]);
+		this.hp = Number(data[1]);
 	}
 	
 	this.load = function(){
 		var data = localStorage.enemy.split(' ');
 		this.change(data[0]);
 		this.hp = Number(data[1]);
+		if (this.id != "emptyenemy") {
+			current_fight.init()
+			current_fight.add_fighter(player, 0)
+			current_fight.add_fighter(this, 1)
+		}
+	}
+	
+	this.die = function() {
+		player.give_exp(this.exp);
+		var rand_caps_amount = randomInt(1, 10);
+		var rand_loot = loot(this.loot);
+		inv.add("cap", rand_caps_amount);
+		inv.add(rand_loot, 1);
+		status_update(`Вы убили [${this.name}] и получили ${this.exp} опыта, нашли ${rand_caps_amount} [Крышка] и [${arrItems[rand_loot].name}]`);
+		status_update();  
 	}
 
 }
 
-// объект для заполнения его активным монстром 
-var enemyObject = new Enemy(); 
+Enemy.prototype = Object.create(Char.prototype);
+Enemy.prototype.constructor = Enemy;
 
 	
-function Player(name){  
-	this.name = name;
+function Player(name){
+	Char.call(this, name, 100, 100, new BasicWeapon(), new BasicArmour());
 	this.lvl = 0;
 	this.exp = 0;
 	this.skill_points = 0;
-	this.base_damage = 1;
 	this.location = "ruins";
-	this.hp = 100;
-	this.hp_max = 100;
+	this.is_player = 1
+	this.in_fight = 0
 	
 	this.special_points = 10;
 	this.special = {
@@ -140,8 +221,6 @@ function Player(name){
 			lvl : 1
 		}
 	}
-	this.reduce_hp = reduce_hp;
-	this.heal = heal;
 	
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
 	this.give_exp = function(x){ 
@@ -161,14 +240,13 @@ function Player(name){
 		this.full_heal();
 		status_update(`Теперь вы ${this.lvl} уровня`);
 	}
-	
-	
+		
 	this.set_hp_max = function(argument) {
 		this.hp_max = 100 + this.special.endurance.lvl * 10 + this.lvl * 10;
 	}
 	
 	this.full_heal = function(){
-		this.hp = this.hp_max
+		this.hp = this.hp_max;
 	}
 	
 	//Подсчет необходимиого кол-ва опыта для поднятия уровня 
@@ -177,7 +255,7 @@ function Player(name){
 	}
 
 	this.travel = function(id){
-		if (enemyObject.id != 'emptyenemy') {
+		if (this.in_fight == 1) {
 			show_box('action_box', 'action_button');
 			status_update('Вы в бою!');
 		} else if (activity.is_cd){
@@ -188,8 +266,10 @@ function Player(name){
 			activity = new Activity(arrLocations[id]);
 			show_box('action_box', 'action_button');
 			status_update(`Вы добрались до [${arrLocations[id].name}]`);
+			document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 		} 
 	}
+	
 	this.show_stats = function() {
 		document.getElementById('special_box').innerHTML = "";
 		for (var spec in this.special) {
@@ -224,19 +304,23 @@ function Player(name){
 		this.hp_max = Number(data[8]);
 		this.special = JSON.parse(localStorage.special);
 	}
-
+	
+	this.die = function() {
+		status_update('Вы погибли.')
+	}
 }
+
+Player.prototype = Object.create(Char.prototype);
+Player.prototype.constructor = Enemy;
 
 function Inv() {
 	this.stuff = {};
 	
 	this.remove = function(item, count){
-		if (this.stuff[item] > count){
+		if (this.stuff[item] >= count){
 			this.stuff[item] -= count;
-		} else if (this.stuff[item] == count){
-			delete this.stuff[item];
 		} else {
-			throw "Not enough items";
+		// you can't do this	
 		}
 	}
 	
@@ -264,28 +348,11 @@ function Inv() {
 	}
 }
 
+
 //Создание игрока
 var inv = new Inv();
-var player = new Player('whoever'); 
-
-var arrActivities = {
-
-		"hunting": {
-			"button": "охота",
-			"start": "Вы отправились на охоту. ",
-			"process": "Вы охотитесь. ",
-			"finish": "Вы поймали ящериц, завялили их ",
-			"cd": 15000,
-		},
-		
-		"searching": {
-			"button": "поиск",
-			"start": "Вы начали обыск местности. ",
-			"process": "Вы обыскиваете местность. ",
-			"finish": "Вы нашли ",
-			"cd": 20000,
-		}
-}
+var player = new Player('Путник'); 
+var current_fight = new Fight(player);
 
 function Activity(loc){
 	console.log(loc);
@@ -323,31 +390,207 @@ function start_activity(){
 	activity.go();
 }
 
-//Пуьешествие в постоши, генерация событий 
-function adventure(){	
-	if(enemyObject.id == 'emptyenemy'){
+//Бой с монстром
+function fight(){ 
+	if (current_fight.started == 1) {
+		current_fight.run();
+	}
+}
+	
+//Путешествие в пyстоши, генерация событий 
+function adventure(){
+	if (player.hp == 0){
+		status_update(`Простите, но Вы мертвы`);
+	} else if (current_fight.started == 0){
 		var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
-		enemyObject.change(id);
-		status_update(`Вы встретили [${enemyObject.name}]`);
+		var enemy = new Enemy(id);
+		status_update(`Вы встретили [${enemy.name}]`);
+		current_fight.init();
+		current_fight.add_fighter(player, 0);
+		current_fight.add_fighter(enemy, 1);
 	} else status_update(`Вы в бою!`);
 }
 
-//Бой с монстром
-function fight(){ 
-	if (!enemyObject.is_dead()){
-		var damage = player.base_damage + randomInt(1, 6);
-		enemyObject.reduce_hp(damage);
-		if (enemyObject.is_dead()) {
-			kill_current_enemy();
-		} else {
-			status_update(`Вы нанесли [${enemyObject.name}] ${damage} урона`);
+
+function Fight(player){
+	this.player = player;
+	this.started = 0;
+	this.fighters = [];
+	this.distance = 6;
+	
+	this.init = function(){
+		this.distance = 6;
+		this.fighters = [];
+		this.started = 1;
+		this.player.in_fight = 1;
+	};
+	
+	this.add_fighter = function(fighter, team, coord = 'None'){
+		console.log(coord)
+		if (coord == 'None'){
+			coord = this.distance * team
 		}
+		tmp = {fighter: fighter, team: team, coord: coord}
+		this.fighters.push(tmp);
+		if (fighter === this.player) {
+			this.player_position = tmp
+		}
+	};
+	
+	this.run = function(){
+		if (this.get_winner() == 'None'){
+			this.turn();
+		}
+		if (this.get_winner() == 'Player') {
+			status_update('Вы победили в этом сражении.');
+			this.stop()
+		} else if (this.get_winner() == 'Enemy') {
+			status_update('Спокойной ночи.');
+			this.stop()
+		}
+	};
+	
+	this.stop = function(){
+		this.started = 0
+		this.player.in_fight = 0
+	}
+	
+	this.get_target = function(i){
+		tmp_distance = this.distance + 1;
+		tmp = -1;
+		for (var t = 0; t < this.fighters.length ; t++){
+			j = this.fighters[t]
+			if ((Math.abs(i.coord - j.coord) < tmp_distance) && (i.team != j.team) && (j.fighter.hp > 0)) {
+				tmp_distance = Math.abs(i.coord - j.coord);
+				tmp = j;
+			}
+		}
+		return(tmp)
+	}
+	
+	this.get_player_target_name = function() {
+		tmp = this.get_target(this.player_position)
+		if (tmp == -1){
+			return('Нет врагов')
+		} else {
+			return(tmp.fighter.name)
+		}
+	}
+	
+	this.get_player_target_hp = function() {
+		tmp = this.get_target(this.player_position)
+		if (tmp == -1){
+			return('0')
+		} else {
+			return(tmp.fighter.hp)		
+		}
+	}
+	
+	this.turn = function(){
+		for (var k = 0; k < this.fighters.length ; k++){
+			i = this.fighters[k]
+			if (i.fighter.hp > 0) {
+				tmp = this.get_target(i)
+				tmp_distance = Math.abs(i.coord - tmp.coord)
+				if (i.fighter.hp != 0 && tmp != -1) {
+					if (i.fighter.get_attack_range() < tmp_distance) {
+						this.move_forward(i);
+					} else {
+						this.attack(i.fighter, tmp.fighter);
+					}
+				
+				}
+			}
+		}
+	}
+	
+	this.attack = function(a, b, dist){
+		damage = a.get_attack_damage(dist) - b.get_armour();
+		if (damage < 0) {
+			damage = 0;
+		}
+		b.change_hp(-damage);
+		status_update(`[${a.name}] нанес [${b.name}] ${damage} урона с помощью [${a.get_weapon_name()}]`);
+		if (b.hp == 0) {
+			b.die();
+		}
+	}
+	
+	this.move_forward = function(a) {
+		if (a.team == 0) {
+			a.coord += 1
+		}
+		else {
+			a.coord -= 1
+		}
+		status_update(`[${a.fighter.name}] продвинулся вперёд`);
+	}
+	
+	this.get_winner = function(){
+		flag_0 = 1;
+		flag_1 = 1;
+		for (var k = 0; k < this.fighters.length ; k++){
+			i = this.fighters[k]
+			if ((i.fighter.hp != 0) && (i.team == 0)){
+				flag_0 = 0;
+			}
+			if ((i.fighter.hp != 0) && (i.team == 1)){
+				flag_1 = 0;
+			} 
+		}
+		if ((flag_0 == 0) && (flag_1 == 0)){
+			return('None');
+		}
+		if (flag_0 == 0){
+			return('Player');
+		}
+		if (flag_1 == 0){
+			return('Enemy');
+		}
+	}
+	
+	this.save = function() {
+		var arr = [];
+		for (var k = 0; k < this.fighters.length ; k++){
+			i = this.fighters[k]
+			if (i.fighter.is_player == 0) {
+				arr.push(i.fighter.save_to_string() + ` ${i.team} ${i.coord}`);
+			} else {
+				arr.push(`@player 0 ${i.team} ${i.coord}`)
+			}
+				
+		}
+		console.log('fight array')
+		console.log(arr)
+		localStorage.fight = arr.join('^');
+	}
+	
+	this.load = function(player) {
+		this.player = player
+		arr = localStorage.fight.split('^');
+		this.fighters = [];
+		if (arr[0] != "") {
+			this.started = 1
+			for (var k = 0; k < arr.length ; k++){
+				i = arr[k]
+				tmp_arr = i.split(' ');
+				console.log(tmp_arr)
+				if (tmp_arr[0] != '@player') {
+					tmp = new Enemy(tmp_arr[0]);	
+					tmp.load_from_string(`${tmp_arr[0]} ${tmp_arr[1]}`);
+					this.add_fighter(tmp, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]));
+				} else {
+					this.add_fighter(this.player, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]))
+				}
+			}
+		}
+		console.log(this)
 	}
 }
 
 
 //Смерть монстра, выдача опыта и сброс объкта
-function kill_current_enemy(){ 
+/*function kill_current_enemy(){ 
 	player.give_exp(enemyObject.exp);
 	var rand_caps_amount = randomInt(1, 10);
 	var rand_loot = loot(enemyObject.loot);
@@ -356,12 +599,13 @@ function kill_current_enemy(){
 	status_update(`Вы убили [${enemyObject.name}] и получили ${enemyObject.exp} опыта, нашли ${rand_caps_amount} [Крышка] и [${arrItems[rand_loot].name}]`);
 	enemyObject.change("emptyenemy");     
 	status_update();  
-}
+}*/
 
 function load_all(){
 	if(localStorage.version == game_version){
 		player.load();
-		enemyObject.load();
+		//enemyObject.load();
+		current_fight.load(player)
 		inv.load();
 		console.log('save loaded');
 		status_update('Загружено сохранение!');
@@ -374,17 +618,18 @@ function load_all(){
 function save_all(){
 	localStorage.version = game_version;
 	player.save();
-	enemyObject.save();
+	//enemyObject.save();
+	current_fight.save()
 	inv.save();
 	console.log('games saved');
 	status_update('Игра сохранена!');
 }
-
 function reset(){
 	localStorage.removeItem("enemy");
 	localStorage.removeItem("player");
 	localStorage.removeItem("inv");
 	localStorage.removeItem("special");
+	localStorage.removeItem("fight");
 	document.location.reload(true);
 }
 
@@ -394,9 +639,9 @@ setInterval(save_all, 60000);
 function status_update(text) { 
 	if (text!=undefined) {document.getElementById('action_box').innerHTML += "<p>" + text + "</p>";}	
 	document.getElementById('exp_bar').innerHTML = "Опыт: " + player.exp + " | " + player.get_next_lvl_exp();
-	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+enemyObject.hp;
-	document.getElementById('health_bar_hero').innerHTML = "Здоровье: "+player.hp;
-	document.getElementById('enemy_name').innerHTML = "Имя: "+enemyObject.name;
+	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+current_fight.get_player_target_hp();
+	document.getElementById('health_bar_hero').innerHTML = "Здоровье: "+player.hp + "|" + player.hp_max;
+	document.getElementById('enemy_name').innerHTML = "Имя: "+current_fight.get_player_target_name();
 	document.getElementById('action_box').scrollTop = 9999;
 }
 
@@ -432,3 +677,4 @@ function loot(lootlist){
 	console.log(sums, rand);*/
 
 }
+

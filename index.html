@@ -3,38 +3,27 @@
 <head>
 	<title>JuRPG</title>
 	<meta charset="utf-8" />
-	<link type="text/css" rel="stylesheet" href="style.css" /> 
 	<link type="text/css" rel="stylesheet" href="reset.css" /> 
-	<link rel="shortcut icon" type="image/x-icon" href="img/icon.ico" />
+	<link rel="stylesheet" href="fonts/stylesheet.css" type="text/css" charset="utf-8" />
+	<link type="text/css" rel="stylesheet" href="style.css" /> 
+	<link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
 </head>
 <body onload="show_box('action_box', 'action_button')">
 <div id="main_box">
 	<div id="content_box">
 		<div id="action_box"></div>
 		<div id="action_buttons">
-			<img src="img/buttons/hunt_button_unactive.png" id="hunt_button" onclick="start_activity()"
-			 onmouseover="document.getElementById('hunt_button').src='img/buttons/hunt_button_active.png'"
-			 onmouseout="document.getElementById('hunt_button').src='img/buttons/hunt_button_unactive.png'"></img>
-			 <img src="img/buttons/search_button_unactive.png" id="search_button" onclick="start_activity()"
-			 onmouseover="document.getElementById('search_button').src='img/buttons/search_button_active.png'"
-			 onmouseout="document.getElementById('search_button').src='img/buttons/search_button_unactive.png'"></img>
-			 <img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()"
-			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
-			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img>
-			 <img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()"
-			 onmouseover="document.getElementById('fight_button').src='img/buttons/fight_button_active.png'"
-			 onmouseout="document.getElementById('fight_button').src='img/buttons/fight_button_unactive.png'"></img>
+			<img src="" id="activity_button" class="a_button" onclick="start_activity()"></img>
+			 <img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()"></img>
+			 <img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()"></img>
 		</div>
 		<div id="stats_buttons">
-			<img src="img/buttons/hero_button_unactive.png" id="hero_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"
-			 onmouseover="document.getElementById('hero_button').src='img/buttons/hero_button_active.png'"
-			 onmouseout="document.getElementById('hero_button').src='img/buttons/hero_button_unactive.png'"></img>
-			 <img src="img/buttons/inv_button_unactive.png" id="inv_button" onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()"
-			 onmouseover="document.getElementById('inv_button').src='img/buttons/inv_button_active.png'"
-			 onmouseout="document.getElementById('inv_button').src='img/buttons/inv_button_unactive.png'"></img>
-			 <img src="img/buttons/statistics_button_unactive.png" id="statistics_button" onclick="show_box('statistics_box', 'stats_button', 'statistics_button')"
-			 onmouseover="document.getElementById('statistics_button').src='img/buttons/statistics_button_active.png'"
-			 onmouseout="document.getElementById('statistics_button').src='img/buttons/statistics_button_unactive.png'"></img>
+			<img src="img/buttons/hero_button_unactive.png" id="hero_button"
+			  onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"></img>
+			 <img src="img/buttons/inv_button_unactive.png" id="inv_button"
+			  onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()"></img>
+			 <img src="img/buttons/statistics_button_unactive.png" id="statistics_button"
+			  onclick="show_box('statistics_box', 'stats_button', 'statistics_button')"></img>
 			 <!--<img src="img/buttons/settings_button_unactive.png" id="settings_button" onclick="show_box('stats_box', 'stats_button', 'settings_button')"
 			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
 			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img> -->
