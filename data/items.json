@@ -8,7 +8,7 @@
 		"price" : 150
 	},
 	"gun10mm_bullets" : {
-		"name" : "Патроны для 10мм пистолета",
+		"name" : "10мм патроны",
 		"price" : 10
 	},
 	"stimpack" : {
