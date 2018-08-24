@@ -89,6 +89,7 @@ function Char(name, hp, max_hp, weapon, armour){
 	this.weapon = weapon;
 	this.armour = armour;
 	this.is_player = 0
+	this.next_attack_is_crit = false
 }
 
 Char.prototype.hp_change = function(amount) {
@@ -297,7 +298,7 @@ function Player(name){
 	}
 
 	this.save = function(){
-		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max];
+		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
 		console.log(JSON.stringify(this.special));
@@ -314,6 +315,7 @@ function Player(name){
 		this.special_points = Number(data[6]);
 		this.hp = Number(data[7]);
 		this.hp_max = Number(data[8]);
+		this.next_attack_is_crit = Boolean(data[9])
 		this.special = JSON.parse(localStorage.special);
 	}
 	
@@ -326,7 +328,7 @@ Player.prototype = Object.create(Char.prototype);
 Player.prototype.constructor = Player;
 
 Player.prototype.get_accuracy = function() {
-	return (1 - 1 / (this.special.agility.lvl + 2)) 
+	return (1 - 1 / (this.special.agility.lvl + this.special.luck.lvl / 5 + 2)) 
 }
 
 Player.prototype.get_crit_chance = function() {
@@ -335,6 +337,10 @@ Player.prototype.get_crit_chance = function() {
 
 Player.prototype.get_crit_mult = function() {
 	return 3
+}
+
+Player.prototype.get_stealth = function() {
+	return this.special.perception.lvl / 20 + this.special.luck.lvl / 100
 }
 
 
@@ -437,10 +443,21 @@ function adventure(){
 		var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
 		var enemy = new Enemy(id);
 		status_update(`Вы встретили [${enemy.name}]`);
+		tmp = stealth_roll()
+		if (tmp) {
+			status_update(`Вам удалось подкрасться незаметно. Следующий Ваш удар будет критическим.`);
+			player.next_attack_is_crit = true
+		}
 		current_fight.init();
 		current_fight.add_fighter(player, 0);
 		current_fight.add_fighter(enemy, 1);
+		status_update()
 	} else status_update(`Вы в бою!`);
+}
+
+function stealth_roll(){
+	dice = Math.random()
+	return (player.get_stealth() > dice)
 }
 
 
@@ -547,14 +564,15 @@ function Fight(player){
 		console.log(acc)
 		console.log(dice)
 		console.log(a)*/
-		if (acc < dice) {
+		if (acc < dice && !a.next_attack_is_crit) {
 			status_update(`[${a.name}] промахнулся`);
 			return;
 		}
 		dice = Math.random();
 		crit = a.get_crit_chance();
-		if (crit > dice) {
+		if (crit > dice | a.next_attack_is_crit) {
 			damage = Math.trunc(a.get_attack_damage(dist) * a.get_crit_mult() - b.get_armour())
+			a.next_attack_is_crit = false
 		} else {
 			damage = a.get_attack_damage(dist) - b.get_armour();
 		}
