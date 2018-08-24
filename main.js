@@ -649,7 +649,7 @@ function status_update(text) {
 	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+current_fight.get_player_target_hp();
 	document.getElementById('health_bar_hero').innerHTML = "Здоровье: "+player.hp + "|" + player.hp_max;
 	document.getElementById('enemy_name').innerHTML = "Имя: "+current_fight.get_player_target_name();
-	document.getElementById('action_box').scrollTop = 9999;
+	document.getElementById('action_box').scrollTop = 999999;
 }
 
 function loot(lootlist){
