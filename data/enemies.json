@@ -26,7 +26,7 @@
 	    ]
 	},
 	"geccon" : {
-		"name" : "Геккон",
+		"name" : "Ящер",
 		"hp" : 30,
 		"dmg" : 2,
 		"exp" : 4,
@@ -41,8 +41,9 @@
 		"dmg" : 4,
 		"exp" : 10,
 		"loot" : [
-		    {"item": "gun10mm", "rare": 8},
-		    {"item": "stimpack", "rare": 20}
+			{"item": "gun10mm_bullets", "rare": 40},
+			{"item": "gun10mm", "rare": 4},
+			{"item": "stimpack", "rare": 10}
 	    ]
 	},
 	"raiderlead" : {
@@ -51,9 +52,10 @@
 		"dmg" : 6,
 		"exp" : 30,
 		"loot" : [
-	    	{"item": "leatherarmor", "rare": 1},
-		    {"item": "gun10mm", "rare": 8},
-		    {"item": "stimpack", "rare": 20}
+			{"item": "leatherarmor", "rare": 1},
+			{"item": "gun10mm_bullets", "rare": 40},
+			{"item": "gun10mm", "rare": 5},
+			{"item": "stimpack", "rare": 15}
 	    ]
 	}
 }
