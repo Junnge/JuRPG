@@ -8,16 +8,18 @@
 		"price" : 150
 	},
 	"stimpack" : {
-		"name" : "Стимпак",
-		"price" : 50
+		"name": "Стимулятор",
+		"price": 50,
+		"heal": 40
 	},
 	"leatherarmor" : {
 		"name" : "Кожаная броня",
 		"price" : 500
 	},
 	"meat" : {
-		"name" : "Мясо",
-		"price" : 10
+		"name": "Мясо",
+		"price": 10,
+		"heal": 10
 	},
 	"radtail" : {
 		"name" : "Хвост радскорпиона",
