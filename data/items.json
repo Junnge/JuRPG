@@ -7,6 +7,10 @@
 		"name" : "10мм пистолет",
 		"price" : 150
 	},
+	"gun10mm_bullets" : {
+		"name" : "Патроны для 10мм пистолета",
+		"price" : 10
+	},
 	"stimpack" : {
 		"name": "Стимулятор",
 		"price": 50,
@@ -14,7 +18,8 @@
 	},
 	"leatherarmor" : {
 		"name" : "Кожаная броня",
-		"price" : 500
+		"price" : 500,
+		"armor": 5
 	},
 	"meat" : {
 		"name": "Мясо",
@@ -26,7 +31,7 @@
 		"price" : 100
 	},
 	"gecleather" : {
-		"name" : "Шкура геккона",
+		"name" : "Шкура ящера",
 		"price" : 100
 	},
 	"wolfleather" : {
