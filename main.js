@@ -273,6 +273,26 @@ function Player(name){
 		document.getElementById('info_box').innerHTML = "";
 		document.getElementById('info_box').innerHTML += `<p>Уровень: ${this.lvl}`;
 	}
+	this.slots = {"head": null, "body": null};
+	this.equip = function(id){
+        var item = arrItems[id];
+        if (item.slot == 'weapon'){
+            this.weapon = new Weapon(id);
+        } else if (item.slot in Object.keys(this.slots)){
+            this.slots[item.slot] = id;
+        }
+        inv.remove(id, 1);
+    }
+    this.unequip = function(slot_id){
+        if (slot_id == 'weapon') {
+            inv.add(this.weapon.id, 1)
+            this.weapon = new Weapon("fists");
+        } else {
+            inv.add(this.slots[slot_id], 1);
+            this.slots[slot_id] = null;
+        }
+        inv.add()
+    }
 
 	this.save = function(){
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
@@ -348,11 +368,11 @@ function Inv() {
 	}
 
 	this.show = function(){
-		document.getElementById('inv_box').innerHTML = '';
+		document.getElementById('stuff_box').innerHTML = '';
 		for (var item in this.stuff) {
-			document.getElementById('inv_box').innerHTML += `<br><a>${arrItems[item].name} (${this.stuff[item]})</a>`
+			document.getElementById('stuff_box').innerHTML += `<br><a>${arrItems[item].name} (${this.stuff[item]})</a>`
 			if (arrItems[item].heal != undefined && this.stuff[item] > 0){
-				document.getElementById('inv_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.hp_change(arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
+				document.getElementById('stuff_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.hp_change(arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
 			}
 		}
 			//document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";

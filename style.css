@@ -158,15 +158,45 @@
 	visibility: hidden;
 	position: absolute;
 	top: 0;
-	overflow: hidden;
 }
-#inv_box > p{
+#stuff_box > a{
 	margin-left: 10px;
 	margin-top: 10px;
 	width: 300px;
 }
-#inv_box > p:hover{
-	text-decoration: underline;
+#stuff_box > p{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
+#stuff_box{
+	top: 10px;
+	left: 10px;
+	width: 247px;
+	height: 328px;
+	border: 1px solid #23FB8E;
+	position: absolute;
+}
+#item_info_box{
+	top: 10px;
+	left: 271px;
+	width: 247px;
+	height: 220px;
+	border: 1px solid #23FB8E;
+	position: absolute;
+}
+#item_info_box > p{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 300px;
+}
+#equip_box{
+	top: 243px;
+	left: 271px;
+	width: 247px;
+	height: 94px;
+	border: 1px solid #23FB8E;
+	position: absolute;
 }
 #statistics_box{
 	border: 1px solid #23FB8E;
