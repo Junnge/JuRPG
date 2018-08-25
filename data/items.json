@@ -5,7 +5,13 @@
 	},
 	"gun10mm" : {
 		"name" : "10мм пистолет",
-		"price" : 150
+		"price" : 150,
+		"damage": 25
+	},
+	"fangs" : {
+		"name" : "Клыки",
+		"price" : 2,
+		"damage" : 15
 	},
 	"gun10mm_bullets" : {
 		"name" : "10мм патроны",
