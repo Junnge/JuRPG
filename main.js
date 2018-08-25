@@ -370,7 +370,7 @@ function Inv() {
 	this.show = function(){
 		document.getElementById('stuff_box').innerHTML = '';
 		for (var item in this.stuff) {
-			document.getElementById('stuff_box').innerHTML += `<br><a>${arrItems[item].name} (${this.stuff[item]})</a>`
+			document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" onclick="player.unequip('${arrItems[item].slot}'); player.equip('${item}')">${arrItems[item].name} (${this.stuff[item]})</a>`
 			if (arrItems[item].heal != undefined && this.stuff[item] > 0){
 				document.getElementById('stuff_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.hp_change(arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
 			}

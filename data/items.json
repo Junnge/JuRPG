@@ -6,7 +6,14 @@
 	"gun10mm" : {
 		"name" : "10мм пистолет",
 		"price" : 150,
-		"damage": 25
+		"damage": 25,
+		"slot" : "weapon"
+	},
+	"fists" : {
+		"name" : "10мм пистолет",
+		"price" : 150,
+		"damage": 25,
+		"slot" : "weapon"
 	},
 	"fangs" : {
 		"name" : "Клыки",
