@@ -62,6 +62,7 @@ function arrLoad(argument) {
 
 
 function Weapon(id) {
+	this.id = id;
 	this.damage = arrItems[id].damage;
 	this.range = 1;
 	this.name = arrItems[id].name;
@@ -200,7 +201,7 @@ function Player(name){
 	this.location = "ruins";
 	this.is_player = 1
 	this.in_fight = 0
-	
+	this.slots = {"head": null, "body": null};
 	this.special_points = 10;
 	this.special = {
 		strength : 1,
@@ -273,26 +274,25 @@ function Player(name){
 		document.getElementById('info_box').innerHTML = "";
 		document.getElementById('info_box').innerHTML += `<p>Уровень: ${this.lvl}`;
 	}
-	this.slots = {"head": null, "body": null};
+
 	this.equip = function(id){
-        var item = arrItems[id];
-        if (item.slot == 'weapon'){
-            this.weapon = new Weapon(id);
-        } else if (item.slot in Object.keys(this.slots)){
-            this.slots[item.slot] = id;
-        }
-        inv.remove(id, 1);
-    }
-    this.unequip = function(slot_id){
-        if (slot_id == 'weapon') {
-            inv.add(this.weapon.id, 1)
-            this.weapon = new Weapon("fists");
-        } else {
-            inv.add(this.slots[slot_id], 1);
-            this.slots[slot_id] = null;
-        }
-        inv.add()
-    }
+		var item = arritems[id];
+		if (item.slot == 'weapon'){
+			this.weapon = new Weapon(id);
+		} else if (item.slot in Object.keys(this.slots)){
+			this.slots[item.slot] = id;
+		}
+		inv.remove(id, 1);
+	}
+	this.unequip = function(slot_id){
+		if (slot_id == 'weapon' && this.weapon.id != "fists") {
+			inv.add(this.weapon.id, 1);
+			this.weapon = new Weapon("fists");
+		} else {
+			inv.add(this.slots[slot_id], 1);
+			this.slots[slot_id] = null;
+		}
+	}
 
 	this.save = function(){
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
