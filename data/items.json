@@ -13,6 +13,11 @@
 		"price" : 2,
 		"damage" : 15
 	},
+	"basicweapon" : {
+		"name" : "Слово Божье",
+		"price" : 0,
+		"damage" : 10
+	},
 	"gun10mm_bullets" : {
 		"name" : "10мм патроны",
 		"price" : 10
