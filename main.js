@@ -1,4 +1,4 @@
-var game_version = "1.01";
+var game_version = "1.02";
 
 var special_visible_names = {
 	strength : "Сила",
@@ -34,19 +34,6 @@ function jsoncallback(text, file){
 	dataArrays[file] = JSON.parse(text);
 }
 
-var arrEnemies;
-var arrItems;
-var arrLocations;
-var arrActivities;
-var dataArrays = {};
-console.log("json loading")
-loadJSON("data/items.json", jsoncallback);
-loadJSON("data/enemies.json", jsoncallback);
-loadJSON("data/locations.json", jsoncallback);
-loadJSON("data/activities.json", jsoncallback);
-
-var activity;
-
 
 function arrLoad(argument) {
 	if (Object.keys(dataArrays).length != 4){
@@ -59,6 +46,9 @@ function arrLoad(argument) {
 	arrLocations = dataArrays["data/locations.json"];
 	arrActivities = dataArrays["data/activities.json"];
 	//enemyObject.change("emptyenemy");
+	inv = new Inv();
+	player = new Player('Путник'); 
+	current_fight = new Fight(player);
 	if ("player" in localStorage) {
 		load_all();
 	} else {
@@ -69,8 +59,6 @@ function arrLoad(argument) {
 	status_update('Добро пожаловать в пустошь.'); 
 	console.log('arrays loaded');
 }
-arrLoad();
-
 
 
 function Weapon(id) {
@@ -380,11 +368,6 @@ function Inv() {
 	}
 }
 
-
-//Создание игрока
-var inv = new Inv();
-var player = new Player('Путник'); 
-var current_fight = new Fight(player);
 
 function Activity(loc){
 	console.log(loc);
@@ -740,4 +723,20 @@ function loot(lootlist){
 		}
 	}
 	console.log(sums, rand);*/
+
 }
+
+var activity;
+var player;
+var current_fight;
+var arrEnemies;
+var arrItems;
+var arrLocations;
+var arrActivities;
+var dataArrays = {};
+console.log("json loading")
+loadJSON("data/items.json", jsoncallback);
+loadJSON("data/enemies.json", jsoncallback);
+loadJSON("data/locations.json", jsoncallback);
+loadJSON("data/activities.json", jsoncallback);
+arrLoad();
