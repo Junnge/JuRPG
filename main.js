@@ -135,7 +135,7 @@ function Enemy(id){
 				arrEnemies[id].name, 
 				arrEnemies[id].hp, 
 				arrEnemies[id].hp, 
-				new Weapon(weapon), 
+				new Weapon(weapon_id), 
 				new BasicArmour());
 	this.id = id;
 	this.exp = arrEnemies[id].exp;
