@@ -1,4 +1,4 @@
-var game_version = "1.02";
+var game_version = "1.01";
 
 var special_visible_names = {
 	strength : "Сила",
@@ -72,15 +72,13 @@ function arrLoad(argument) {
 arrLoad();
 
 
-function Weapon(name, dmg, range) {
-	this.damage = dmg;
-	this.range = range;
-	this.name = name
+
+function Weapon(id) {
+	this.damage = arrItems[id].damage;
+	this.range = 1;
+	this.name = arrItems[id].name;
 }
 
-function BasicWeapon() {
-	Weapon.call(this, 'Basic Weapon', 20, 1);
-}
 
 function Armour(name, armour) {
 	this.armour = armour;
@@ -98,8 +96,8 @@ function Char(name, hp, max_hp, weapon, armour){
 	this.hp_max = max_hp;
 	this.weapon = weapon;
 	this.armour = armour;
-	this.is_player = 0
-	this.next_attack_is_crit = false
+	this.is_player = 0;
+	this.next_attack_is_crit = false;
 }
 
 Char.prototype.hp_change = function(amount) {
@@ -143,11 +141,13 @@ Char.prototype.get_crit_mult = function() {
 function Enemy(id){
 	console.log(id)
 	console.log(arrEnemies)
+	var weapon_id = arrEnemies[id].weapon;
+	if (weapon_id == undefined) weapon_id = "basicweapon";
 	Char.call(	this, 
 				arrEnemies[id].name, 
 				arrEnemies[id].hp, 
 				arrEnemies[id].hp, 
-				new BasicWeapon(), 
+				new Weapon(weapon), 
 				new BasicArmour());
 	this.id = id;
 	this.exp = arrEnemies[id].exp;
@@ -205,7 +205,7 @@ Enemy.prototype.constructor = Enemy;
 
 	
 function Player(name){
-	Char.call(this, name, 100, 100, new BasicWeapon(), new BasicArmour());
+	Char.call(this, name, 100, 100, new Weapon("gun10mm"), new BasicArmour());
 	this.lvl = 0;
 	this.exp = 0;
 	this.skill_points = 0;
@@ -740,6 +740,4 @@ function loot(lootlist){
 		}
 	}
 	console.log(sums, rand);*/
-
 }
-
