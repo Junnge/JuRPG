@@ -7,12 +7,18 @@
 		"name" : "10мм пистолет",
 		"price" : 150,
 		"damage": 25,
-		"slot" : "weapon"
+		"slot": "weapon"
 	},
 	"fists" : {
-		"name" : "10мм пистолет",
+		"name" : "Кулаки",
+		"price" : 0,
+		"damage": 5,
+		"slot": "weapon"
+	},
+	"sniperifle" : {
+		"name" : "Снайперская винтовка",
 		"price" : 150,
-		"damage": 25,
+		"damage" : 30,
 		"slot" : "weapon"
 	},
 	"fangs" : {
