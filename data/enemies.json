@@ -9,6 +9,7 @@
 		"name" : "Койот",
 		"hp" : 25,
 		"dmg" : 1,
+		"weapon": "fangs",
 		"exp": 3,
 		"loot" : [
 		    {"item": "wolfleather", "rare": 1},
@@ -39,6 +40,7 @@
 		"name" : "Рейдер",
 		"hp" : 50,
 		"dmg" : 4,
+		"weapon": "gun10mm",
 		"exp" : 10,
 		"loot" : [
 			{"item": "gun10mm_bullets", "rare": 40},
@@ -50,6 +52,7 @@
 		"name" : "Лидер рейдеров",
 		"hp" : 70,
 		"dmg" : 6,
+		"weapon": "gun10mm",
 		"exp" : 30,
 		"loot" : [
 			{"item": "leatherarmor", "rare": 1},
