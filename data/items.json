@@ -6,7 +6,20 @@
 	"gun10mm" : {
 		"name" : "10мм пистолет",
 		"price" : 150,
-		"damage": 25
+		"damage": 25,
+		"slot": "weapon"
+	},
+	"fists" : {
+		"name" : "Кулаки",
+		"price" : 0,
+		"damage": 5,
+		"slot": "weapon"
+	},
+	"sniperifle" : {
+		"name" : "Снайперская винтовка",
+		"price" : 150,
+		"damage" : 30,
+		"slot" : "weapon"
 	},
 	"fangs" : {
 		"name" : "Клыки",
@@ -16,7 +29,7 @@
 	"basicweapon" : {
 		"name" : "Слово Божье",
 		"price" : 0,
-		"damage" : 10
+		"damage" : 10,
 	},
 	"gun10mm_bullets" : {
 		"name" : "10мм патроны",
