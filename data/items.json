@@ -1,13 +1,15 @@
 {
 	"cap" : {
 		"name" : "Крышка",
-		"price" : 1
+		"price" : 1,
+		"description": "Универсальное платёжное средство."
 	},
 	"gun10mm" : {
 		"name" : "10мм пистолет",
 		"price" : 150,
 		"damage": 25,
-		"slot": "weapon"
+		"slot": "weapon",
+		"description": "Это просто пушка."
 	},
 	"fists" : {
 		"name" : "Кулаки",
@@ -33,7 +35,8 @@
 	},
 	"gun10mm_bullets" : {
 		"name" : "10мм патроны",
-		"price" : 10
+		"price" : 10,
+		"description": "Хреново, когда кончаются."
 	},
 	"stimpack" : {
 		"name": "Стимулятор",
@@ -43,12 +46,14 @@
 	"leatherarmor" : {
 		"name" : "Кожаная броня",
 		"price" : 500,
-		"armor": 5
+		"armor": 5,
+		"description": "Психологическая защита для вашего тела."
 	},
 	"meat" : {
 		"name": "Мясо",
 		"price": 10,
-		"heal": 10
+		"heal": 10,
+		"description": "Очень вкусно."
 	},
 	"radtail" : {
 		"name" : "Хвост радскорпиона",
