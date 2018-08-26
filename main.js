@@ -291,7 +291,7 @@ function Player(name){
 			inv.add(this.weapon.id, 1);
 			console.log('[',this.weapon.id,']unequiped')
 			this.weapon = new Weapon("fists");
-		} else {
+		} else if(slot_id in Object.keys(this.slots)){
 			inv.add(this.slots[slot_id], 1);
 			console.log('[',this.slots[slot_id],']unequiped')
 			this.slots[slot_id] = null;
@@ -374,11 +374,20 @@ function Inv() {
 	this.show = function(){
 		document.getElementById('stuff_box').innerHTML = '';
 		for (var item in this.stuff) {
-			document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" onclick="player.unequip('${arrItems[item].slot}'); player.equip('${item}')">${arrItems[item].name} (${this.stuff[item]})</a>`
+			console.log(arrItems[item].slot)
+			if (arrItems[item].slot != undefined){
+				document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" onclick="player.unequip('${arrItems[item].slot}'); player.equip('${item}')
+				inv.show()" >${arrItems[item].name} (${this.stuff[item]})</a>`
+			} else document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" >${arrItems[item].name} (${this.stuff[item]})</a>`
 			if (arrItems[item].heal != undefined && this.stuff[item] > 0){
 				document.getElementById('stuff_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.hp_change(arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
 			}
 		}
+
+		document.getElementById('equip_box').innerHTML = '';
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('weapon'); inv.show()">Оружие: [${player.weapon.name}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('haed'); inv.show()">Шлем: [${player.slots.head}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('body'); inv.show()">Броня: [${player.slots.body}]</a><br>`;
 			//document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
 		
 	}
