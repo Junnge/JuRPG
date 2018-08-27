@@ -1,3 +1,13 @@
+var special_visible_names = {
+	strength : "Сила",
+	perception : "Наблюдательность",
+	endurance : "Выносливость",
+	charisma : "Харизма",
+	intellegence : "Интеллект",
+	agility : "Ловкость",
+	luck : "Удача"
+};
+
 //Отображение элементов интерфейса 
 function show_box(box, button, button2) {
 document.getElementById('action_button').src = "img/buttons/button_unactive.png";
@@ -24,6 +34,29 @@ document.getElementById(button).src = "img/buttons/button_active.png";
 		//if (button2 == 'settings_button') {document.getElementById('settings_box').style = "visibility: visible;"}
 	}
 }
+
+function raise_special_level(player, special){
+	player.special[special]++;
+	player.special_points--; 
+	show_player_stats(player); 
+	player.set_hp_max(); 
+	player.hp_change(10); 
+	status_update();
+}
+
+function show_player_stats(player) { // former Player.show_stats
+	document.getElementById('special_box').innerHTML = "";
+	for (var spec in player.special) {
+		document.getElementById('special_box').innerHTML += `<br><a>${special_visible_names[spec]}: ${player.special[spec]}</a>`
+		if (player.special_points > 0 && player.special[spec] <10){
+			document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick=`raise_special_level(player, "${spec}">`;
+		}
+	}
+	document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${player.special_points}`;
+
+	document.getElementById('info_box').innerHTML = "";
+	document.getElementById('info_box').innerHTML += "<p>Уровень: ${player.lvl}`;
+	}
 
 //Очень страшная ф-я для обработки колесика мышки
 var elem = document.getElementById('action_box');
