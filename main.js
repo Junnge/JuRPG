@@ -45,6 +45,7 @@ function arrLoad(argument) {
 	arrEnemies = dataArrays["data/enemies.json"];
 	arrLocations = dataArrays["data/locations.json"];
 	arrActivities = dataArrays["data/activities.json"];
+	arrNpcs = dataArrays["data/npcs.json"];
 	//enemyObject.change("emptyenemy");
 	inv = new Inv();
 	player = new Player('Путник'); 
@@ -344,12 +345,7 @@ Player.prototype.get_stealth = function() {
 	return this.special.perception / 20 + this.special.luck / 100
 }
 
-function NPC(){
-	this.name = null;
-	this.itemlist = null;
-	this.buylist = null;
-	this.dialog = null;
-}
+
 function Inv() {
 	this.stuff = {};
 	
@@ -766,10 +762,12 @@ var arrEnemies;
 var arrItems;
 var arrLocations;
 var arrActivities;
+var arrNpcs;
 var dataArrays = {};
 console.log("json loading")
 loadJSON("data/items.json", jsoncallback);
 loadJSON("data/enemies.json", jsoncallback);
 loadJSON("data/locations.json", jsoncallback);
 loadJSON("data/activities.json", jsoncallback);
+loadJSON("data/npcs.json", jsoncallback);
 arrLoad();
