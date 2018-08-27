@@ -200,6 +200,7 @@ function Player(name){
 	this.exp = 0;
 	this.skill_points = 0;
 	this.location = "ruins";
+	this.sex = "boy";
 	this.is_player = 1
 	this.in_fight = 0
 	this.slots = {"head": null, "body": null};
@@ -317,7 +318,7 @@ function Player(name){
 		this.special_points = Number(data[6]);
 		this.hp = Number(data[7]);
 		this.hp_max = Number(data[8]);
-		this.next_attack_is_crit = Boolean(data[9])
+		this.next_attack_is_crit = Boolean(data[9]);
 		this.special = JSON.parse(localStorage.special);
 	}
 	
@@ -365,6 +366,16 @@ function Inv() {
 		} else {
 			this.stuff[item] = count
 		}
+	}
+	
+	this.buy = function(item, price, amount){
+		this.remove("cap", price*amount);
+		this.add(item, amount);
+	}
+
+	this.sell = function(item, price, amount){
+		this.remove(item, amount);
+		this.add("cap", price*amount);
 	}
 
 	this.show = function(){
