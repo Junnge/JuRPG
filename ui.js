@@ -55,7 +55,7 @@ function show_player_stats(player) { // former Player.show_stats
 	document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${player.special_points}`;
 
 	document.getElementById('info_box').innerHTML = "";
-	document.getElementById('info_box').innerHTML += "<p>Уровень: ${player.lvl}`;
+	document.getElementById('info_box').innerHTML += `<p>Уровень: ${player.lvl}`;
 	}
 
 //Очень страшная ф-я для обработки колесика мышки
