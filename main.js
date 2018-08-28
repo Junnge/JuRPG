@@ -36,7 +36,7 @@ function jsoncallback(text, file){
 
 
 function arrLoad(argument) {
-	if (Object.keys(dataArrays).length != 4){
+	if (Object.keys(dataArrays).length != 5){
 		console.log('loading');
 		setTimeout(arrLoad, 10);
 		return 0;
