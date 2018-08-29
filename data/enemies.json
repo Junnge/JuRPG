@@ -53,12 +53,24 @@
 		"hp" : 70,
 		"dmg" : 6,
 		"weapon": "gun10mm",
-		"exp" : 30,
+		"exp" : 20,
 		"loot" : [
 			{"item": "leatherarmor", "rare": 1},
 			{"item": "gun10mm_bullets", "rare": 40},
 			{"item": "gun10mm", "rare": 5},
 			{"item": "stimpack", "rare": 15}
+	    ]
+	},
+	"madraider" : {
+		"name" : "Бешеный рейдер",
+		"hp" : 55,
+		"dmg" : 4,
+		"weapon": "bazooka",
+		"exp" : 10,
+		"loot" : [
+			{"item": "gun10mm_bullets", "rare": 100},
+			{"item": "bazooka", "rare": 1},
+			{"item": "stimpack", "rare": 20}
 	    ]
 	}
 }
