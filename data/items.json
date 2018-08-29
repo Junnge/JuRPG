@@ -24,6 +24,13 @@
 		"damage" : 30,
 		"slot" : "weapon"
 	},
+	"bazooka" : {
+		"name" : "Базука",
+		"price" : 150000,
+		"damage": 500,
+		"slot": "weapon",
+		"description": "Базука такая есть только у теребоньки"
+	},
 	"fangs" : {
 		"name" : "Клыки",
 		"price" : 2,
