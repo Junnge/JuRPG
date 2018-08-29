@@ -4,7 +4,7 @@
 		"radiation": 0,
 		"activity": "searching",
 		"items": ["stimpack", "gun10mm_bullets"],
-		"mob_ids": ["raider", "raiderlead"]
+		"mob_ids": ["raider", "raiderlead", "madraider"]
 	},
 	"rock" : {
 		"name" : "Одинокая скала",
