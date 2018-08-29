@@ -15,7 +15,8 @@
 		"name" : "Кулаки",
 		"price" : 0,
 		"damage": 5,
-		"slot": "weapon"
+		"slot": "weapon",
+		"description": "С ними вы никогда не безоружны."
 	},
 	"sniperifle" : {
 		"name" : "Снайперская винтовка",
@@ -47,7 +48,15 @@
 		"name" : "Кожаная броня",
 		"price" : 500,
 		"armor": 5,
+		"slot": "body",
 		"description": "Психологическая защита для вашего тела."
+	},
+	"baseball_cap" : {
+		"name" : "Бейсбольная кепка",
+		"price" : 100,
+		"armor": 1,
+		"slot": "head",
+		"description": "Кепка с надписью Make America great again. Вы понятия не имеете что это значает."
 	},
 	"meat" : {
 		"name": "Мясо",
