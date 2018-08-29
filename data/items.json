@@ -51,12 +51,19 @@
 		"slot": "body",
 		"description": "Психологическая защита для вашего тела."
 	},
+	"steelarmor" : {
+		"name" : "Стальная броня",
+		"price" : 1500,
+		"armor": 7,
+		"slot": "body",
+		"description": "Серьёзный доспех. Почувствуйте себя средневековым рыцарем."
+	},
 	"baseball_cap" : {
 		"name" : "Бейсбольная кепка",
 		"price" : 100,
 		"armor": 1,
 		"slot": "head",
-		"description": "Кепка с надписью Make America great again. Вы понятия не имеете что это значает."
+		"description": "Кепка с надписью Make America great again. Вы понятия не имеете что это oзначает."
 	},
 	"meat" : {
 		"name": "Мясо",
