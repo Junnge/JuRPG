@@ -11,7 +11,8 @@
 	<link type="text/css" rel="stylesheet" href="style.css" /> 
 	<link rel="shortcut icon" type="image/x-icon" href="icon.ico" />
 </head>
-<body onload="show_box('action_box', 'action_button')">
+<!--<body onload="show_box('action_box', 'action_button')">-->
+<body onload="show_box('shop_box', 'map_button')">
 <div id="main_box">
 	<div id="content_box">
 		<div id="action_box"></div>
@@ -34,6 +35,7 @@
 		<div id="map_box">
 			<img src="img/map_ico/city_r.png" id="ruined_city" onclick="player.travel('ruins')">
 			<img src="img/map_ico/rock.png" id="rock" onclick="player.travel('rock')">
+			<img src="img/map_ico/city.png" id="city" onclick="show_box('city_map_box', 'map_button')">
 		</div>
 		<div id="hero_box">
 			<div id="skills_box"></div>
@@ -48,6 +50,15 @@
 		<div id="statistics_box">3</div>
 		<!--<div id="settings_box">4</div>--
 		<div id="stats_box"></div>-->		
+		<div id="city_map_box">
+			<img src="img/map_ico/shop.png" id="shop" onclick="show_box('shop_box', 'map_button')">
+		</div>
+		<div id="shop_box">
+			<div id="npc_name_box">NPC NAME</div>
+			<div id="phrase_box">NPC PHRASE</div>
+			<div id="npc_inv_box">NPC INV BOX</div>
+			<div id="shop_info_box">INFO BOX</div>
+		</div>
 	</div>
 	<div id="enemy_status">
 		<p id="enemy_name">Имя: </p>

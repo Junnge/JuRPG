@@ -18,7 +18,10 @@ document.getElementById('map_box').style = "visibility: hidden;";
 //document.getElementById('stats_box').style = "visibility: hidden;";
 document.getElementById('action_buttons').style = "visibility: hidden;";
 document.getElementById('stats_buttons').style = "visibility: hidden;";
+document.getElementById('city_map_box').style = "visibility: hidden;";
+document.getElementById('shop_box').style = "visibility: hidden;";
 document.getElementById('hero_box').style = "visibility: hidden;";
+
 document.getElementById('inv_box').style = "visibility: hidden;";
 document.getElementById('statistics_box').style = "visibility: hidden;";
 //document.getElementById('settings_box').style = "visibility: hidden;";

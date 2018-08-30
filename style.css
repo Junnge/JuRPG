@@ -77,6 +77,22 @@
 	width: 45px;
 	height: 45px;
 }
+#city_map_box{
+	border: 1px solid #23FB8E;
+	width: 530px;
+	height: 390px;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	background-image: url('img/city_map.png');
+}
+#city_map_box > img{
+	position: absolute;
+}
+#city_map_box > img:hover{
+	width: 45px;
+	height: 45px;
+}
 #ruined_city{
 	top: 210px;
 	left: 410px;
@@ -84,6 +100,50 @@
 #rock{
 	top: 80px;
 	left: 80px;
+}
+#city{
+	top: 330px;
+	left: 440px;
+}
+#shop{
+	top: 130px;
+	left: 240px;
+}
+#shop_box{
+	border: 1px solid #23FB8E;
+	width: 530px;
+	height: 390px;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+}
+#shop_box > div{
+	border: 1px solid #23FB8E;
+	position: absolute;
+}
+#npc_name_box{
+	top: 10px;
+	left: 10px;
+	width: 150px;
+	height: 40px;
+}
+#phrase_box{
+	top: 10px;
+	left: 170px;
+	width: 348px;
+	height: 40px;
+}
+#npc_inv_box{
+	top: 60px;
+	left: 10px;
+	width: 508px;
+	height: 250px;
+}
+#shop_info_box{
+	top: 320px;
+	left: 10px;
+	width: 508px;
+	height: 60px;
 }
 #stats_box{
 	border: 1px solid #23FB8E;
