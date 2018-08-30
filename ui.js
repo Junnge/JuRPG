@@ -52,7 +52,7 @@ function show_player_stats(player) { // former Player.show_stats
 	for (var spec in player.special) {
 		document.getElementById('special_box').innerHTML += `<br><a>${special_visible_names[spec]}: ${player.special[spec]}</a>`
 		if (player.special_points > 0 && player.special[spec] <10){
-			document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="raise_special_level(player, "${spec}">`;
+			document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="raise_special_level(player, '${spec}')">`;
 		}
 	}
 	document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${player.special_points}`;
