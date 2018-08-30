@@ -16,17 +16,17 @@
 	<div id="content_box">
 		<div id="action_box"></div>
 		<div id="action_buttons">
-			<img src="" id="activity_button" class="a_button" onclick="start_activity()"></img>
-			 <img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()"></img>
-			 <img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()"></img>
+			<img src="" id="activity_button" class="a_button" onclick="activity.go()">
+			 <img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()">
+			 <img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()">
 		</div>
 		<div id="stats_buttons">
 			<img src="img/buttons/hero_button_unactive.png" id="hero_button"
-			  onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"></img>
+			  onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()">
 			 <img src="img/buttons/inv_button_unactive.png" id="inv_button"
-			  onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()"></img>
+			  onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()">
 			 <img src="img/buttons/statistics_button_unactive.png" id="statistics_button"
-			  onclick="show_box('statistics_box', 'stats_button', 'statistics_button')"></img>
+			  onclick="show_box('statistics_box', 'stats_button', 'statistics_button')">
 			 <!--<img src="img/buttons/settings_button_unactive.png" id="settings_button" onclick="show_box('stats_box', 'stats_button', 'settings_button')"
 			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
 			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img> -->
@@ -58,9 +58,9 @@
 		<p id="exp_bar">Опыт:</p>
 	</div>
 	<div id="nav_buttons">
-		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"></img><br>
-		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"></img><br>
-		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"></img><br>
+		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"><br>
+		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"><br>
+		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>
