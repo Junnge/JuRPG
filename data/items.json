@@ -29,7 +29,11 @@
 		"price" : 150000,
 		"damage": 500,
 		"slot": "weapon",
-		"description": "Базука такая есть только у теребоньки"
+		"description": "Вам придётся применять это вовсе не против танка."
+	},
+	"bazooka_ammo" : {
+		"name" : "Патрон для базуки",
+		"price" : 150
 	},
 	"fangs" : {
 		"name" : "Клыки",
@@ -41,7 +45,7 @@
 		"price" : 0,
 		"damage" : 10
 	},
-	"gun10mm_bullets" : {
+	"gun10mm_ammo" : {
 		"name" : "10мм патроны",
 		"price" : 10,
 		"description": "Хреново, когда кончаются."

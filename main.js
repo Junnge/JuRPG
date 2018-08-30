@@ -1,17 +1,7 @@
 var game_version = "1.02";
 
-var special_visible_names = {
-	strength : "Сила",
-	perception : "Наблюдательность",
-	endurance : "Выносливость",
-	charisma : "Харизма",
-	intellegence : "Интеллект",
-	agility : "Ловкость",
-	luck : "Удача"
-};
 
 //ф-я для генерации цельных чисел в диапазоне [min, max]
-
 function randomInt(min, max) { 
 	var rand = min - 0.5 + Math.random() * (max - min + 1)
 	rand = Math.round(rand);
@@ -50,11 +40,7 @@ function arrLoad(argument) {
 	inv = new Inv();
 	player = new Player('Путник'); 
 	current_fight = new Fight(player);
-	if ("player" in localStorage) {
-		load_all();
-	} else {
-		inv.add("gun10mm", 1);
-	}
+	if ("player" in localStorage) load_all();
 	activity = new Activity(arrLocations[player.location]);
 	document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 	status_update('Добро пожаловать в пустошь.'); 
@@ -127,6 +113,10 @@ Char.prototype.get_crit_chance = function() {
 Char.prototype.get_crit_mult = function() {
 	return 3
 }
+
+Char.prototype.spend_ammo = function(){
+	return true;
+};
 
 function Enemy(id){
 	console.log(id)
@@ -263,20 +253,6 @@ function Player(name){
 		} 
 	}
 	
-	this.show_stats = function() {
-		document.getElementById('special_box').innerHTML = "";
-		for (var spec in this.special) {
-			document.getElementById('special_box').innerHTML += `<br><a>${special_visible_names[spec]}: ${this.special[spec]}</a>`
-			if (this.special_points > 0 && this.special[spec] <10){
-				document.getElementById('special_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.special['${spec}']++;player.special_points--; player.show_stats(); player.set_hp_max(); player.hp_change(10); status_update()">`;
-			}
-		}
-		document.getElementById('special_box').innerHTML += `<br><p>Осталось очков SPECIAL: ${this.special_points}`;
-
-		document.getElementById('info_box').innerHTML = "";
-		document.getElementById('info_box').innerHTML += `<p>Уровень: ${this.lvl}`;
-	}
-
 	this.equip = function(id){
 		var item = arrItems[id];
 		if (item.slot == 'weapon'){
@@ -346,6 +322,23 @@ Player.prototype.get_stealth = function() {
 	return this.special.perception / 20 + this.special.luck / 100
 }
 
+Player.prototype.spend_ammo = function() {
+    var ammo_id = this.weapon.id + "_ammo";
+	var the_weapon_uses_ammo = arrItems[ammo_id] != undefined;
+	if (the_weapon_uses_ammo) {
+		try {
+			inv.remove(ammo_id, 1)
+			return true;
+		} catch (error) {
+			if (error == "Not enough items") {
+				status_update("У вас закончились патроны.")
+				return false;
+			}
+		}
+	}
+	return true;
+			
+}
 
 function Inv() {
 	this.stuff = {};
@@ -392,9 +385,9 @@ function Inv() {
 		}
 
 		document.getElementById('equip_box').innerHTML = '';
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('weapon'); inv.show()">Оружие: [${player.weapon.name}]</a><br>`;
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('haed'); inv.show()">Шлем: [${player.slots.head}]</a><br>`;
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('body'); inv.show()">Броня: [${player.slots.body}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('weapon'); inv.show()">Руки: [${player.weapon.name}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('head'); inv.show()">Голова: [${player.slots.head}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('body'); inv.show()">Тело: [${player.slots.body}]</a><br>`;
 			//document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
 		
 	}
@@ -575,6 +568,10 @@ function Fight(player){
 	}
 	
 	this.attack = function(a, b, dist){
+		var is_succesful = a.spend_ammo();
+		if (!is_succesful) {
+			return;
+		}
 		acc = a.get_accuracy();
 		dice = Math.random();
 		/*console.log('____________')

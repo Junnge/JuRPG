@@ -22,7 +22,7 @@
 		</div>
 		<div id="stats_buttons">
 			<img src="img/buttons/hero_button_unactive.png" id="hero_button"
-			  onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()">
+			  onclick="show_box('hero_box', 'stats_button', 'hero_button'); show_player_stats(player)">
 			 <img src="img/buttons/inv_button_unactive.png" id="inv_button"
 			  onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()">
 			 <img src="img/buttons/statistics_button_unactive.png" id="statistics_button"
@@ -60,7 +60,7 @@
 	<div id="nav_buttons">
 		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"><br>
 		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"><br>
-		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); player.show_stats()"><br>
+		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); show_player_stats(player)"><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>
