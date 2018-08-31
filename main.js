@@ -752,6 +752,12 @@ function loot(lootlist){
 
 }
 
+function cheats(){
+	for (var item in arrItems) {
+		inv.add(item, 100)
+	}
+}
+
 var activity;
 var player;
 var current_fight;
