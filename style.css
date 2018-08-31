@@ -269,6 +269,22 @@ body{
 .item{
 	position: relative;
 }
+.bb {
+	left:80%;
+	border: 1px solid #23FB8E;	
+	background-color: #21EF85;
+    color: #001709;
+    position: absolute;
+}
+#b1{
+	bottom: 15%;
+}
+#b10{
+	top: 15%;
+}
+.bb:hover{
+	cursor: pointer;
+}
 
 
 div.map_icon span{
@@ -308,4 +324,13 @@ div.map_icon{
 #shop{
 	top: 130px;
 	left: 240px;
+}
+a:hover{
+	cursor: default;
+}
+p:hover{
+	cursor: default;
+}
+img:hover{
+	cursor: pointer;
 }

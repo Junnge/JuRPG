@@ -22,7 +22,8 @@
 		"name" : "Снайперская винтовка",
 		"price" : 150,
 		"damage" : 30,
-		"slot" : "weapon"
+		"slot" : "weapon",
+		"description": "Прицел сбит влево."
 	},
 	"bazooka" : {
 		"name" : "Базука",

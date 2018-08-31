@@ -118,6 +118,7 @@ function uinpc(id){
     var phrase = npc.phrase.replace("{{sexref}}", npc[player.sex]);
     document.getElementById("phrase_box").innerHTML = phrase;
     document.getElementById('npc_inv_box').innerHTML = '';
+    document.getElementById("shop_info_box").innerHTML = '';
     if (npc.type == "seller"){
         for (var i = 0; i < npc.list.length ; i++){
             var item = arrItems[npc.list[i]];
@@ -129,5 +130,6 @@ function uinpc(id){
   function show_item_info(item_id){
   	document.getElementById("shop_info_box").innerHTML = '';
     document.getElementById("shop_info_box").innerHTML += arrItems[item_id].description;
-    document.getElementById("shop_info_box").innerHTML += `<button onclick="inv.buy('${item_id}', ${arrItems[item_id].price}, 1)">Купить</	button>`
+    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.buy('${item_id}', ${arrItems[item_id].price}, 1)">Купить 1</a>`
+    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b10" onclick="inv.buy('${item_id}', ${arrItems[item_id].price}, 10)">Купить 10</a>`
   }
