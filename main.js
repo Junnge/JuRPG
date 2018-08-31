@@ -185,11 +185,11 @@ Enemy.prototype.constructor = Enemy;
 
 	
 function Player(name){
-	Char.call(this, name, 100, 100, new Weapon("gun10mm"), new BasicArmour());
+	Char.call(this, name, 100, 100, new Weapon("fists"), new BasicArmour());
 	this.lvl = 0;
 	this.exp = 0;
 	this.skill_points = 0;
-	this.location = "ruins";
+	this.location = "rock";
 	this.sex = "boy";
 	this.is_player = 1
 	this.in_fight = 0
@@ -280,7 +280,10 @@ function Player(name){
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
-		console.log(JSON.stringify(this.special));
+		this.slots.temporary_weapon_for_saving = this.weapon;
+		localStorage.equip = JSON.stringify(this.slots);
+		delete this.slots.temporary_weapon_for_saving;
+		
 	}
 	
 	this.load = function(){
@@ -296,6 +299,10 @@ function Player(name){
 		this.hp_max = Number(data[8]);
 		this.next_attack_is_crit = Boolean(data[9]);
 		this.special = JSON.parse(localStorage.special);
+		var temporary_equip = JSON.parse(localStorage.equip);
+		this.weapon = temporary_equip.temporary_weapon_for_saving;
+		delete temporary_equip.temporary_weapon_for_saving;
+		this.slots = temporary_equip;
 	}
 	
 	this.die = function() {
@@ -434,9 +441,6 @@ function Activity(loc){
 	}
 }
 
-function start_activity(){
-	activity.go();
-}
 
 //Бой с монстром
 function fight(){ 
@@ -674,18 +678,6 @@ function Fight(player){
 }
 
 
-//Смерть монстра, выдача опыта и сброс объкта
-/*function kill_current_enemy(){ 
-	player.give_exp(enemyObject.exp);
-	var rand_caps_amount = randomInt(1, 10);
-	var rand_loot = loot(enemyObject.loot);
-	inv.add("cap", rand_caps_amount);
-	inv.add(rand_loot, 1);
-	status_update(`Вы убили [${enemyObject.name}] и получили ${enemyObject.exp} опыта, нашли ${rand_caps_amount} [Крышка] и [${arrItems[rand_loot].name}]`);
-	enemyObject.change("emptyenemy");     
-	status_update();  
-}*/
-
 function load_all(){
 	if(localStorage.version == game_version){
 		player.load();
@@ -710,11 +702,7 @@ function save_all(){
 	status_update('Игра сохранена!');
 }
 function reset(){
-	localStorage.removeItem("enemy");
-	localStorage.removeItem("player");
-	localStorage.removeItem("inv");
-	localStorage.removeItem("special");
-	localStorage.removeItem("fight");
+	["enemy", "player", "inv", "equip", "special", "fight"].forEach(localStorage.removeItem);
 	document.location.reload(true);
 }
 
