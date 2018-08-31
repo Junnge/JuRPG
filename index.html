@@ -32,10 +32,19 @@
 			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
 			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img> -->
 		</div>
-		<div id="map_box">
-			<img src="img/map_ico/city_r.png" id="ruined_city" onclick="player.travel('ruins')">
-			<img src="img/map_ico/rock.png" id="rock" onclick="player.travel('rock')">
-			<img src="img/map_ico/city.png" id="city" onclick="show_box('city_map_box', 'map_button')">
+		<div id="map_box" class="map">
+			<div class="map_icon" id="ruined_city">
+				<img src="img/map_ico/city_r.png" onclick="player.travel('ruins')">
+				<span class="tooltiptext">Руины города</span>
+			</div>
+			<div id="rock" class="map_icon">
+				<img src="img/map_ico/rock.png" onclick="player.travel('rock')">
+				<span class="tooltiptext">Одинокая скала</span>
+			</div>
+			<div  id="city" class="map_icon">
+				<img src="img/map_ico/city.png" onclick="show_box('city_map_box', 'map_button')">
+				<span class="tooltiptext">Город</span>
+			</div>
 		</div>
 		<div id="hero_box">
 			<div id="skills_box"></div>
@@ -51,7 +60,10 @@
 		<!--<div id="settings_box">4</div>--
 		<div id="stats_box"></div>-->		
 		<div id="city_map_box">
-			<img src="img/map_ico/shop.png" id="shop" onclick="show_box('shop_box', 'map_button'), uinpc('joe')">
+			<div  id="shop" class="map_icon">
+				<img src="img/map_ico/shop.png" onclick="show_box('shop_box', 'map_button'), uinpc('joe')">
+				<span class="tooltiptext">Резкий Джo</span>
+			</div>
 		</div>
 		<div id="shop_box">
 			<div id="npc_name_box">NPC NAME</div>
@@ -71,7 +83,7 @@
 	<div id="nav_buttons">
 		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"><br>
 		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"><br>
-		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('hero_box', 'stats_button', 'hero_button'); show_player_stats(player)"><br>
+		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()"><br>
 	</div>
 </div>
 <script type="text/javascript" src="main.js"></script>

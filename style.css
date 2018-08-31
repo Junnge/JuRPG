@@ -70,13 +70,6 @@
 	top: 0;
 	background-image: url('img/map.png');
 }
-#map_box > img{
-	position: absolute;
-}
-#map_box > img:hover{
-	width: 45px;
-	height: 45px;
-}
 #city_map_box{
 	border: 1px solid #23FB8E;
 	width: 530px;
@@ -85,29 +78,6 @@
 	position: absolute;
 	top: 0;
 	background-image: url('img/city_map.png');
-}
-#city_map_box > img{
-	position: absolute;
-}
-#city_map_box > img:hover{
-	width: 45px;
-	height: 45px;
-}
-#ruined_city{
-	top: 210px;
-	left: 410px;
-}
-#rock{
-	top: 80px;
-	left: 80px;
-}
-#city{
-	top: 330px;
-	left: 440px;
-}
-#shop{
-	top: 130px;
-	left: 240px;
 }
 #shop_box{
 	border: 1px solid #23FB8E;
@@ -120,30 +90,31 @@
 #shop_box > div{
 	border: 1px solid #23FB8E;
 	position: absolute;
+	padding: 5px;
 }
 #npc_name_box{
 	top: 10px;
 	left: 10px;
-	width: 150px;
-	height: 40px;
+	width: 140px;
+	height: 50px;
 }
 #phrase_box{
 	top: 10px;
 	left: 170px;
-	width: 348px;
-	height: 40px;
+	width: 338px;
+	height: 50px;
 }
 #npc_inv_box{
-	top: 60px;
+	top: 80px;
 	left: 10px;
-	width: 508px;
-	height: 250px;
+	width: 498px;
+	height: 220px;
 }
 #shop_info_box{
 	top: 320px;
 	left: 10px;
-	width: 508px;
-	height: 60px;
+	width: 498px;
+	height: 50px;
 }
 #stats_box{
 	border: 1px solid #23FB8E;
@@ -290,4 +261,51 @@ body{
 }
 .brackets{
 	color: #DBD56B;
+}
+.price{
+	position: absolute;
+	left: 50%;	
+}
+.item{
+	position: relative;
+}
+
+
+div.map_icon span{
+	visibility: hidden;
+    width: 120px;
+    background-color: #21EF85;
+    color: #001709;
+    text-align: center;
+    padding: 2px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+} 
+div.map_icon:hover span {
+	visibility: visible;
+    opacity: 1;
+}
+div.map_icon{
+	position: absolute; 
+}
+#rock{
+	top: 80px;
+	left: 85px;
+}
+#city{
+	top: 330px;
+	left: 440px;
+}
+#ruined_city{
+	top: 210px;
+	left: 410px;
+}
+#shop{
+	top: 130px;
+	left: 240px;
 }

@@ -121,7 +121,7 @@ function uinpc(id){
     if (npc.type == "seller"){
         for (var i = 0; i < npc.list.length ; i++){
             var item = arrItems[npc.list[i]];
-            document.getElementById('npc_inv_box').innerHTML += `<br><a onclick="show_item_info('${npc.list[i]}')">${item.name} | Цена: ${item.price}</a>`;
+            document.getElementById('npc_inv_box').innerHTML += `<div class="item"><a onclick="show_item_info('${npc.list[i]}')">${item.name}</a><a class="price"> | Цена: ${item.price}</a></div>`;
         } 
     }
 }
