@@ -110,3 +110,24 @@ stats_buttons_elements.addEventListener("mouseout", function mo(s){
 function H(arg){
 	return "<a class='brackets'>["+arg+"]</a>"
 }
+
+
+function uinpc(id){
+    var npc = arrNpcs[id];
+    document.getElementById("npc_name_box").innerHTML = npc.name;
+    var phrase = npc.phrase.replace("{{sexref}}", npc[player.sex]);
+    document.getElementById("phrase_box").innerHTML = phrase;
+    document.getElementById('npc_inv_box').innerHTML = '';
+    if (npc.type == "seller"){
+        for (var i = 0; i < npc.list.length ; i++){
+            var item = arrItems[npc.list[i]];
+            document.getElementById('npc_inv_box').innerHTML += `<br><a onclick="show_item_info('${npc.list[i]}')">${item.name} | Цена: ${item.price}</a>`;
+        } 
+    }
+}
+  
+  function show_item_info(item_id){
+  	document.getElementById("shop_info_box").innerHTML = '';
+    document.getElementById("shop_info_box").innerHTML += arrItems[item_id].description;
+    document.getElementById("shop_info_box").innerHTML += `<button onclick="inv.buy('${item_id}', ${arrItems[item_id].price}, 1)">Купить</	button>`
+  }
