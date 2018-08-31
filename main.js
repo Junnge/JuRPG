@@ -174,7 +174,7 @@ function Enemy(id){
 		var rand_loot = loot(this.loot);
 		inv.add("cap", rand_caps_amount);
 		inv.add(rand_loot, 1);
-		status_update(`Вы убили [${this.name}] и получили ${this.exp} опыта, нашли ${rand_caps_amount} [Крышка] и [${arrItems[rand_loot].name}]`);
+		status_update(`Вы убили ${H(this.name)} и получили ${this.exp} опыта, нашли ${rand_caps_amount} ${H('Крышка')} и ${H(arrItems[rand_loot].name)}`);
 		status_update();  
 	}
 
@@ -248,7 +248,7 @@ function Player(name){
 			this.location = id;
 			activity = new Activity(arrLocations[id]);
 			show_box('action_box', 'action_button');
-			status_update(`Вы добрались до [${arrLocations[id].name}]`);
+			status_update(`Вы добрались до ${H(arrLocations[id].name)}`);
 			document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 		} 
 	}
@@ -413,13 +413,13 @@ function Activity(loc){
 	this.go = function() { 
 		if (!this.is_cd){
 			this.timestamp = performance.now();
-			status_update(arrActivities[this.type].start + ` [${Math.floor(this.cd/1000)} секунд]`);
+			status_update(arrActivities[this.type].start + ` ${H(Math.floor(this.cd/1000)+' секунд')}`);
 			this.is_cd = true;
 			var that = this;
 			setTimeout(function(){that.finish()}, this.cd); 
 		} else {
 			var time_left = this.cd - (performance.now() - this.timestamp);
-			status_update(arrActivities[this.type].process + ` [${Math.floor(time_left/1000)} секунд]`);
+			status_update(arrActivities[this.type].process + ` ${H(Math.floor(time_left/1000)+' секунд')}`);
 		}
 	}
 	
@@ -429,7 +429,7 @@ function Activity(loc){
 		inv.add(loot, 1);
 		player.give_exp(got_xp);
 		this.is_cd = false;
-		status_update(arrActivities[this.type].finish + arrItems[loot].name + ` и получили ${got_xp} опыта.`);
+		status_update(arrActivities[this.type].finish + `${H(arrItems[loot].name)} и получили ${got_xp} опыта.`);
 
 	}
 }
@@ -452,7 +452,7 @@ function adventure(){
 	} else if (current_fight.started == 0){
 		var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
 		var enemy = new Enemy(id);
-		status_update(`Вы встретили [${enemy.name}]`);
+		status_update(`Вы встретили ${H(enemy.name)}`);
 		tmp = stealth_roll()
 		if (tmp) {
 			status_update(`Вам удалось подкрасться незаметно. Следующий Ваш удар будет критическим.`);
@@ -579,7 +579,7 @@ function Fight(player){
 		console.log(dice)
 		console.log(a)*/
 		if (acc < dice && !a.next_attack_is_crit) {
-			status_update(`[${a.name}] промахнулся`);
+			status_update(`${H(a.name)} промахнулся`);
 			return;
 		}
 		dice = Math.random();
@@ -594,7 +594,7 @@ function Fight(player){
 			damage = 0;
 		}
 		b.hp_change(-damage);
-		status_update(`[${a.name}] нанес [${b.name}] ${damage} урона с помощью [${a.get_weapon_name()}]`);
+		status_update(`${H(a.name)} нанес ${H(b.name)} ${damage} урона с помощью ${H(a.get_weapon_name())}`);
 		if (b.hp == 0) {
 			b.die();
 		}
@@ -607,7 +607,7 @@ function Fight(player){
 		else {
 			a.coord -= 1
 		}
-		status_update(`[${a.fighter.name}] продвинулся вперёд`);
+		status_update(`${H(a.fighter.name)} продвинулся вперёд`);
 	}
 	
 	this.get_winner = function(){

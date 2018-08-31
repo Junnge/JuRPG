@@ -106,3 +106,7 @@ stats_buttons_elements.addEventListener("mouseout", function mo(s){
 	s.target.src='img/buttons/'+s.target.id+'_unactive.png';
 });
 
+
+function H(arg){
+	return "<a class='brackets'>["+arg+"]</a>"
+}
