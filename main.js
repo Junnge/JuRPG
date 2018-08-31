@@ -702,7 +702,8 @@ function save_all(){
 	status_update('Игра сохранена!');
 }
 function reset(){
-	["enemy", "player", "inv", "equip", "special", "fight"].forEach(localStorage.removeItem);
+	var callback = function(x){localStorage.removeItem(x)};
+	["enemy", "player", "inv", "equip", "special", "fight"].forEach(callback);
 	document.location.reload(true);
 }
 
