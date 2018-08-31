@@ -43,7 +43,7 @@
 		"weapon": "gun10mm",
 		"exp" : 10,
 		"loot" : [
-			{"item": "gun10mm_bullets", "rare": 40},
+			{"item": "gun10mm_ammo", "rare": 40},
 			{"item": "gun10mm", "rare": 4},
 			{"item": "stimpack", "rare": 10}
 	    ]
@@ -56,7 +56,7 @@
 		"exp" : 20,
 		"loot" : [
 			{"item": "leatherarmor", "rare": 1},
-			{"item": "gun10mm_bullets", "rare": 40},
+			{"item": "gun10mm_ammo", "rare": 40},
 			{"item": "gun10mm", "rare": 5},
 			{"item": "stimpack", "rare": 15}
 	    ]
@@ -68,7 +68,7 @@
 		"weapon": "bazooka",
 		"exp" : 10,
 		"loot" : [
-			{"item": "gun10mm_bullets", "rare": 100},
+			{"item": "gun10mm_ammo", "rare": 100},
 			{"item": "bazooka", "rare": 1},
 			{"item": "stimpack", "rare": 20}
 	    ]

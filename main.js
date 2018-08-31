@@ -1,4 +1,4 @@
-var game_version = "1.03";
+var game_version = "1.04";
 
 
 //ф-я для генерации цельных чисел в диапазоне [min, max]
