@@ -268,9 +268,10 @@ class Player extends Char {
 					this.slots.weapon = new Item("fists");
 				}
 			} else {
-				if (this.slots[slot_id] != kinda_null) {
-					inv.add(this.slots[slot_id].id, 1);
-					this.slots[slot_id] = kinda_null;
+				var item_id = this.slots[slot_id].id;
+				if (item_id != "equip_item") {
+					inv.add(item_id, 1);
+					this.slots[slot_id] = new Item("equip_item");
 				}
 			}
 		}
@@ -280,7 +281,7 @@ class Player extends Char {
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
-		localStorage.equip = JSON.stringify(this.slots);
+		localStorage.equip = JSON.stringify(this.slots, (function(slot_name, item){return item.id}));
 	}
 	
 	load(){
@@ -296,7 +297,7 @@ class Player extends Char {
 		this.hp_max = Number(data[8]);
 		this.next_attack_is_crit = Boolean(data[9]);
 		this.special = JSON.parse(localStorage.special);
-		this.slots = JSON.parse(localStorage.equip);
+		this.slots = JSON.parse(localStorage.equip, (function(slot_name, item_id){return new Item(item_id)}));
 	}
 	
 	die() {
