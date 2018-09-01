@@ -260,19 +260,21 @@ class Player extends Char {
 		inv.remove(id, 1);
 	}
     
-    unequip(slot_id){
-        if (slot_id in this.slots){
-            if (slot_id == 'weapon') {
-                if (this.slots.weapon.id != "fists") {
-                    inv.add(this.slots.weapon.id, 1);
-                    this.slots.weapon = new Item("fists");
-                }
-            } else if (this.slots[slot_id] != kinda_null) {
-                inv.add(this.slots[slot_id].id, 1);
-                this.slots[slot_id] = kinda_null;
-            }
-        }
-    }
+	unequip(slot_id){
+		if (slot_id in this.slots){
+			if (slot_id == 'weapon') {
+				if (this.slots.weapon.id != "fists") {
+					inv.add(this.slots.weapon.id, 1);
+					this.slots.weapon = new Item("fists");
+				}
+			} else {
+				if (this.slots[slot_id] != kinda_null) {
+					inv.add(this.slots[slot_id].id, 1);
+					this.slots[slot_id] = kinda_null;
+				}
+			}
+		}
+	}
 
 	save(){
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
