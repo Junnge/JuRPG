@@ -153,13 +153,14 @@ class Enemy extends Char {
 		return `${this.id} ${this.hp}`
 	}
 	
-	load_from_string(s) {
+	static load_from_string(s) {
 		var data = s.split(' ');
-		this.constructor(data[0]);
-		this.hp = Number(data[1]);
+		enemy = new this(data[0]);
+		enemy.hp = Number(data[1]);
+		return enemy;	
 	}
 	
-	load(){
+	load(){ // not working
 		var data = localStorage.enemy.split(' ');
 		this.constructor(data[0]);
 		this.hp = Number(data[1]);
@@ -251,13 +252,13 @@ class Player extends Char {
 	}
 	
 	equip(id){
-        var item = new Item(id);
-        if (item.slot in this.slots){
-            this.slots[item.slot] = item; 
-            console.log(id, 'equipped');
-        }
-        inv.remove(id, 1);
-    }
+		var item = new Item(id);
+		if (item.slot in this.slots){
+			this.slots[item.slot] = item;
+			console.log(id, 'equipped');
+		}
+		inv.remove(id, 1);
+	}
     
     unequip(slot_id){
         if (slot_id in this.slots){
@@ -646,9 +647,8 @@ function Fight(player){
 				i = arr[k]
 				tmp_arr = i.split(' ');
 				console.log(tmp_arr)
-				if (tmp_arr[0] != '@player') {
-					tmp = new Enemy(tmp_arr[0]);	
-					tmp.load_from_string(`${tmp_arr[0]} ${tmp_arr[1]}`);
+				if (tmp_arr[0] != '@player') {	
+					tmp = Enemy.load_from_string(`${tmp_arr[0]} ${tmp_arr[1]}`);
 					this.add_fighter(tmp, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]));
 				} else {
 					this.add_fighter(this.player, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]))
