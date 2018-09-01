@@ -61,12 +61,14 @@
 		<div id="stats_box"></div>-->		
 		<div id="city_map_box">
 			<div  id="shop" class="map_icon">
-				<img src="img/map_ico/shop.png" onclick="show_box('shop_box', 'map_button'), uinpc('joe')">
+				<img src="img/map_ico/shop.png" onclick="show_box('shop_box', 'map_button'), uinpc('buy','dube')">
 				<span class="tooltiptext">Резкий Джo</span>
 			</div>
 		</div>
 		<div id="shop_box">
 			<div id="npc_name_box">NPC NAME</div>
+			<span id="buy_button" class="bb" onclick="uinpc('buy')">Купить</span>
+			<span id="sell_button" class="bb" onclick="uinpc('sell')">Продать</span>
 			<div id="phrase_box">NPC PHRASE</div>
 			<div id="npc_inv_box">NPC INV BOX</div>
 			<div id="shop_info_box">INFO BOX</div>

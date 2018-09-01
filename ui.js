@@ -60,29 +60,13 @@ function show_player_stats(player) { // former Player.show_stats
 	document.getElementById('info_box').innerHTML += `<p>Уровень: ${player.lvl}`;
 	}
 
-//Очень страшная ф-я для обработки колесика мышки
-var elem = document.getElementById('action_box');
-if (elem.addEventListener) {
-	if ('onwheel' in document) {
-		// IE9+, FF17+, Ch31+
-		elem.addEventListener("wheel", onWheel);
-	} else if ('onmousewheel' in document) {
-		// устаревший вариант события
-		elem.addEventListener("mousewheel", onWheel);
-	} else {
-		// Firefox < 17
-		elem.addEventListener("MozMousePixelScroll", onWheel);
-	}
-	} else { // IE8-
-		elem.attachEvent("onmousewheel", onWheel);
-	}
-
-function onWheel(e) {
-	e = e || window.event;
-	var delta = e.deltaY || e.detail || e.wheelDelta;
-	var info = document.getElementById('action_box');
-	document.getElementById('action_box').scrollTop += delta*3;
-	e.preventDefault ? e.preventDefault() : (e.returnValue = false);
+document.getElementById("action_box").onwheel = function(e){
+      document.getElementById("action_box").scrollBy(0, e.deltaY *4);
+      e.preventDefault();
+}
+document.getElementById("npc_inv_box").onwheel = function(e){
+      document.getElementById("npc_inv_box").scrollBy(0, e.deltaY *4);
+      e.preventDefault();
 }
 
 var action_buttons_elements = document.getElementById('action_buttons');
@@ -110,25 +94,35 @@ function H(arg){
 	return "<a class='brackets'>["+arg+"]</a>"
 }
 
-
-function uinpc(id){
-    var npc = arrNpcs[id];
+var npctmp;
+function uinpc(button,id=npctmp){
+	var npc = arrNpcs[id];
+	npctmp = id;
     document.getElementById("npc_name_box").innerHTML = npc.name;
     var phrase = npc.phrase.replace("{{sexref}}", npc[player.sex]);
     document.getElementById("phrase_box").innerHTML = phrase;
     document.getElementById('npc_inv_box').innerHTML = '';
     document.getElementById("shop_info_box").innerHTML = '';
-    if (npc.type == "seller"){
+    if (button == "buy"){
         for (var i = 0; i < npc.list.length ; i++){
             var item = arrItems[npc.list[i]];
-            document.getElementById('npc_inv_box').innerHTML += `<div class="item"><a onclick="show_item_info('${npc.list[i]}')">${item.name}</a><a class="price"> | Цена: ${item.price}</a></div>`;
+            document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${npc.list[i]}')">${item.name}</a><a class="price"> | Цена: ${get_price(npc.list[i])}</a></div>`;
         } 
+    } else if (button == 'sell'){
+    	for (var item in inv.stuff) {
+    		document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${item}')">${arrItems[item].name}</a><a class="price"> | Цена: ${get_price(item)}</a></div>`;
+   		}
     }
 }
   
-  function show_item_info(item_id){
+function show_item_info(button, item_id){
+  	if (button == 'buy') {var btext = "Купить"} else { var btext = "Продать"}
   	document.getElementById("shop_info_box").innerHTML = '';
-    document.getElementById("shop_info_box").innerHTML += arrItems[item_id].description;
-    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.buy('${item_id}', ${arrItems[item_id].price}, 1)">Купить 1</a>`
-    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b10" onclick="inv.buy('${item_id}', ${arrItems[item_id].price}, 10)">Купить 10</a>`
-  }
+    document.getElementById("shop_info_box").innerHTML += `<div id='shop_item_info_box'>${arrItems[item_id].description}</div>`;
+    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.${button}('${item_id}', ${get_price(item_id)}, 1)">${btext} 1</a>`
+    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b10" onclick="inv.${button}('${item_id}', ${get_price(item_id)}, 10)">${btext} 10</a>`
+}
+
+function get_price(item) {
+	return arrItems[item].price + Math.round(arrItems[item].price * ((10 - player.special.charisma) / 18));
+}

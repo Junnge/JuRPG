@@ -96,7 +96,7 @@
 	top: 10px;
 	left: 10px;
 	width: 140px;
-	height: 50px;
+	height: 20px;
 }
 #phrase_box{
 	top: 10px;
@@ -109,6 +109,7 @@
 	left: 10px;
 	width: 498px;
 	height: 220px;
+	overflow: hidden;
 }
 #shop_info_box{
 	top: 320px;
@@ -207,6 +208,7 @@
 	height: 328px;
 	border: 1px solid #23FB8E;
 	position: absolute;
+	overflow: hidden;
 }
 #item_info_box{
 	top: 10px;
@@ -257,7 +259,6 @@
 body{
 	background-color: #211C20;
 	color: #23FB8E;
-    font-family: 'alien_encountersrus_by_lyajRg';
 }
 .brackets{
 	color: #DBD56B;
@@ -266,8 +267,12 @@ body{
 	position: absolute;
 	left: 50%;	
 }
-.item{
+.item_box{
 	position: relative;
+}
+.item:hover{
+	cursor: pointer;
+	color: #19B564;
 }
 .bb {
 	left:80%;
@@ -284,8 +289,12 @@ body{
 }
 .bb:hover{
 	cursor: pointer;
+	background-color: #19B564;
+	color: #001709;
 }
-
+#shop_item_info_box{
+	width: 400px;
+}
 
 div.map_icon span{
 	visibility: hidden;
@@ -333,4 +342,16 @@ p:hover{
 }
 img:hover{
 	cursor: pointer;
+}
+#buy_button{
+	top: 50px;
+	left: 10px;
+	width: 65px;
+	padding-left: 5px; 
+}
+#sell_button{
+	top: 50px;
+	left: 90px;
+	width: 65px;
+	padding-left: 5px; 
 }
