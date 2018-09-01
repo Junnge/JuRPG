@@ -68,7 +68,7 @@ class Char {
 		this.hp_max = max_hp;
 		//this.weapon = weapon;
 		//this.armor = armor;
-		this.slots = {weapon: weapon, body: armor, head: kinda_null}
+		this.slots = {weapon: weapon, body: armor, head: new Item("eqiup_item")};
 		this.is_player = 0;
 		this.next_attack_is_crit = false;
 	}
