@@ -102,7 +102,6 @@ function uinpc(button,id=npctmp){
     var phrase = npc.phrase.replace("{{sexref}}", npc[player.sex]);
     document.getElementById("phrase_box").innerHTML = phrase;
     document.getElementById('npc_inv_box').innerHTML = '';
-    document.getElementById("shop_info_box").innerHTML = '';
     if (button == "buy"){
         for (var i = 0; i < npc.list.length ; i++){
             var item = arrItems[npc.list[i]];
@@ -110,7 +109,7 @@ function uinpc(button,id=npctmp){
         } 
     } else if (button == 'sell'){
     	for (var item in inv.stuff) {
-    		document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${item}')">${arrItems[item].name}</a><a class="price"> | Цена: ${get_price(item)}</a></div>`;
+    		document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${item}')">${arrItems[item].name} (${inv.stuff[item]})</a><a class="price"> | Цена: ${get_price(item)}</a></div>`;
    		}
     }
 }
@@ -119,8 +118,8 @@ function show_item_info(button, item_id){
   	if (button == 'buy') {var btext = "Купить"} else { var btext = "Продать"}
   	document.getElementById("shop_info_box").innerHTML = '';
     document.getElementById("shop_info_box").innerHTML += `<div id='shop_item_info_box'>${arrItems[item_id].description}</div>`;
-    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.${button}('${item_id}', ${get_price(item_id)}, 1)">${btext} 1</a>`
-    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b10" onclick="inv.${button}('${item_id}', ${get_price(item_id)}, 10)">${btext} 10</a>`
+    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.${button}('${item_id}', ${get_price(item_id)}, 1); uinpc('${button}')">${btext} 1</a>`
+    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b10" onclick="inv.${button}('${item_id}', ${get_price(item_id)}, 10); uinpc('${button}')">${btext} 10</a>`
 }
 
 function get_price(item) {
