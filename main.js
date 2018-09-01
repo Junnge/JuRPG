@@ -83,7 +83,7 @@ class Char {
 		if (this._hp < 0) this.hp = 0;
 	}
 
-	is_dead () {
+	get is_dead() {
 		return this._hp == 0;
 	}
 
@@ -155,7 +155,7 @@ class Enemy extends Char {
 	
 	static load_from_string(s) {
 		var data = s.split(' ');
-		enemy = new this(data[0]);
+		var enemy = new this(data[0]);
 		enemy.hp = Number(data[1]);
 		return enemy;	
 	}
@@ -435,7 +435,7 @@ function fight(){
 	
 //Путешествие в пyстоши, генерация событий 
 function adventure(){
-	if (player.hp == 0){
+	if (player.is_dead){
 		status_update(`Простите, но Вы мертвы`);
 	} else if (current_fight.started == 0){
 		var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
