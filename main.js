@@ -29,7 +29,7 @@ function jsoncallback(text, file){
 function arrLoad(argument) {
 	if (Object.keys(dataArrays).length != 5){
 		console.log('loading');
-		setTimeout(arrLoad, 10);
+		setTimeout(arrLoad, 50);
 		return 0;
 	}
 	arrItems = dataArrays["data/items.json"];
@@ -580,7 +580,7 @@ function Fight(player){
 		} else {
 			damage = a.get_attack_damage(dist) - b.get_armor();
 		}
-		if (damage < 0) {
+		if (damage > 0) {
 			damage = 0;
 		}
 		b.hp -= damage;
@@ -687,8 +687,8 @@ function save_all(){
 	status_update('Игра сохранена!');
 }
 function reset(){
-	var callback = function(x){localStorage.removeItem(x)};
-	["enemy", "player", "inv", "equip", "special", "fight"].forEach(callback);
+	var remove = function(x){localStorage.removeItem(x)};
+	["enemy", "player", "inv", "equip", "special", "fight"].forEach(remove);
 	document.location.reload(true);
 }
 
@@ -740,7 +740,8 @@ function loot(lootlist){
 function cheats(){
 	for (var item in arrItems) {
 		inv.add(item, 100)
-	}
+	};
+	inv.add("cap", 1000000);
 }
 
 var activity;
