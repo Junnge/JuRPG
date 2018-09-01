@@ -25,6 +25,9 @@
 		"slot" : "weapon",
 		"description": "Прицел сбит влево."
 	},
+	"equip_item" : {
+		"name" : "-----"
+	},
 	"bazooka" : {
 		"name" : "Базука",
 		"price" : 150000,
