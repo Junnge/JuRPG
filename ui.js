@@ -43,7 +43,6 @@ function raise_special_level(player, special){
 	player.special_points--; 
 	show_player_stats(player); 
 	player.set_hp_max(); 
-	player.hp_change(10); 
 	status_update();
 }
 

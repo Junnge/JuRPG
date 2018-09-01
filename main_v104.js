@@ -1,6 +1,5 @@
 var game_version = "1.04";
 
-var kinda_null = {name: "---"};
 
 //ф-я для генерации цельных чисел в диапазоне [min, max]
 function randomInt(min, max) { 
@@ -49,119 +48,118 @@ function arrLoad(argument) {
 }
 
 
-
-class Item {
-	constructor(id){
-		for (var key in arrItems[id]) {
-			this[key] = arrItems[id][key]
-		}
-		this.id = id;
-		this.range = 1; // для оружия. временно
-	}
+function Weapon(id) {
+	this.id = id;
+	this.damage = arrItems[id].damage;
+	this.range = 1;
+	this.name = arrItems[id].name;
 }
 
 
-class Char {
-	constructor(name, hp, max_hp, weapon, armor){
-		this.name = name;
-		this._hp = hp;
-		this.hp_max = max_hp;
-		//this.weapon = weapon;
-		//this.armor = armor;
-		this.slots = {weapon: weapon, body: armor, head: kinda_null}
-		this.is_player = 0;
-		this.next_attack_is_crit = false;
-	}
-
-	get hp() {
-		return this._hp;
-	}
-	
-	set hp(amount) {
-		this._hp = amount;
-		if (this._hp > this.hp_max) this.hp = this.hp_max;
-		if (this._hp < 0) this.hp = 0;
-	}
-
-	is_dead () {
-		return this._hp == 0;
-	}
-
-	get_attack_damage() {
-		return this.slots.weapon.damage;
-	}
-
-	get_armor() {
-		var armor = 0;
-		for (var key in this.slots){
-			var equipped_item = this.slots[key];
-			if ("armor" in equipped_item) {
-				armor += equipped_item.armor;
-			}
-		}
-		return armor;
-	}
-
-	get_attack_range() {
-		return 9999
-	}
-
-	get_weapon_name() {
-		return this.slots.weapon.name
-	}
-
-	get_accuracy () {
-		return 0.7
-	}
-
-	get_crit_chance() {
-		return 0.1
-	}
-
-	get_crit_mult() {
-		return 3
-	}
-
-	spend_ammo(){
-		return true;
-	};
+function Armour(name, armour) {
+	this.armour = armour;
+	this.name = name
 }
 
-class Enemy extends Char {
-	constructor(id){
-		//console.log(id)
-		//console.log(arrEnemies)
-		var weapon_id = arrEnemies[id].weapon;
-		if (weapon_id == undefined) weapon_id = "basicweapon";
-		super(
+function BasicArmour() {
+	Armour.call(this, 'BasicArmour', 0);
+}
+
+
+function Char(name, hp, max_hp, weapon, armour){
+	this.name = name;
+	this.hp = hp;
+	this.hp_max = max_hp;
+	this.weapon = weapon;
+	this.armour = armour;
+	this.is_player = 0;
+	this.next_attack_is_crit = false;
+}
+
+Char.prototype.hp_change = function(amount) {
+	this.hp += amount;
+	if (this.hp > this.hp_max) this.hp = this.hp_max;
+	if (this.hp < 0) this.hp = 0;
+}
+
+Char.prototype.is_dead = function() {
+	return this.hp == 0;
+}
+
+Char.prototype.get_attack_damage = function() {
+	return this.weapon.damage;
+}
+
+Char.prototype.get_armour = function() {
+	return this.armour.armour;
+}
+
+Char.prototype.get_attack_range = function() {
+	return 9999
+}
+
+Char.prototype.get_weapon_name = function() {
+	return this.weapon.name
+}
+
+Char.prototype.get_accuracy = function() {
+	return 0.7
+}
+
+Char.prototype.get_crit_chance = function() {
+	return 0.1
+}
+
+Char.prototype.get_crit_mult = function() {
+	return 3
+}
+
+Char.prototype.spend_ammo = function(){
+	return true;
+};
+
+function Enemy(id){
+	console.log(id)
+	console.log(arrEnemies)
+	var weapon_id = arrEnemies[id].weapon;
+	if (weapon_id == undefined) weapon_id = "basicweapon";
+	Char.call(	this, 
 				arrEnemies[id].name, 
 				arrEnemies[id].hp, 
 				arrEnemies[id].hp, 
-				new Item(weapon_id), 
-				new Item("basicarmor"));
+				new Weapon(weapon_id), 
+				new BasicArmour());
+	this.id = id;
+	this.exp = arrEnemies[id].exp;
+	this.loot = arrEnemies[id].loot;
+	
+	this.change = function(id){ 
 		this.id = id;
+		this.name = arrEnemies[id].name;
+		this.hp = arrEnemies[id].hp;
+		this.hp_max = this.hp;
+		this.dmg = arrEnemies[id].dmg;
 		this.exp = arrEnemies[id].exp;
 		this.loot = arrEnemies[id].loot;
 	}
 	
-	
-	save(){
+	this.save = function(){
 		localStorage.enemy = `${this.id} ${this.hp}`;
 	}
 	
-	save_to_string(){
+	this.save_to_string = function(){
 		return `${this.id} ${this.hp}`
 	}
 	
-	load_from_string(s) {
+	this.load_from_string = function(s) {
 		var data = s.split(' ');
-		this.constructor(data[0]);
+		this.change(data[0]);
 		this.hp = Number(data[1]);
 	}
 	
-	load(){
+	this.load = function(){
 		var data = localStorage.enemy.split(' ');
-		this.constructor(data[0]);
+		this.change(data[0]);
 		this.hp = Number(data[1]);
 		if (this.id != "emptyenemy") {
 			current_fight.init()
@@ -170,7 +168,7 @@ class Enemy extends Char {
 		}
 	}
 	
-	die() {
+	this.die = function() {
 		player.give_exp(this.exp);
 		var rand_caps_amount = randomInt(1, 10);
 		var rand_loot = loot(this.loot);
@@ -181,37 +179,42 @@ class Enemy extends Char {
 	}
 
 }
+
+Enemy.prototype = Object.create(Char.prototype);
+Enemy.prototype.constructor = Enemy;
+
 	
-class Player extends Char {
-	constructor(name){
-		super(name, 100, 100, new Item("fists"), new Item("basicarmor"));
-		this.lvl = 0;
-		this.exp = 0;
-		this.skill_points = 0;
-		this.location = "rock";
-		this.sex = "boy";
-		this.is_player = 1;
-		this.in_fight = 0;
-		this.special_points = 10;
-		this.special = {
-			strength : 1,
-			perception : 1,
-			endurance : 1,
-			charisma : 1,
-			intellegence : 1,
-			agility : 1,
-			luck : 1
-		};
-	}
+function Player(name){
+	Char.call(this, name, 100, 100, new Weapon("fists"), new BasicArmour());
+	this.lvl = 0;
+	this.exp = 0;
+	this.skill_points = 0;
+	this.location = "rock";
+	this.sex = "boy";
+	this.is_player = 1
+	this.in_fight = 0
+	this.slots = {"head": null, "body": null};
+	this.special_points = 10;
+	this.special = {
+		strength : 1,
+		perception : 1,
+		endurance : 1,
+		charisma : 1,
+		intellegence : 1,
+		agility : 1,
+		luck : 1
+};
+	
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
-	give_exp(x){ 
+	this.give_exp = function(x){ 
 		this.exp = this.exp + x;
 		while (this.exp >= this.get_next_lvl_exp()) {
 			this.lvlup();
 		}
 	}
 
-	lvlup(){  
+	//Ф-я повышения уровня героя
+	this.lvlup = function(){  
 		this.base_damage++;
 		this.skill_points++;
 		this.exp = this.exp - this.get_next_lvl_exp();
@@ -221,20 +224,20 @@ class Player extends Char {
 		status_update(`Теперь вы ${this.lvl} уровня`);
 	}
 		
-	set_hp_max(argument) {
+	this.set_hp_max = function(argument) {
 		this.hp_max = 100 + this.special.endurance * 10 + this.lvl * 10;
 	}
 	
-	full_heal(){
+	this.full_heal = function(){
 		this.hp = this.hp_max;
 	}
 	
 	//Подсчет необходимиого кол-ва опыта для поднятия уровня 
-	get_next_lvl_exp(){ 
+	this.get_next_lvl_exp = function(){ 
 		return 10 * (this.lvl + 1);
 	}
 
-	travel(id){
+	this.travel = function(id){
 		if (this.in_fight == 1) {
 			show_box('action_box', 'action_button');
 			status_update('Вы в бою!');
@@ -250,37 +253,40 @@ class Player extends Char {
 		} 
 	}
 	
-	equip(id){
-        var item = new Item(id);
-        if (item.slot in this.slots){
-            this.slots[item.slot] = item; 
-            console.log(id, 'equipped');
-        }
-        inv.remove(id, 1);
-    }
-    
-    unequip(slot_id){
-        if (slot_id in this.slots){
-            if (slot_id == 'weapon') {
-                if (this.slots.weapon.id != "fists") {
-                    inv.add(this.slots.weapon.id, 1);
-                    this.slots.weapon = new Item("fists");
-                }
-            } else if (this.slots[slot_id] != kinda_null) {
-                inv.add(this.slots[slot_id].id, 1);
-                this.slots[slot_id] = kinda_null;
-            }
-        }
-    }
+	this.equip = function(id){
+		var item = arrItems[id];
+		if (item.slot == 'weapon'){
+			this.weapon = new Weapon(id);
+			console.log('[',id,']equiped')
+		} else if (item.slot in Object.keys(this.slots)){
+			this.slots[item.slot] = id;
+			console.log('[',id,']equiped')
+		}
+		inv.remove(id, 1);
+	}
+	this.unequip = function(slot_id){
+		if (slot_id == 'weapon' && this.weapon.id != "fists") {
+			inv.add(this.weapon.id, 1);
+			console.log('[',this.weapon.id,']unequiped')
+			this.weapon = new Weapon("fists");
+		} else if(slot_id in Object.keys(this.slots)){
+			inv.add(this.slots[slot_id], 1);
+			console.log('[',this.slots[slot_id],']unequiped')
+			this.slots[slot_id] = null;
+		}
+	}
 
-	save(){
+	this.save = function(){
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
+		this.slots.temporary_weapon_for_saving = this.weapon;
 		localStorage.equip = JSON.stringify(this.slots);
+		delete this.slots.temporary_weapon_for_saving;
+		
 	}
 	
-	load(){
+	this.load = function(){
 		var data = localStorage.player.split(' ');
 		this.name = data[0];
 		this.lvl = Number(data[1]);
@@ -293,42 +299,52 @@ class Player extends Char {
 		this.hp_max = Number(data[8]);
 		this.next_attack_is_crit = Boolean(data[9]);
 		this.special = JSON.parse(localStorage.special);
-		this.slots = JSON.parse(localStorage.equip);
+		var temporary_equip = JSON.parse(localStorage.equip);
+		this.weapon = temporary_equip.temporary_weapon_for_saving;
+		delete temporary_equip.temporary_weapon_for_saving;
+		this.slots = temporary_equip;
 	}
 	
-	die() {
+	this.die = function() {
 		status_update('Вы погибли.')
 	}
+}
 
-	get_accuracy() {
-		return (1 - 1/(this.special.agility + this.special.luck/5 + 2)) 
-	}
+Player.prototype = Object.create(Char.prototype);
+Player.prototype.constructor = Player;
 
-	get_crit_chance() {
-		return 0.08 + this.special.luck/100
-	}
+Player.prototype.get_accuracy = function() {
+	return (1 - 1 / (this.special.agility + this.special.luck / 5 + 2)) 
+}
 
-	get_stealth() {
-		return this.special.perception/20 + this.special.luck/100
-	}
+Player.prototype.get_crit_chance = function() {
+	return 0.08 + this.special.luck / 100
+}
 
-	spend_ammo() {
-		var ammo_id = this.slots.weapon.id + "_ammo";
-		var the_weapon_uses_ammo = arrItems[ammo_id] != undefined;
-		if (the_weapon_uses_ammo) {
-			try {
-				inv.remove(ammo_id, 1)
-				return true;
-			} catch (error) {
-				if (error == "Not enough items") {
-					status_update("У вас закончились патроны.")
-					return false;
-				}
+Player.prototype.get_crit_mult = function() {
+	return 3
+}
+
+Player.prototype.get_stealth = function() {
+	return this.special.perception / 20 + this.special.luck / 100
+}
+
+Player.prototype.spend_ammo = function() {
+    var ammo_id = this.weapon.id + "_ammo";
+	var the_weapon_uses_ammo = arrItems[ammo_id] != undefined;
+	if (the_weapon_uses_ammo) {
+		try {
+			inv.remove(ammo_id, 1)
+			return true;
+		} catch (error) {
+			if (error == "Not enough items") {
+				status_update("У вас закончились патроны.")
+				return false;
 			}
 		}
-		return true;
-				
 	}
+	return true;
+			
 }
 
 function Inv() {
@@ -365,19 +381,20 @@ function Inv() {
 	this.show = function(){
 		document.getElementById('stuff_box').innerHTML = '';
 		for (var item in this.stuff) {
+			console.log(arrItems[item].slot)
 			if (arrItems[item].slot != undefined){
 				document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" onclick="player.unequip('${arrItems[item].slot}'); player.equip('${item}')
 				inv.show()" >${arrItems[item].name} (${this.stuff[item]})</a>`
 			} else document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" >${arrItems[item].name} (${this.stuff[item]})</a>`
 			if (arrItems[item].heal != undefined && this.stuff[item] > 0){
-				document.getElementById('stuff_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.hp += (arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
+				document.getElementById('stuff_box').innerHTML += `  <img src="img/buttons/skill_increase_button.png" onclick="player.hp_change(arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
 			}
 		}
 
 		document.getElementById('equip_box').innerHTML = '';
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('weapon'); inv.show()">Руки: [${player.slots.weapon.name}]</a><br>`;
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('head'); inv.show()">Голова: [${player.slots.head.name}]</a><br>`;
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('body'); inv.show()">Тело: [${player.slots.body.name}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('weapon'); inv.show()">Руки: [${player.weapon.name}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('head'); inv.show()">Голова: [${player.slots.head}]</a><br>`;
+		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('body'); inv.show()">Тело: [${player.slots.body}]</a><br>`;
 			//document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
 		
 	}
@@ -580,7 +597,7 @@ function Fight(player){
 		if (damage < 0) {
 			damage = 0;
 		}
-		b.hp -= damage;
+		b.hp_change(-damage);
 		status_update(`${H(a.name)} нанес ${H(b.name)} ${damage} урона с помощью ${H(a.get_weapon_name())}`);
 		if (b.hp == 0) {
 			b.die();
