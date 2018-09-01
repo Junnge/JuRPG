@@ -580,7 +580,7 @@ function Fight(player){
 		} else {
 			damage = a.get_attack_damage(dist) - b.get_armor();
 		}
-		if (damage > 0) {
+		if (damage < 0) {
 			damage = 0;
 		}
 		b.hp -= damage;
