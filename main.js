@@ -572,10 +572,10 @@ function Fight(player){
 		dice = Math.random();
 		crit = a.get_crit_chance();
 		if (crit > dice | a.next_attack_is_crit) {
-			damage = Math.trunc(a.get_attack_damage(dist) * a.get_crit_mult() - b.get_armour())
+			damage = Math.trunc(a.get_attack_damage(dist) * a.get_crit_mult() - b.get_armor())
 			a.next_attack_is_crit = false
 		} else {
-			damage = a.get_attack_damage(dist) - b.get_armour();
+			damage = a.get_attack_damage(dist) - b.get_armor();
 		}
 		if (damage < 0) {
 			damage = 0;
