@@ -1,4 +1,4 @@
-var game_version = "1.04";
+var game_version = "1.05";
 
 var kinda_null = {name: "---"};
 
