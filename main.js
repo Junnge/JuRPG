@@ -281,7 +281,8 @@ class Player extends Char {
 		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
-		localStorage.equip = JSON.stringify(this.slots, (function(slot_name, item){return item.id}));
+		//localStorage.equip = JSON.stringify(this.slots, (function(slot_name, item){return item.id}));
+		localStorage.equip = JSON.stringify({weapon: this.slots.weapon.id, body: this.slots.body.id, head: this.slots.head.id}); 
 	}
 	
 	load(){
@@ -297,7 +298,12 @@ class Player extends Char {
 		this.hp_max = Number(data[8]);
 		this.next_attack_is_crit = Boolean(data[9]);
 		this.special = JSON.parse(localStorage.special);
-		this.slots = JSON.parse(localStorage.equip, (function(slot_name, item_id){return new Item(item_id)}));
+		var s = JSON.parse(localStorage.equip);
+		for (var key in s) {
+			s[key] = new Item(s[key])
+		};
+		this.slots = s;
+		//this.slots = JSON.parse(localStorage.equip, (function(slot_name, item_id){return new Item(item_id)}));
 	}
 	
 	die() {
