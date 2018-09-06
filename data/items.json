@@ -4,6 +4,11 @@
 		"price" : 1,
 		"description": "Универсальное платёжное средство."
 	},
+	"portmonet" : {
+		"name" : "Кошелёк",
+		"container" : {"cap": 15},
+		"description": "Внутри немного крышек."
+	},
 	"gun10mm" : {
 		"name" : "10мм пистолет",
 		"price" : 150,
