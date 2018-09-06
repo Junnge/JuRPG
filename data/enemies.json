@@ -2,13 +2,19 @@
 	"emptyenemy" : {
 		"name" : "Врагов нет",
 		"hp" : 0,
-		"dmg" : 0,
+		"base_damage" : 0,
 		"exp": 0
+	},
+	"blob" : {
+		"name" : "Слизень",
+		"hp" : 5000,
+		"base_damage" : 1,
+		"exp": 20
 	},
 	"wolf" : {
 		"name" : "Койот",
 		"hp" : 25,
-		"dmg" : 1,
+		"base_damage" : 1,
 		"weapon": "fangs",
 		"exp": 3,
 		"loot" : [
@@ -19,7 +25,7 @@
 	"scorpion" : {
 		"name" : "Скорпион",
 		"hp" : 35,
-		"dmg" : 2,
+		"base_damage" : 2,
 		"exp" : 5,
 		"loot" : [
 		    {"item": "radtail", "rare": 1},
@@ -29,7 +35,7 @@
 	"geccon" : {
 		"name" : "Ящер",
 		"hp" : 30,
-		"dmg" : 2,
+		"base_damage" : 2,
 		"exp" : 4,
 		"loot" : [
 		    {"item": "gecleather", "rare": 1},
@@ -39,7 +45,7 @@
 	"raider" : {
 		"name" : "Рейдер",
 		"hp" : 50,
-		"dmg" : 4,
+		"base_damage" : 4,
 		"weapon": "gun10mm",
 		"exp" : 10,
 		"loot" : [
@@ -51,7 +57,7 @@
 	"raiderlead" : {
 		"name" : "Лидер рейдеров",
 		"hp" : 70,
-		"dmg" : 6,
+		"base_damage" : 6,
 		"weapon": "gun10mm",
 		"exp" : 20,
 		"loot" : [
@@ -64,7 +70,7 @@
 	"madraider" : {
 		"name" : "Бешеный рейдер",
 		"hp" : 55,
-		"dmg" : 4,
+		"base_damage" : 4,
 		"weapon": "bazooka",
 		"exp" : 10,
 		"loot" : [
