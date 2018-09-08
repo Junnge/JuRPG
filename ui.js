@@ -125,3 +125,23 @@ function show_item_info(button, item_id){
 function get_price(item) {
 	return arrItems[item].price + Math.round(arrItems[item].price * ((10 - player.special.charisma) / 18));
 }
+
+function action_status() {
+	status = player.status;
+	var box = document.getElementById("action_buttons");
+	box.innerHTML = "";
+	if (status == "act_found"){
+		box.innerHTML += `<img src='img/buttons/${activity.type}_button_unactive.png'; id="activity_button" class="a_button" onclick="activity.go()">`;
+	}
+	if (status == "act_found" || status == "idle"){
+		box.innerHTML += `<img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()">`;
+	}
+	if (status == "in_combat"){
+		box.innerHTML += `<img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()">`;
+	}
+	if (status == "busy"){
+		console.log(activity.cd, performance.now(), activity.timestamp);
+		var time_left = activity.cd - (performance.now() - activity.timestamp);
+		document.getElementById("action_buttons").innerHTML = `Вы заняты делом. Осталось ${H(Math.floor(time_left/1000)+' секунд')}`;
+	}
+}

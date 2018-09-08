@@ -4,13 +4,42 @@
 		"radiation": 0,
 		"activity": "searching",
 		"items": ["stimpack", "gun10mm_ammo"],
-		"mob_ids": ["raider", "raiderlead", "madraider"]
+		"mob_ids": [
+			{"item": "raider", "rare": 20},
+			{"item":  "raiderlead", "rare": 5},
+			{"item": "madraider", "rare": 5}
+		],
+		"activities": [
+			{"item": "hunting", "rare": 5},
+			{"item": "searching", "rare": 5}
+		],
+		"events" : [
+		    {"item": "enemy", "rare": 5},
+		    {"item": "activity", "rare": 15}
+	    ]
 	},
 	"rock" : {
 		"name" : "Одинокая скала",
 		"radiation": 0,
 		"activity": "hunting",
 		"items": ["meat"],
-		"mob_ids": ["scorpion", "wolf", "geccon"]
+		"mob_ids": [
+			{"item": "scorpion", "rare": 20},
+			{"item":  "wolf", "rare": 5},
+			{"item": "geccon", "rare": 5}
+		],
+		"activities": [
+			{"item": "hunting", "rare": 5},
+			{"item": "searching", "rare": 5}
+		],
+		"objects":[
+			{"item": "box", "rare" :2},
+			{"item": "corpse", "rare" :5}
+		],
+		"events" : [
+		    {"item": "enemy", "rare": 5},
+		    {"item": "activity", "rare": 15},
+		    {"item": "object", "rare": 10}
+	    ]
 	}
 }

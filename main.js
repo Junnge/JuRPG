@@ -1,4 +1,4 @@
-var game_version = "1.05";
+var game_version = "1.06";
 
 var kinda_null = {name: "---"};
 
@@ -27,7 +27,7 @@ function jsoncallback(text, file){
 
 
 function arrLoad(argument) {
-	if (Object.keys(dataArrays).length != 5){
+	if (Object.keys(dataArrays).length != 6){
 		console.log('loading');
 		setTimeout(arrLoad, 50);
 		return 0;
@@ -37,14 +37,16 @@ function arrLoad(argument) {
 	arrLocations = dataArrays["data/locations.json"];
 	arrActivities = dataArrays["data/activities.json"];
 	arrNpcs = dataArrays["data/npcs.json"];
+	arrObjects = dataArrays["data/objects.json"];
 	//enemyObject.change("emptyenemy");
 	inv = new Inv();
 	player = new Player('Путник'); 
 	current_fight = new Fight(player);
 	if ("player" in localStorage) load_all();
-	activity = new Activity(arrLocations[player.location]);
-	document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
+	activity = new Activity('searching');
+	//document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 	status_update('Добро пожаловать в пустошь.'); 
+	action_status();
 	console.log('arrays loaded');
 }
 
@@ -189,6 +191,7 @@ class Player extends Char {
 		this.lvl = 0;
 		this.exp = 0;
 		this.skill_points = 0;
+		this.status = "idle";
 		this.location = "rock";
 		this.sex = "boy";
 		this.is_player = 1;
@@ -244,10 +247,10 @@ class Player extends Char {
 			status_update(arrActivities[activity.type].process);
 		} else {
 			this.location = id;
-			activity = new Activity(arrLocations[id]);
+			//activity = new Activity(arrLocations[id]);
 			show_box('action_box', 'action_button');
 			status_update(`Вы добрались до ${H(arrLocations[id].name)}`);
-			document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
+			//document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 		} 
 	}
 	
@@ -278,7 +281,7 @@ class Player extends Char {
 	}
 
 	save(){
-		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit];
+		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit, this.status];
 		localStorage.player =  arr.join(' ');
 		localStorage.special = JSON.stringify(this.special);
 		//localStorage.equip = JSON.stringify(this.slots, (function(slot_name, item){return item.id}));
@@ -297,6 +300,7 @@ class Player extends Char {
 		this.hp = Number(data[7]);
 		this.hp_max = Number(data[8]);
 		this.next_attack_is_crit = Boolean(data[9]);
+		this.status = data[10];
 		this.special = JSON.parse(localStorage.special);
 		var s = JSON.parse(localStorage.equip);
 		for (var key in s) {
@@ -402,10 +406,10 @@ function Inv() {
 }
 
 
-function Activity(loc){
-	console.log(loc);
-	this.type = loc["activity"];
-	this.items = loc["items"];
+function Activity(act){
+	console.log(act);
+	this.type = act;
+	this.items = arrActivities[act].items;
 	console.log(this.items[0]);
 	this.is_cd = false;
 	this.cd = arrActivities[this.type].cd;
@@ -417,10 +421,18 @@ function Activity(loc){
 			this.is_cd = true;
 			var that = this;
 			setTimeout(function(){that.finish()}, this.cd); 
+			player.status = "busy";
+			var timerId = setTimeout(function tick() {
+				if (player.status == "busy"){
+					action_status();
+					timerId = setTimeout(tick, 1000);
+				}
+			}, 1000);
 		} else {
 			var time_left = this.cd - (performance.now() - this.timestamp);
-			status_update(arrActivities[this.type].process + ` ${H(Math.floor(time_left/1000)+' секунд')}`);
+			//status_update(arrActivities[this.type].process + ` ${H(Math.floor(time_left/1000)+' секунд')}`);
 		}
+		action_status();
 	}
 	
 	this.finish = function(){
@@ -430,6 +442,8 @@ function Activity(loc){
 		player.give_exp(got_xp);
 		this.is_cd = false;
 		status_update(arrActivities[this.type].finish + `${H(arrItems[loot].name)} и получили ${got_xp} опыта.`);
+		player.status = "idle";
+		action_status();
 
 	}
 }
@@ -447,19 +461,34 @@ function adventure(){
 	if (player.is_dead){
 		status_update(`Простите, но Вы мертвы`);
 	} else if (current_fight.started == 0){
-		var id = arrLocations[player.location].mob_ids[randomInt(0, arrLocations[player.location].mob_ids.length-1)];
-		var enemy = new Enemy(id);
-		status_update(`Вы встретили ${H(enemy.name)}`);
-		tmp = stealth_roll()
-		if (tmp) {
-			status_update(`Вам удалось подкрасться незаметно. Следующий Ваш удар будет критическим.`);
-			player.next_attack_is_crit = true
+		var tmp = loot(arrLocations[player.location].events);
+		if (tmp == 'enemy'){		
+			var e_id = loot(arrLocations[player.location].mob_ids); //enemy id
+			var enemy = new Enemy(e_id);
+			status_update(`Вы встретили ${H(enemy.name)}`);
+			tmp = stealth_roll()
+			if (tmp) {
+				status_update(`Вам удалось подкрасться незаметно. Следующий Ваш удар будет критическим.`);
+				player.next_attack_is_crit = true
+			}
+			current_fight.init();
+			current_fight.add_fighter(player, 0);
+			current_fight.add_fighter(enemy, 1);
+			status_update();
+			player.status = "in_combat";
+		} else if (tmp == "activity"){
+			player.status = "act_found";
+			var a_id = loot(arrLocations[player.location].activities);  //activity id
+			activity = new Activity(a_id);
+			status_update(arrActivities[a_id].found);
+		} else if (tmp == "object"){
+			player.status = "idle";
+			var o_id = loot(arrLocations[player.location].objects); //obj id
+			var l_id = loot(arrObjects[o_id].loot);	//loot id
+			status_update(`Вы нашли ${H(arrObjects[o_id].name)}. Обыскав его вы нашли ${H(arrItems[l_id].name)}`);
 		}
-		current_fight.init();
-		current_fight.add_fighter(player, 0);
-		current_fight.add_fighter(enemy, 1);
-		status_update()
 	} else status_update(`Вы в бою!`);
+	action_status();
 }
 
 function stealth_roll(){
@@ -513,6 +542,8 @@ function Fight(player){
 	this.stop = function(){
 		this.started = 0
 		this.player.in_fight = 0
+		player.status = "idle";
+		action_status();
 	}
 	
 	this.get_target = function(i){
@@ -759,6 +790,7 @@ var arrItems;
 var arrLocations;
 var arrActivities;
 var arrNpcs;
+var arrObjects;
 var dataArrays = {};
 console.log("json loading")
 loadJSON("data/items.json", jsoncallback);
@@ -766,4 +798,5 @@ loadJSON("data/enemies.json", jsoncallback);
 loadJSON("data/locations.json", jsoncallback);
 loadJSON("data/activities.json", jsoncallback);
 loadJSON("data/npcs.json", jsoncallback);
+loadJSON("data/objects.json", jsoncallback);
 arrLoad();
