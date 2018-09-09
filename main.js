@@ -43,7 +43,7 @@ function arrLoad(argument) {
 	player = new Player('Путник', 'boy'); 
 	current_fight = new Fight(player);
 	if ("player" in localStorage) load_all();
-	activity = new Activity('searching');
+	//activity = new Activity('searching');
 	//document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 	status_update('Добро пожаловать в пустошь.'); 
 	action_status();
@@ -167,7 +167,7 @@ class Enemy extends Char {
 		var rand_caps_amount = randomInt(1, 10);
 		var rand_loot = loot(this.loot);
 		inv.add("cap", rand_caps_amount);
-		inv.add(rand_loot, 1);
+		inv.add(rand_loot.item, 1);
 		status_update(`Вы убили ${H(this.name)} и получили ${this.exp} опыта, нашли ${rand_caps_amount} ${H('Крышка')} и ${H(arrItems[rand_loot].name)}`);
 		status_update();  
 	}
@@ -423,19 +423,23 @@ class EnemyEvent{
 	constructor(id){
 		this.type = "enemy";
 		this.id = id;
+		this.enemy = new Enemy(this.id);
 	}
-	process(){
-		var enemy = new Enemy(this.id);
-		status_update("Вы встретили " + H(enemy.name));
-		if (stealth_roll()) {
-			status_update("Вам удалось подкрасться незаметно. Следующий Ваш удар будет критическим.");
-			player.next_attack_is_crit = true
-		}
+	go() {
 		current_fight.init();
 		current_fight.add_fighter(player, 0);
-		current_fight.add_fighter(enemy, 1);
+		current_fight.add_fighter(this.enemy, 1);
 		status_update();
 		player.status = "in_combat";
+	}
+	process(){	
+		status_update("Вы встретили " + H(this.enemy.name));
+		if (stealth_roll()) {
+			status_update("Вам удалось подкрасться незаметно. Следующий Ваш удар будет критическим.");
+			player.next_attack_is_crit = true;
+			player.status = "stealth";
+			status_update();
+		} else this.go();
 	}
 }
 	
@@ -448,7 +452,7 @@ class FindingEvent{
 		player.status = "idle";
 		var finding = arrFindings[this.id]; 
 		var item_id = loot(finding.loot);	
-		status_update(`Вы обнаружили ${H(finding.name)}. Обыскав его, вы нашли ${H(arrItems[item_id].name)}`);
+		status_update(`Вы обнаружили ${H(finding.name)}. Обыскав его, вы нашли ${H(arrItems[item_id.item].name)}`);
 	}
 }
 
@@ -460,7 +464,7 @@ class ActivityEvent{
 		this.cd = 20000;
 	}
 	
-	process() { 
+	go() { 
 		this.timestamp = performance.now();
 		status_update(arrActivities[this.id].start + ` ${H(Math.floor(this.cd/1000)+' секунд')}`);
 		var that = this;
@@ -475,13 +479,18 @@ class ActivityEvent{
 		action_status();
 	}
 	
+	process() {
+		status_update(arrActivities[this.id].found)
+		player.status = this.id;
+		action_status();	
+	}
 	
 	finish(){
 		var loot = this.items[randomInt(0, this.items.length-1)];
 		var got_xp = 1;
 		inv.add(loot, 1);
 		player.give_exp(got_xp);
-		status_update(arrActivities[this.type].finish + `${H(arrItems[loot].name)} и получили ${got_xp} опыта.`);
+		status_update(arrActivities[this.id].finish + `${H(arrItems[loot].name)} и получили ${got_xp} опыта.`);
 		player.status = "idle";
 		action_status();
 
@@ -504,7 +513,7 @@ function adventure(){
 		return;
 	}
 	var event_data = loot(arrLocations[player.location].events);
-	var event = Event(event_data.type, event_data.id);
+	var event = Event(event_data.type, event_data.item);
 	event.process();
 	action_status();
 }
@@ -773,7 +782,7 @@ function loot(lootlist){
 		i++;
 		//console.log(tmp,' ', i);
 	}
-	return lootlist[i-1].item;
+	return lootlist[i-1];
 }
 
 function cheats(){
