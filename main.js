@@ -168,7 +168,7 @@ class Enemy extends Char {
 		var rand_loot = loot(this.loot);
 		inv.add("cap", rand_caps_amount);
 		inv.add(rand_loot.item, 1);
-		status_update(`Вы убили ${H(this.name)} и получили ${this.exp} опыта, нашли ${rand_caps_amount} ${H('Крышка')} и ${H(arrItems[rand_loot].name)}`);
+		status_update(`Вы убили ${H(this.name)} и получили ${this.exp} опыта, нашли ${rand_caps_amount} ${H('Крышка')} и ${H(arrItems[rand_loot.item].name)}`);
 		status_update();  
 	}
 
@@ -513,8 +513,8 @@ function adventure(){
 		return;
 	}
 	var event_data = loot(arrLocations[player.location].events);
-	var event = Event(event_data.type, event_data.item);
-	event.process();
+	cur_event = Event(event_data.type, event_data.item);
+	cur_event.process();
 	action_status();
 }
 
@@ -792,7 +792,7 @@ function cheats(){
 	inv.add("cap", 1000000);
 }
 
-var activity;
+var cur_event;
 var player;
 var current_fight;
 var arrEnemies;

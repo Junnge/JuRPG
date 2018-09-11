@@ -131,7 +131,7 @@ function action_status() {
 	var box = document.getElementById("action_buttons");
 	box.innerHTML = "";
 	if (player.status in arrActivities){
-		box.innerHTML += `<img src='img/buttons/${player.status}_button_unactive.png'; id="activity_button" class="a_button" onclick="event.go()">`;
+		box.innerHTML += `<img src='img/buttons/${player.status}_button_unactive.png'; id="activity_button" class="a_button" onclick="cur_event.go();">`;
 	}
 	if (player.status == "in_combat" || player.status == "stealth"){
 		box.innerHTML += `<img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()">`;
