@@ -43,7 +43,9 @@ function arrLoad(argument) {
 	player = new Player('Путник', 'boy'); 
 	current_fight = new Fight(player);
 	if ("player" in localStorage) load_all();
-	//activity = new Activity('searching');
+	if (player.status in arrActivities){
+		cur_event = new Event('activity', player.status);
+	}
 	//document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 	status_update('Добро пожаловать в пустошь.'); 
 	action_status();
