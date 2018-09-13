@@ -1,13 +1,13 @@
 {
 	"corpse": {
-		"name": "труп",
+		"name": "Труп",
 		"loot": [
 			{"item" : "gun10mm", "rare" : 10},
 			{"item" : "leather_armor", "rare" : 1}
 		]
 	},	
 	"box": {
-		"name": "ящик",
+		"name": "Ящик",
 		"loot": [
 			{"item" : "sniperifle", "rare" : 10},
 			{"item" : "leather_armor", "rare" : 1}

@@ -72,12 +72,12 @@ document.getElementById("npc_inv_box").onwheel = function(e){
 var action_buttons_elements = document.getElementById('action_buttons');
 action_buttons_elements.addEventListener("mouseover", function mo(s){
 	if (s.target.id == 'activity_button') {
-		s.target.src='img/buttons/'+activity.type+'_button_active.png';
+		s.target.src='img/buttons/'+player.status+'_button_active.png';
 	} else s.target.src='img/buttons/'+s.target.id+'_active.png';
 });
 action_buttons_elements.addEventListener("mouseout", function mo(s){
 	if (s.target.id == 'activity_button') {
-		s.target.src='img/buttons/'+activity.type+'_button_unactive.png';
+		s.target.src='img/buttons/'+player.status+'_button_unactive.png';
 	} else s.target.src='img/buttons/'+s.target.id+'_unactive.png';
 });
 
@@ -127,21 +127,21 @@ function get_price(item) {
 }
 
 function action_status() {
-	status = player.status;
+	player.status;
 	var box = document.getElementById("action_buttons");
 	box.innerHTML = "";
-	if (status == "act_found"){
-		box.innerHTML += `<img src='img/buttons/${activity.type}_button_unactive.png'; id="activity_button" class="a_button" onclick="activity.go()">`;
+	if (player.status in arrActivities){
+		box.innerHTML += `<img src='img/buttons/${player.status}_button_unactive.png'; id="activity_button" class="a_button" onclick="cur_event.go();">`;
 	}
-	if (status == "act_found" || status == "idle"){
-		box.innerHTML += `<img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()">`;
-	}
-	if (status == "in_combat"){
+	if (player.status == "in_combat" || player.status == "stealth"){
 		box.innerHTML += `<img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()">`;
 	}
-	if (status == "busy"){
-		console.log(activity.cd, performance.now(), activity.timestamp);
-		var time_left = activity.cd - (performance.now() - activity.timestamp);
-		document.getElementById("action_buttons").innerHTML = `Вы заняты делом. Осталось ${H(Math.floor(time_left/1000)+' секунд')}`;
+	if (player.status in arrActivities || player.status == "idle" || player.status == "stealth"){
+		box.innerHTML += `<img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()">`;
+	}
+	if (player.status == "busy"){
+		//console.log(activity.cd, performance.now(), activity.timestamp);
+		//var time_left = activity.cd - (performance.now() - activity.timestamp);
+		//document.getElementById("action_buttons").innerHTML = `Вы заняты делом. Осталось ${H(Math.floor(time_left/1000)+' секунд')}`;
 	}
 }
