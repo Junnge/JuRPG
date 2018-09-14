@@ -52,8 +52,6 @@ function arrLoad(argument) {
 	console.log('arrays loaded');
 }
 
-
-
 class Item {
 	constructor(id){
 		for (var key in arrItems[id]) {
@@ -66,8 +64,23 @@ class Item {
 	toJSON(){
 		return this.id
 	}
+	
+	is_armor(){
+		return ("armor" in this)
+	}
+	
+	is_weapon(){
+		return ("damage" in this)
+	}
+	
+	is_equippable(){
+		return ["weapon", "head", "body"].contains(this.slot)
+	}
+	
+	ammo(){
+		return arrItems[this.id + "_ammo"]
+	}
 }
-
 
 class Char {
 	constructor(name, hp, max_hp, weapon, armor){
