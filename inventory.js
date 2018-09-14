@@ -1,4 +1,3 @@
-// dependencies: Item
 
 class Inv {
 	constructor(){
@@ -35,11 +34,10 @@ class Inv {
 		this.add("cap", price*amount);
 	}
 	
-	open_container(container_item_id){
-		this.remove(container_item_id, 1);
-		var items = new Item(container_item_id).container;
-		for (var id in items){
-			var amount = items[id];
+	open_container(item){ // takes Item object itself, not an id
+		this.remove(item.id, 1);
+		for (var id in item.container){
+			var amount = item.container[id];
 			this.add(id, amount)
 		}
 			
