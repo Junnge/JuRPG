@@ -40,6 +40,7 @@ export class Inv {
 			var amount = item.container[id];
 			this.add(id, amount)
 		}
+	}
 			
 	save(){
 		localStorage.inv = JSON.stringify(this.stuff);
