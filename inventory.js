@@ -1,5 +1,5 @@
 
-class Inv {
+export class Inv {
 	constructor(){
 		this.stuff = {};
 	}
