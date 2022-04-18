@@ -123,7 +123,9 @@ function show_item_info(button, item_id){
 }
 
 function get_price(item) {
-	return arrItems[item].price + Math.round(arrItems[item].price * ((10 - player.special.charisma) / 18));
+	price = arrItems[item].price
+	if (item != "cap") {price = price + Math.round(arrItems[item].price * ((10 - player.special.charisma) / 18))}
+	return price;
 }
 
 function action_status() {
