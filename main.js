@@ -72,6 +72,10 @@ class Item {
 	is_weapon(){
 		return ("damage" in this)
 	}
+
+	is_ranged(){
+		return (this["ranged"] == true)
+	}
 	
 	is_equippable(){
 		return ["weapon", "head", "body"].contains(this.slot)
@@ -106,7 +110,10 @@ class Char {
 	}
 
 	get_attack_damage() {
-		return this.slots.weapon.damage;
+		let item = this.slots.weapon
+		if (item.is_ranged()) return this.slots.weapon.damage;
+		if (this.special == undefined) return (this.slots.weapon.damage)
+		return (this.slots.weapon.damage) * (1 + this.special.strength / 5)
 	}
 
 	get armor() {
@@ -248,9 +255,9 @@ class Player extends Char {
 		if (this.in_fight == 1) {
 			show_box('action_box', 'action_button');
 			status_update('Вы в бою!');
-		} else if (activity.is_cd){
-			show_box('action_box', 'action_button');
-			status_update(arrActivities[activity.type].process);
+		// } else if (activity.is_cd){
+		// 	show_box('action_box', 'action_button');
+		// 	status_update(arrActivities[activity.type].process);
 		} else {
 			this.location = id;
 			//activity = new Activity(arrLocations[id]);

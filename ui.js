@@ -116,7 +116,7 @@ function uinpc(button,id=npctmp){
   
 function show_item_info(button, item_id){
 	let price = 0
-  	if (button == 'buy') {var btext = "Купить"; price = get_buying_price()} else { var btext = "Продать"; price = get_selling_price()}
+  	if (button == 'buy') {var btext = "Купить"; price = get_buying_price(item_id)} else { var btext = "Продать"; price = get_selling_price(item_id)}
   	document.getElementById("shop_info_box").innerHTML = '';
     document.getElementById("shop_info_box").innerHTML += `<div id='shop_item_info_box'>${arrItems[item_id].description}</div>`;
     document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.${button}('${item_id}', ${price}, 1); uinpc('${button}')">${btext} 1</a>`

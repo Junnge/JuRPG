@@ -14,7 +14,8 @@
 		"price" : 150,
 		"damage": 25,
 		"slot": "weapon",
-		"description": "Это просто пушка."
+		"description": "Это просто пушка.",
+		"ranged": true
 	},
 	"fists" : {
 		"name" : "Кулаки",
@@ -28,7 +29,8 @@
 		"price" : 150,
 		"damage" : 30,
 		"slot" : "weapon",
-		"description": "Прицел сбит влево."
+		"description": "Прицел сбит влево.",
+		"ranged": true
 	},
 	"equip_item" : {
 		"name" : "-----"
@@ -38,7 +40,8 @@
 		"price" : 150000,
 		"damage": 500,
 		"slot": "weapon",
-		"description": "Вам придётся применять это вовсе не против танка."
+		"description": "Вам придётся применять это вовсе не против танка.",
+		"ranged": true
 	},
 	"bazooka_ammo" : {
 		"name" : "Патрон для базуки",
