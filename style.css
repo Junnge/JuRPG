@@ -330,10 +330,22 @@ div.map_icon{
 	top: 210px;
 	left: 410px;
 }
+
 #shop{
 	top: 130px;
 	left: 240px;
 }
+
+#shop2{
+	top: 260px;
+	left: 230px;
+}
+
+#shop3{
+	top: 95px;
+	left: 425px;
+}
+
 a:hover{
 	cursor: default;
 }
