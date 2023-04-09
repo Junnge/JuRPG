@@ -332,11 +332,11 @@ class Player extends Char {
 	}
 
 	get_crit_chance() {
-		return 0.08 + this.special.luck/100
+		return 0.1 + this.special.luck/100
 	}
 
 	get_stealth() {
-		return this.special.perception/20 + this.special.luck/100
+		return 0.1 + this.special.perception/20 + this.special.luck/100
 	}
 
 	spend_ammo() {
@@ -391,7 +391,9 @@ function Inv() {
 
 	this.show = function(){
 		document.getElementById('stuff_box').innerHTML = '';
+		console.log(this.stuff)
 		for (var item in this.stuff) {
+			console.log(item)
 			if (arrItems[item].slot != undefined){
 				document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" onclick="player.unequip('${arrItems[item].slot}'); player.equip('${item}')
 				inv.show()" >${arrItems[item].name} (${this.stuff[item]})</a>`
@@ -464,7 +466,8 @@ class EnemyEvent{
 			player.next_attack_is_crit = true;
 			player.status = "stealth";
 			status_update();
-		} else this.go();
+		};
+		this.go();
 	}
 }
 	
@@ -476,8 +479,9 @@ class FindingEvent{
 	process(){
 		player.status = "idle";
 		var finding = arrFindings[this.id]; 
-		var item_id = loot(finding.loot);	
-		status_update(`Вы обнаружили ${H(finding.name)}. Обыскав его, вы нашли ${H(arrItems[item_id.item].name)}`);
+		var item_loot = loot(finding.loot);
+		status_update(`Вы обнаружили ${H(finding.name)}. Обыскав его, вы нашли ${H(arrItems[item_loot.item].name)}`);
+		inv.add(item_loot.item, 1)
 	}
 }
 
@@ -511,11 +515,11 @@ class ActivityEvent{
 	}
 	
 	finish(){
-		var loot = this.items[randomInt(0, this.items.length-1)];
+		var loot_id = this.items[randomInt(0, this.items.length-1)];
 		var xp = 1;
-		inv.add(loot, 1);
+		inv.add(loot_id, 1);
 		let got_exp = player.give_exp(xp);
-		status_update(arrActivities[this.id].finish + `${H(arrItems[loot].name)} и получили ${got_exp} опыта.`);
+		status_update(arrActivities[this.id].finish + `${H(arrItems[loot_id].name)} и получили ${got_exp} опыта.`);
 		player.status = "idle";
 		action_status();
 
@@ -650,6 +654,7 @@ function Fight(player){
 	this.attack = function(a, b, dist){
 		var is_succesful = a.spend_ammo();
 		if (!is_succesful) {
+			console.log('no ammo')
 			return;
 		}
 		acc = a.get_accuracy();
@@ -664,7 +669,10 @@ function Fight(player){
 		}
 		dice = Math.random();
 		crit = a.get_crit_chance();
-		if (crit > dice | a.next_attack_is_crit) {
+		console.log(dice)
+		console.log(crit)
+		console.log(a.next_attack_is_crit)
+		if (crit > dice || a.next_attack_is_crit) {
 			damage = Math.trunc(a.get_attack_damage(dist) * a.get_crit_mult() - b.armor)
 			a.next_attack_is_crit = false
 		} else {

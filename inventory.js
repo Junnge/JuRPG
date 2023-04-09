@@ -15,6 +15,7 @@ export class Inv {
 	}
 	
 	add(item, count){
+		console.log('add', item, count)
 		if (item in this.stuff) {
 			this.stuff[item] += count
 		} else {

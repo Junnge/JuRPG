@@ -14,9 +14,10 @@
 		"name" : "Одинокая скала",
 		"radiation": 0,
 		"events": [
-			{"type": "enemy", "item": "scorpion", "rare": 20},
+			{"type": "enemy", "item": "scorpion", "rare": 1},
 			{"type": "enemy", "item":  "wolf", "rare": 5},
-			{"type": "enemy", "item": "geccon", "rare": 10},
+			{"type": "enemy", "item":  "weak_wolf", "rare": 8},
+			{"type": "enemy", "item": "geccon", "rare": 2},
 			{"type": "activity", "item": "hunting", "rare": 5},
 			{"type": "activity", "item": "searching", "rare": 5},
 			{"type": "finding", "item": "box", "rare": 2},

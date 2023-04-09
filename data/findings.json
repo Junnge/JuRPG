@@ -3,14 +3,17 @@
 		"name": "Труп",
 		"loot": [
 			{"item" : "gun10mm", "rare" : 10},
-			{"item" : "leather_armor", "rare" : 1}
+			{"item" : "leather_armor", "rare" : 1},
+			{"item" : "knife", "rare" : 50},
+			{"item" : "gun10mm_ammo", "rare" : 20}
 		]
 	},	
 	"box": {
 		"name": "Ящик",
 		"loot": [
 			{"item" : "sniperifle", "rare" : 10},
-			{"item" : "leather_armor", "rare" : 1}
+			{"item" : "leather_armor", "rare" : 1},
+			{"item" : "knife", "rare" : 20}
 		]
 	}
 }

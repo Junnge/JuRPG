@@ -24,6 +24,13 @@
 		"slot": "weapon",
 		"description": "С ними вы никогда не безоружны."
 	},
+	"knife" : {
+		"name" : "Нож",
+		"price" : 20,
+		"damage": 10,
+		"slot": "weapon",
+		"description": "Лучше чем кулаки."
+	},
 	"sniperifle" : {
 		"name" : "Снайперская винтовка",
 		"price" : 150,
