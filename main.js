@@ -493,7 +493,7 @@ class ActivityEvent{
 		this.type = "activity";
 		this.id = id;
 		this.items = arrActivities[id].items;
-		this.cd = 20000;
+		this.cd = 5000;
 	}
 
 	go() {
