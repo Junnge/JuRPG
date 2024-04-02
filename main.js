@@ -541,7 +541,7 @@ function fight(){
 //Путешествие в пyстоши, генерация событий
 function adventure(){
 	if (player.is_dead){
-		status_update("Простите, но Вы мертвы");
+		status_update("Вы мертвы. Нажмите RESET чтобы начать сначала.");
 		return;
 	}
 	var event_data = loot(arrLocations[player.location].events);
