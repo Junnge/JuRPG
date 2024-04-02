@@ -38,7 +38,7 @@
 	"axe": {
 		"name" : "Топор",
 		"price" : 40,
-		"damage" : 20,
+		"damage" : 30,
 		"slot" : "weapon",
 		"description": "Если бы в игре были деревья...",
 		"effective_range": 1

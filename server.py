@@ -1,3 +1,7 @@
+"""
+Minimal server for testing the game locally
+"""
+
 import http.server
 import socketserver
 

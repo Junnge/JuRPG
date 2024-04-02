@@ -169,7 +169,7 @@
 #info_box{
 	width: 247px;
 	height: 144px;
-	margin-top: 12px; 
+	margin-top: 12px;
 	border: 1px solid #23FB8E;
 }
 #info_box > p{
@@ -265,7 +265,7 @@ body{
 }
 .price{
 	position: absolute;
-	left: 50%;	
+	left: 50%;
 }
 .item_box{
 	position: relative;
@@ -276,10 +276,10 @@ body{
 }
 .bb {
 	left:80%;
-	border: 1px solid #23FB8E;	
+	border: 1px solid #23FB8E;
 	background-color: #21EF85;
-    color: #001709;
-    position: absolute;
+	color: #001709;
+	position: absolute;
 }
 #b1{
 	bottom: 15%;
@@ -298,25 +298,25 @@ body{
 
 div.map_icon span{
 	visibility: hidden;
-    width: 120px;
-    background-color: #21EF85;
-    color: #001709;
-    text-align: center;
-    padding: 2px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 0.3s;
-} 
+	width: 120px;
+	background-color: #21EF85;
+	color: #001709;
+	text-align: center;
+	padding: 2px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -60px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
 div.map_icon:hover span {
 	visibility: visible;
-    opacity: 1;
+	opacity: 1;
 }
 div.map_icon{
-	position: absolute; 
+	position: absolute;
 }
 #rock{
 	top: 80px;
@@ -359,11 +359,11 @@ img:hover{
 	top: 50px;
 	left: 10px;
 	width: 65px;
-	padding-left: 5px; 
+	padding-left: 5px;
 }
 #sell_button{
 	top: 50px;
 	left: 90px;
 	width: 65px;
-	padding-left: 5px; 
+	padding-left: 5px;
 }

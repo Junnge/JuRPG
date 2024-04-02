@@ -8,7 +8,7 @@ var special_visible_names = {
 	luck : "Удача"
 };
 
-//Отображение элементов интерфейса 
+//Отображение элементов интерфейса
 function show_box(box, button, button2) {
 document.getElementById('action_button').src = "img/buttons/button_unactive.png";
 document.getElementById('map_button').src = "img/buttons/button_unactive.png";
@@ -40,9 +40,9 @@ document.getElementById(button).src = "img/buttons/button_active.png";
 
 function raise_special_level(player, special){
 	player.special[special]++;
-	player.special_points--; 
-	show_player_stats(player); 
-	player.set_hp_max(); 
+	player.special_points--;
+	show_player_stats(player);
+	player.set_hp_max();
 	status_update();
 }
 
@@ -61,12 +61,12 @@ function show_player_stats(player) { // former Player.show_stats
 	}
 
 document.getElementById("action_box").onwheel = function(e){
-      document.getElementById("action_box").scrollBy(0, e.deltaY *4);
-      e.preventDefault();
+	  document.getElementById("action_box").scrollBy(0, e.deltaY *4);
+	  e.preventDefault();
 }
 document.getElementById("npc_inv_box").onwheel = function(e){
-      document.getElementById("npc_inv_box").scrollBy(0, e.deltaY *4);
-      e.preventDefault();
+	  document.getElementById("npc_inv_box").scrollBy(0, e.deltaY *4);
+	  e.preventDefault();
 }
 
 var action_buttons_elements = document.getElementById('action_buttons');
@@ -98,29 +98,29 @@ var npctmp;
 function uinpc(button,id=npctmp){
 	var npc = arrNpcs[id];
 	npctmp = id;
-    document.getElementById("npc_name_box").innerHTML = npc.name;
-    var phrase = npc.phrase.replace("{{sexref}}", npc[player.sex]);
-    document.getElementById("phrase_box").innerHTML = phrase;
-    document.getElementById('npc_inv_box').innerHTML = '';
-    if (button == "buy"){
-        for (var i = 0; i < npc.list.length ; i++){
-            var item = arrItems[npc.list[i]];
-            document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${npc.list[i]}')">${item.name}</a><a class="price"> | Цена: ${get_buying_price(npc.list[i])}</a></div>`;
-        } 
-    } else if (button == 'sell'){
-    	for (var item in inv.stuff) {
-    		document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${item}')">${arrItems[item].name} (${inv.stuff[item]})</a><a class="price"> | Цена: ${get_selling_price(item)}</a></div>`;
+	document.getElementById("npc_name_box").innerHTML = npc.name;
+	var phrase = npc.phrase.replace("{{sexref}}", npc[player.sex]);
+	document.getElementById("phrase_box").innerHTML = phrase;
+	document.getElementById('npc_inv_box').innerHTML = '';
+	if (button == "buy"){
+		for (var i = 0; i < npc.list.length ; i++){
+			var item = arrItems[npc.list[i]];
+			document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${npc.list[i]}')">${item.name}</a><a class="price"> | Цена: ${get_buying_price(npc.list[i])}</a></div>`;
+		}
+	} else if (button == 'sell'){
+		for (var item in inv.stuff) {
+			document.getElementById('npc_inv_box').innerHTML += `<div class="item_box"><a class="item" onclick="show_item_info('${button}','${item}')">${arrItems[item].name} (${inv.stuff[item]})</a><a class="price"> | Цена: ${get_selling_price(item)}</a></div>`;
    		}
-    }
+	}
 }
-  
+
 function show_item_info(button, item_id){
 	let price = 0
   	if (button == 'buy') {var btext = "Купить"; price = get_buying_price(item_id)} else { var btext = "Продать"; price = get_selling_price(item_id)}
   	document.getElementById("shop_info_box").innerHTML = '';
-    document.getElementById("shop_info_box").innerHTML += `<div id='shop_item_info_box'>${arrItems[item_id].description}</div>`;
-    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.${button}('${item_id}', ${price}, 1); uinpc('${button}')">${btext} 1</a>`
-    document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b10" onclick="inv.${button}('${item_id}', ${price}, 10); uinpc('${button}')">${btext} 10</a>`
+	document.getElementById("shop_info_box").innerHTML += `<div id='shop_item_info_box'>${arrItems[item_id].description}</div>`;
+	document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b1" onclick="inv.${button}('${item_id}', ${price}, 1); uinpc('${button}')">${btext} 1</a>`
+	document.getElementById("shop_info_box").innerHTML += `<a class="bb" id="b10" onclick="inv.${button}('${item_id}', ${price}, 10); uinpc('${button}')">${btext} 10</a>`
 }
 
 // function get_price(item) {
