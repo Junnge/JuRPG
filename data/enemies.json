@@ -18,9 +18,9 @@
 		"weapon": "fangs",
 		"exp": 1,
 		"loot" : [
-		    {"item": "wolfleather", "rare": 1},
-		    {"item": "meat", "rare": 5}
-	    ]
+			{"item": "wolfleather", "rare": 1},
+			{"item": "meat", "rare": 5}
+		]
 	},
 	"wolf" : {
 		"name" : "Койот",
@@ -29,9 +29,9 @@
 		"weapon": "fangs",
 		"exp": 3,
 		"loot" : [
-		    {"item": "wolfleather", "rare": 1},
-		    {"item": "meat", "rare": 5}
-	    ]
+			{"item": "wolfleather", "rare": 1},
+			{"item": "meat", "rare": 5}
+		]
 	},
 	"scorpion" : {
 		"name" : "Скорпион",
@@ -39,9 +39,9 @@
 		"base_damage" : 2,
 		"exp" : 5,
 		"loot" : [
-		    {"item": "radtail", "rare": 1},
-		    {"item": "meat", "rare": 5}
-	    ]
+			{"item": "radtail", "rare": 1},
+			{"item": "meat", "rare": 5}
+		]
 	},
 	"geccon" : {
 		"name" : "Ящер",
@@ -49,9 +49,9 @@
 		"base_damage" : 2,
 		"exp" : 4,
 		"loot" : [
-		    {"item": "gecleather", "rare": 1},
-		    {"item": "meat", "rare": 5}
-	    ]
+			{"item": "gecleather", "rare": 1},
+			{"item": "meat", "rare": 5}
+		]
 	},
 	"raider" : {
 		"name" : "Рейдер",
@@ -63,7 +63,7 @@
 			{"item": "gun10mm_ammo", "rare": 40},
 			{"item": "gun10mm", "rare": 4},
 			{"item": "stimpack", "rare": 10}
-	    ]
+		]
 	},
 	"raiderlead" : {
 		"name" : "Лидер рейдеров",
@@ -76,7 +76,7 @@
 			{"item": "gun10mm_ammo", "rare": 40},
 			{"item": "gun10mm", "rare": 5},
 			{"item": "stimpack", "rare": 15}
-	    ]
+		]
 	},
 	"madraider" : {
 		"name" : "Бешеный рейдер",
@@ -88,6 +88,6 @@
 			{"item": "gun10mm_ammo", "rare": 100},
 			{"item": "bazooka", "rare": 1},
 			{"item": "stimpack", "rare": 20}
-	    ]
+		]
 	}
 }

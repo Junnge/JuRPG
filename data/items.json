@@ -15,21 +15,33 @@
 		"damage": 25,
 		"slot": "weapon",
 		"description": "Это просто пушка.",
-		"ranged": true
+		"ranged": true,
+		"effective_range": 5
 	},
 	"fists" : {
 		"name" : "Кулаки",
 		"price" : 0,
 		"damage": 5,
 		"slot": "weapon",
-		"description": "С ними вы никогда не безоружны."
+		"description": "С ними вы никогда не безоружны.",
+		"effective_range": 0,
+		"pseudo_item": true
 	},
 	"knife" : {
 		"name" : "Нож",
 		"price" : 20,
 		"damage": 10,
 		"slot": "weapon",
-		"description": "Лучше чем кулаки."
+		"description": "Лучше чем кулаки.",
+		"effective_range": 0
+	},
+	"axe": {
+		"name" : "Топор",
+		"price" : 40,
+		"damage" : 20,
+		"slot" : "weapon",
+		"description": "Если бы в игре были деревья...",
+		"effective_range": 1
 	},
 	"sniperifle" : {
 		"name" : "Снайперская винтовка",
@@ -37,10 +49,12 @@
 		"damage" : 30,
 		"slot" : "weapon",
 		"description": "Прицел сбит влево.",
-		"ranged": true
+		"ranged": true,
+		"effective_range": 20
 	},
 	"equip_item" : {
-		"name" : "-----"
+		"name" : "-----",
+		"pseudo_item": true
 	},
 	"bazooka" : {
 		"name" : "Базука",
@@ -48,7 +62,8 @@
 		"damage": 500,
 		"slot": "weapon",
 		"description": "Вам придётся применять это вовсе не против танка.",
-		"ranged": true
+		"ranged": true,
+		"effective_range": 15
 	},
 	"bazooka_ammo" : {
 		"name" : "Патрон для базуки",
@@ -57,12 +72,18 @@
 	"fangs" : {
 		"name" : "Клыки",
 		"price" : 2,
-		"damage" : 15
+		"damage" : 10,
+		"slot": "weapon",
+		"description": "Зов предков.",
+		"effective_range": 0
 	},
 	"basicweapon" : {
 		"name" : "Слово Божье",
 		"price" : 0,
-		"damage" : 10
+		"damage" : 10,
+		"slot": "weapon",
+		"effective_range": 0,
+		"pseudo_item": true
 	},
 	"gun10mm_ammo" : {
 		"name" : "10мм патроны",
@@ -81,6 +102,13 @@
 		"slot": "body",
 		"description": "Психологическая защита для вашего тела."
 	},
+	"reptilearmor" : {
+		"name" : "Броня из шкуры ящера",
+		"price" : 500,
+		"armor": 10,
+		"slot": "body",
+		"description": "Более чем психологическая защита для вашего тела."
+	},
 	"basicarmor" : {
 		"name" : "Дырявый ватник",
 		"armor": 0,
@@ -89,7 +117,7 @@
 	"steelarmor" : {
 		"name" : "Стальная броня",
 		"price" : 1500,
-		"armor": 7,
+		"armor": 15,
 		"slot": "body",
 		"description": "Серьёзный доспех. Почувствуйте себя средневековым рыцарем."
 	},
