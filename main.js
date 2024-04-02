@@ -824,7 +824,8 @@ function cheats(){
 	for (var item in arrItems) {
 		inv.add(item, 100)
 	};
-	inv.add("cap", 1000000);
+	inv.add("cap", 999900);
+	status_update("Вы получили по 100 штук каждой вещи в игре и немного крышек");
 }
 
 var cur_event;
