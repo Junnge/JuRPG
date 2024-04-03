@@ -1,12 +1,29 @@
 import { Item } from "./item.js";
 
-export class Char {
+/**
+ * Represents agents of the game's world
+ * @class
+ */
+export class Character {
 	constructor(name, hp, max_hp, weapon, armor){
 		this.name = name;
 		this._hp = hp;
 		this.hp_max = max_hp;
 		this.slots = {weapon: weapon, body: armor, head: new Item("equip_item")};
 		this.next_attack_is_crit = false;
+
+		/**
+		 * @type {import("../engine/types.js").SPECIAL}
+		 */
+		this.special = {
+			strength : 1,
+			perception : 1,
+			endurance : 1,
+			charisma : 1,
+			intellegence : 1,
+			agility : 1,
+			luck : 1
+		};
 	}
 
 	get hp() {

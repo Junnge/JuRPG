@@ -2,10 +2,10 @@ import { H } from "../engine/common.js";
 
 /**
  *
- * @param {GameContent} gameContent
- * @param {Character} crafter
+ * @param {import("../engine/types.js").GameContent} gameContent
+ * @param {import('../classes/character.js').Character} crafter
  * @param {import('../classes/inventory').Inventory} inventory
- * @param {CraftID} craft_id
+ * @param {import("../engine/types.js").CraftID} craft_id
  * @returns {string[]}
  */
 export function can_craft(gameContent, crafter, inventory, craft_id) {
@@ -30,10 +30,10 @@ export function can_craft(gameContent, crafter, inventory, craft_id) {
 
 /**
  *
- * @param {GameContent} gameContent
- * @param {Character} crafter
+ * @param {import("../engine/types.js").GameContent} gameContent
+ * @param {import('../classes/character.js').Character} crafter
  * @param {import('../classes/inventory').Inventory} inventory
- * @param {CraftID} craft_id
+ * @param {import("../engine/types.js").CraftID} craft_id
  * @returns {string[]}
  */
 export function craft(gameContent, crafter, inventory, craft_id) {

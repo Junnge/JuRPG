@@ -9,7 +9,7 @@ export class Inventory {
 
 	/**
 	 *
-	 * @param {ItemID} item ID of the item
+	 * @param {import("../engine/types").ItemID} item ID of the item
 	 * @param {number} count
 	 */
 	remove(item, count){
@@ -24,7 +24,7 @@ export class Inventory {
 
 	/**
 	 *
-	 * @param {ItemID} item
+	 * @param {import("../engine/types").ItemID} item
 	 * @param {number} count
 	 */
 	add(item, count){
@@ -37,7 +37,7 @@ export class Inventory {
 
 	/**
 	 *
-	 * @param {ItemID} item
+	 * @param {import("../engine/types").ItemID} item
 	 * @returns number
 	 */
 	has(item) {
@@ -49,7 +49,7 @@ export class Inventory {
 
 	/**
 	 *
-	 * @param {ItemID} item
+	 * @param {import("../engine/types").ItemID} item
 	 * @param {number} price
 	 * @param {number} amount
 	 */
@@ -60,7 +60,7 @@ export class Inventory {
 
 	/**
 	 *
-	 * @param {ItemID} item
+	 * @param {import("../engine/types").ItemID} item
 	 * @param {number} price
 	 * @param {number} amount
 	 */

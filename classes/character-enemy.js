@@ -1,8 +1,8 @@
 import { gameContent } from "../engine/database.js";
-import { Char } from "./character.js";
+import { Character } from "./character.js";
 import { Item } from "./item.js";
 
-export class Enemy extends Char {
+export class Enemy extends Character {
 	constructor(id){
 		//console.log(id)
 		//console.log(gameContent.enemies)

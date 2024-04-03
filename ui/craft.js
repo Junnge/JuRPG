@@ -2,8 +2,8 @@ import { H } from "../engine/common.js";
 import { can_craft, craft } from "../systems/craft.js";
 
 /**
- * @param {GameContent} gameContent
- * @param {ItemWithAmount[]} items
+ * @param {import("../engine/types.js").GameContent} gameContent
+ * @param {import("../engine/types.js").ItemWithAmount[]} items
  * @returns {string}
  */
 function collection_of_items_to_string(gameContent, items) {
@@ -26,8 +26,8 @@ function collection_of_items_to_string(gameContent, items) {
 
 /**
  *
- * @param {GameContent} gameContent
- * @param {GameState} gameState
+ * @param {import("../engine/types.js").GameContent} gameContent
+ * @param {import("../engine/types.js").GameState} gameState
  * @param {HTMLElement} container
  */
 export function populate_container_with_crafts(gameState, gameContent, container) {

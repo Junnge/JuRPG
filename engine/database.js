@@ -1,5 +1,9 @@
 export var dataArrays = {}
 
+/**
+ * Stores all game's content. Items, locations, loot, etc.
+ * @type {import("./types").GameContent}
+ */
 export var gameContent = {
 	items: {},
 	enemies: {},
@@ -19,7 +23,7 @@ export function loadJSON(file, callback) {
 	rawFile.overrideMimeType("application/json");
 	rawFile.open("GET", file, true);
 	rawFile.onreadystatechange = function() {
-		if (rawFile.readyState === 4 && rawFile.status == "200") {
+		if (rawFile.readyState === 4 && rawFile.status == 200) {
 			callback(rawFile.responseText, file);
 		}
 	}

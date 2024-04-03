@@ -1,10 +1,10 @@
 import { H } from "../engine/common.js";
 import { gameContent } from "../engine/database.js";
 import { action_log } from "../ui/status-update.js";
-import { Char } from "./character.js";
+import { Character } from "./character.js";
 import { Item } from "./item.js";
 
-export class Player extends Char {
+export class Player extends Character {
 	constructor(name, sex){
 		super(name, 100, 100, new Item("fists"), new Item("basic_armor_1"));
 		this.lvl = 0;
@@ -15,15 +15,7 @@ export class Player extends Char {
 		this.sex = sex;
 		this.in_fight = 0;
 		this.special_points = 10;
-		this.special = {
-			strength : 1,
-			perception : 1,
-			endurance : 1,
-			charisma : 1,
-			intellegence : 1,
-			agility : 1,
-			luck : 1
-		};
+		this.base_damage = 0;
 	}
 	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
 	give_exp(x){
@@ -62,7 +54,7 @@ export class Player extends Char {
 	travel(id){
 		if (this.in_fight == 1) {
 			show_box('action_box', 'action_button');
-			status_update('Вы в бою!');
+			action_log('Вы в бою!');
 		// } else if (activity.is_cd){
 		// 	show_box('action_box', 'action_button');
 		// 	status_update(gameContent.activities[activity.type].process);
@@ -106,7 +98,7 @@ export class Player extends Char {
 	}
 
 	die() {
-		status_update('Вы погибли.')
+		action_log('Вы погибли.')
 	}
 
 	get_accuracy() {
