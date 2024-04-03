@@ -6,7 +6,7 @@ import { Item } from "./item.js";
 
 export class Player extends Char {
 	constructor(name, sex){
-		super(name, 100, 100, new Item("fists"), new Item("basicarmor"));
+		super(name, 100, 100, new Item("fists"), new Item("basic_armor_1"));
 		this.lvl = 0;
 		this.exp = 0;
 		this.skill_points = 0;

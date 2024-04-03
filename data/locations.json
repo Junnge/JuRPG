@@ -5,9 +5,13 @@
 		"events": [
 			{"type": "enemy", "item": "raider", "rare": 20},
 			{"type": "enemy", "item":  "raiderlead", "rare": 5},
-			{"type": "enemy", "item": "madraider", "rare": 5},
+			{"type": "enemy", "item": "madraider", "rare": 1},
 			{"type": "activity", "item": "hunting", "rare": 15},
-			{"type": "activity", "item": "searching", "rare": 15}
+			{"type": "activity", "item": "searching", "rare": 15},
+
+			{"type": "finding", "item": "military_vault", "rare": 1},
+			{"type": "finding", "item": "box_clothes_1", "rare": 15},
+			{"type": "finding", "item": "box_clothes_2", "rare": 5}
 		]
 	},
 	"rock" : {
@@ -20,8 +24,10 @@
 			{"type": "enemy", "item": "geccon", "rare": 2},
 			{"type": "activity", "item": "hunting", "rare": 5},
 			{"type": "activity", "item": "searching", "rare": 5},
+
 			{"type": "finding", "item": "box", "rare": 2},
-			{"type": "finding", "item": "corpse", "rare" : 5}
+			{"type": "finding", "item": "corpse", "rare" : 5},
+			{"type": "finding", "item": "corpse_wolf", "rare": 10}
 		]
 	}
 }

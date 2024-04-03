@@ -298,7 +298,13 @@ bind_on_click("sell_button", (e) => {
 
 function show_item_info(customer, customer_inventory, button, item_id){
 	let price = 0
-	if (button == 'buy') {var btext = "Купить"; price = get_buying_price(customer, item_id)} else { var btext = "Продать"; price = get_selling_price(customer, item_id)}
+	if (button == 'buy') {
+		var btext = "Купить";
+		price = get_buying_price(customer, item_id)
+	} else {
+		var btext = "Продать";
+		price = get_selling_price(customer, item_id)
+	}
 
 	let shop_box_info = document.getElementById("shop_info_box")
 

@@ -2,7 +2,7 @@
 	"joe": {
 		"name": "Резкий Джo",
 		"type": "seller",
-		"list": ["sniperifle", "gun10mm_ammo"],
+		"list": ["sniper_rifle", "gun10mm", "gun10mm_ammo", "sniper_rifle_ammo"],
 		"phrase": "Джo к твоим услугам, {{sexref}}. Хочешь убивать врагов на расстоянии? Или у тебя закончились патроны?",
 		"boy": "перчик",
 		"girl": "цыпочка"

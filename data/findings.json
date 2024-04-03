@@ -2,21 +2,51 @@
 	"corpse": {
 		"name": "Труп",
 		"loot": [
-			{"item" : "gun10mm", "rare" : 10},
-			{"item" : "leather_armor", "rare" : 1},
+			{"item" : "gun10mm", "rare" : 1},
+			{"item" : "gun10mm_ammo", "rare" : 20},
+
+			{"item" : "leather_armor", "rare" : 5},
+			{"item" : "reptile_armor", "rare" : 1},
+
 			{"item" : "knife", "rare" : 50},
-			{"item" : "axe", "rare" : 20},
-			{"item" : "gun10mm_ammo", "rare" : 20}
+			{"item" : "axe", "rare" : 20}
+		]
+	},
+	"corpse_wolf" : {
+		"name" : "Обглоданый труп койота",
+		"loot": [
+			{"item" : "cap", "rare": 10},
+			{"item" : "fangs", "rare": 5},
+			{"item" : "gun10mm_ammo", "rare": 1}
 		]
 	},
 	"box": {
 		"name": "Ящик",
 		"loot": [
-			{"item" : "sniperifle", "rare" : 10},
-			{"item" : "gun10mm_ammo", "rare" : 15},
-			{"item" : "leather_armor", "rare" : 1},
-			{"item" : "knife", "rare" : 20},
-			{"item" : "axe", "rare" : 15}
+			{"item" : "gun10mm", "rare" : 1},
+			{"item" : "gun10mm_ammo", "rare" : 20}
+		]
+	},
+	"box_clothes_1": {
+		"name": "Обломки ящика",
+		"loot": [
+			{"item" : "basic_armor_1", "rare" : 20},
+			{"item" : "basic_armor_2", "rare" : 1}
+		]
+	},
+	"box_clothes_2": {
+		"name": "Ящик",
+		"loot": [
+			{"item" : "basic_armor_1", "rare" : 10},
+			{"item" : "basic_armor_2", "rare" : 5},
+			{"item" : "basic_armor_3", "rare" : 1}
+		]
+	},
+	"military_vault" : {
+		"name": "Военный схрон",
+		"loot": [
+			{"item" : "sniper_rifle", "rare" : 1},
+			{"item" : "sniper_rifle_ammo", "rare" : 20}
 		]
 	}
 }

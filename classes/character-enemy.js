@@ -12,7 +12,7 @@ export class Enemy extends Char {
 			gameContent.enemies[id].hp,
 			gameContent.enemies[id].hp,
 			new Item(weapon_id),
-			new Item("basicarmor"));
+			new Item("basic_armor_1"));
 		this.id = id;
 		this.exp = gameContent.enemies[id].exp;
 		this.loot = gameContent.enemies[id].loot;

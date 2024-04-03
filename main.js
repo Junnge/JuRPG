@@ -10,7 +10,7 @@ import { _status_update } from "./ui/status-update.js";
 import { H, randomInt } from "./engine/common.js";
 import { spend_ammo } from "./systems/effects.js";
 
-var game_version = "1.06";
+var game_version = "1.07";
 
 export var gameState = {
 	current_event: undefined,
@@ -83,7 +83,11 @@ class EnemyEvent{
 	}
 	go() {
 		gameState.current_fight.init();
-		gameState.current_fight.add_fighter(gameState.player, gameState.inventory, 0);
+		let player_fighter = gameState.current_fight.add_fighter(gameState.player, gameState.inventory, 0);
+		if (gameState.player.status == "stealth") {
+			player_fighter.stealth = true;
+		}
+
 		gameState.current_fight.add_fighter(this.enemy, undefined, 1);
 		status_update();
 		gameState.player.status = "in_combat";
@@ -255,6 +259,8 @@ function Fight(player){
 		if (fighter === this.player) {
 			this.player_position = tmp
 		}
+
+		return tmp
 	};
 
 	this.run = function(){
@@ -283,10 +289,16 @@ function Fight(player){
 
 	this.get_target = function(i){
 		let tmp_distance = this.distance + 1;
-		let tmp = -1;
+		let tmp = undefined;
 		for (var t = 0; t < this.fighters.length ; t++){
 			let j = this.fighters[t]
-			if ((Math.abs(i.coord - j.coord) < tmp_distance) && (i.team != j.team) && (j.fighter.hp > 0)) {
+
+			if (
+				(Math.abs(i.coord - j.coord) < tmp_distance)
+				&& (i.team != j.team)
+				&& (j.fighter.hp > 0)
+				&& (j.stealth != true)
+			) {
 				tmp_distance = Math.abs(i.coord - j.coord);
 				tmp = j;
 			}
@@ -296,7 +308,7 @@ function Fight(player){
 
 	this.get_player_target_name = function() {
 		let tmp = this.get_target(this.player_position)
-		if (tmp == -1){
+		if (tmp == undefined){
 			return('Нет врагов')
 		} else {
 			return(tmp.fighter.name)
@@ -305,7 +317,7 @@ function Fight(player){
 
 	this.get_player_target_hp = function() {
 		let tmp = this.get_target(this.player_position)
-		if (tmp == -1){
+		if (tmp == undefined){
 			return('0')
 		} else {
 			return(tmp.fighter.hp)
@@ -317,14 +329,18 @@ function Fight(player){
 			let i = this.fighters[k]
 			if (i.fighter.hp > 0) {
 				let tmp = this.get_target(i)
+				if (tmp == undefined) {
+					this.wait(i);
+					continue;
+				}
+
 				let tmp_distance = Math.abs(i.coord - tmp.coord)
 				if (i.fighter.hp != 0 && tmp != -1) {
 					if (i.fighter.get_attack_range() < tmp_distance) {
 						this.move_forward(i);
 					} else {
-						console.log(i)
-						console.log(tmp)
 						this.attack(i.fighter, i.inventory, tmp.fighter, tmp.inventory, tmp_distance);
+						i.stealth = false;
 					}
 				}
 			}
@@ -332,6 +348,7 @@ function Fight(player){
 	}
 
 	this.attack = function(a, a_inventory, b, b_inventory, dist){
+
 		var is_succesful = spend_ammo(a, a_inventory);
 
 		status_update()
@@ -339,6 +356,7 @@ function Fight(player){
 			console.log('no ammo')
 			return;
 		}
+
 		let acc = a.get_accuracy();
 		let dice = Math.random();
 		/*console.log('____________')
@@ -389,6 +407,10 @@ function Fight(player){
 			a.coord -= 1
 		}
 		status_update(`${H(a.fighter.name)} продвинулся вперёд`);
+	}
+
+	this.wait = function(a) {
+		status_update(`${H(a.fighter.name)} ждёт`);
 	}
 
 	this.get_winner = function(){

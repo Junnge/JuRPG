@@ -11,7 +11,7 @@
 	},
 	"gun10mm" : {
 		"name" : "10мм пистолет",
-		"price" : 150,
+		"price" : 125,
 		"damage": 25,
 		"slot": "weapon",
 		"description": "Это просто пушка.",
@@ -43,14 +43,19 @@
 		"description": "Если бы в игре были деревья...",
 		"effective_range": 1
 	},
-	"sniperifle" : {
+	"sniper_rifle" : {
 		"name" : "Снайперская винтовка",
-		"price" : 150,
-		"damage" : 30,
+		"price" : 450,
+		"damage" : 35,
 		"slot" : "weapon",
 		"description": "Прицел сбит влево.",
 		"ranged": true,
 		"effective_range": 20
+	},
+	"sniper_rifle_ammo" : {
+		"name" : "Патроны к винтовке",
+		"price" : 30,
+		"description": "Дорогое удовольствие."
 	},
 	"equip_item" : {
 		"name" : "-----",
@@ -95,29 +100,45 @@
 		"price": 50,
 		"heal": 40
 	},
-	"leatherarmor" : {
-		"name" : "Кожаная броня",
-		"price" : 500,
+	"basic_armor_1" : {
+		"name" : "Дырявый ватник",
+		"armor": 1,
+		"slot": "body",
+		"price": 5,
+		"description" : "Не спасает даже от ночного холода"
+	},
+	"basic_armor_2" : {
+		"name" : "Потрёпаный ватник",
+		"armor": 3,
+		"slot": "body",
+		"price": 10,
+		"description" : "Сомнительная защита"
+	},
+	"basic_armor_3" : {
+		"name" : "Укреплённый ватник",
 		"armor": 5,
+		"slot": "body",
+		"price": 50,
+		"description" : "Надёжная защита от атак щенят койота."
+	},
+	"leather_armor" : {
+		"name" : "Кожаная броня",
+		"price" : 250,
+		"armor": 7,
 		"slot": "body",
 		"description": "Психологическая защита для вашего тела."
 	},
-	"reptilearmor" : {
+	"reptile_armor" : {
 		"name" : "Броня из шкуры ящера",
-		"price" : 500,
-		"armor": 10,
+		"price" : 750,
+		"armor": 11,
 		"slot": "body",
 		"description": "Более чем психологическая защита для вашего тела."
 	},
-	"basicarmor" : {
-		"name" : "Дырявый ватник",
-		"armor": 0,
-		"slot": "body"
-	},
-	"steelarmor" : {
+	"steel_armor" : {
 		"name" : "Стальная броня",
 		"price" : 1500,
-		"armor": 15,
+		"armor": 20,
 		"slot": "body",
 		"description": "Серьёзный доспех. Почувствуйте себя средневековым рыцарем."
 	},
