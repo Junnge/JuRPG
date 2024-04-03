@@ -1,0 +1,54 @@
+export var dataArrays = {}
+
+export var gameContent = {
+	items: {},
+	enemies: {},
+	locations: {},
+	activities: {},
+	npcs: {},
+	findings: {}
+}
+
+
+export function loadJSON(file, callback) {
+	var rawFile = new XMLHttpRequest();
+	rawFile.overrideMimeType("application/json");
+	rawFile.open("GET", file, true);
+	rawFile.onreadystatechange = function() {
+		if (rawFile.readyState === 4 && rawFile.status == "200") {
+			callback(rawFile.responseText, file);
+		}
+	}
+	rawFile.send(null);
+}
+
+export function jsoncallback(text, file){
+	dataArrays[file] = JSON.parse(text);
+}
+
+export function arrLoad(argument) {
+    console.log("json loading")
+    loadJSON("data/items.json", jsoncallback);
+    loadJSON("data/enemies.json", jsoncallback);
+    loadJSON("data/locations.json", jsoncallback);
+    loadJSON("data/activities.json", jsoncallback);
+    loadJSON("data/npcs.json", jsoncallback);
+    loadJSON("data/findings.json", jsoncallback);
+
+	if (Object.keys(dataArrays).length != 6){
+		console.log('loading');
+		return 0;
+	} else {
+		finalize()
+		return 1
+	}
+}
+
+function finalize() {
+	gameContent.items = dataArrays["data/items.json"];
+	gameContent.enemies = dataArrays["data/enemies.json"];
+	gameContent.locations = dataArrays["data/locations.json"];
+	gameContent.activities = dataArrays["data/activities.json"];
+	gameContent.npcs = dataArrays["data/npcs.json"];
+	gameContent.findings = dataArrays["data/findings.json"];
+}

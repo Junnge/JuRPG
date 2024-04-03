@@ -2,43 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>JuRPG</title>
-	<meta charset="utf-8" />
+	<meta charset="utf-8"/>
 	<meta http-equiv="Cache-control" content="no-cache" />
-	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Pragma" content="no-cache"/>
 	<meta http-equiv="Expires" content="-1" />
-	<link type="text/css" rel="stylesheet" href="reset.css" /> 
+	<link type="text/css" rel="stylesheet" href="reset.css"/>
 	<link rel="stylesheet" href="fonts/stylesheet.css" type="text/css" charset="utf-8" />
-	<link type="text/css" rel="stylesheet" href="style.css" /> 
-	<link rel="shortcut icon" type="image/png" href="img/icon.png" />
+	<link type="text/css" rel="stylesheet" href="style.css"/>
+	<link rel="shortcut icon" type="image/png" href="img/icon.png"/>
 </head>
+
+<script type="module" src="./ui.js"></script>
+<script type="module" src="./main.js"></script>
+<script type="text/javascript" src="./ui/show-box.js"></script>
+
 <body onload="show_box('action_box', 'action_button')">
 <!--<body onload="show_box('shop_box', 'map_button')">-->
 <div id="main_box">
 	<div id="content_box">
 		<div id="action_box"></div>
 		<div id="action_buttons">
-			<!--<img src="" id="activity_button" class="a_button" onclick="activity.go()">
-			 <img src="img/buttons/adv_button_unactive.png" id="adv_button" onclick="adventure()">
-			 <img src="img/buttons/fight_button_unactive.png" id="fight_button" onclick="fight()">-->
 		</div>
 		<div id="stats_buttons">
-			<img src="img/buttons/hero_button_unactive.png" id="hero_button"
-			  onclick="show_box('hero_box', 'stats_button', 'hero_button'); show_player_stats(player)">
-			 <img src="img/buttons/inv_button_unactive.png" id="inv_button"
-			  onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()">
-			 <img src="img/buttons/statistics_button_unactive.png" id="statistics_button"
-			  onclick="show_box('statistics_box', 'stats_button', 'statistics_button')">
-			 <!--<img src="img/buttons/settings_button_unactive.png" id="settings_button" onclick="show_box('stats_box', 'stats_button', 'settings_button')"
-			 onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
-			 onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img> -->
+			<img src="img/buttons/hero_button_unactive.png" id="hero_button">
+			<img src="img/buttons/inv_button_unactive.png" id="inv_button">
+			<img src="img/buttons/statistics_button_unactive.png" id="statistics_button">
+			<!--<img src="img/buttons/settings_button_unactive.png" id="settings_button" onclick="show_box('stats_box', 'stats_button', 'settings_button')"
+			onmouseover="document.getElementById('adv_button').src='img/buttons/adv_button_active.png'"
+			onmouseout="document.getElementById('adv_button').src='img/buttons/adv_button_unactive.png'"></img> -->
 		</div>
 		<div id="map_box" class="map">
 			<div class="map_icon" id="ruined_city">
-				<img src="img/map_ico/city_r.png" onclick="player.travel('ruins')">
+				<img src="img/map_ico/city_r.png" id="travel_ruins">
 				<span class="tooltiptext">Руины города</span>
 			</div>
 			<div id="rock" class="map_icon">
-				<img src="img/map_ico/rock.png" onclick="player.travel('rock')">
+				<img src="img/map_ico/rock.png" id="travel_rock">
 				<span class="tooltiptext">Одинокая скала</span>
 			</div>
 			<div  id="city" class="map_icon">
@@ -58,27 +57,27 @@
 		</div>
 		<div id="statistics_box"><button onclick="reset()">Сбросить игру</button></div>
 		<!--<div id="settings_box">4</div>--
-		<div id="stats_box"></div>-->		
+		<div id="stats_box"></div>-->
 		<div id="city_map_box">
 			<div  id="shop" class="map_icon">
-				<img src="img/map_ico/shop.png" onclick="show_box('shop_box', 'map_button'), uinpc('buy','dube')">
+				<img src="img/map_ico/shop.png" id="shop_1_icon">
 				<span class="tooltiptext">Мистер Дюбэ</span>
 			</div>
 
 			<div  id="shop2" class="map_icon">
-				<img src="img/map_ico/shop.png" onclick="show_box('shop_box', 'map_button'), uinpc('buy','joe')">
+				<img src="img/map_ico/shop.png" id="shop_2_icon">
 				<span class="tooltiptext">Резкий Джo</span>
 			</div>
 
 			<div  id="shop3" class="map_icon">
-				<img src="img/map_ico/shop.png" onclick="show_box('shop_box', 'map_button'), uinpc('buy','miles')">
+				<img src="img/map_ico/shop.png" id="shop_3_icon">
 				<span class="tooltiptext">Старьёвщик Майлс</span>
 			</div>
 		</div>
 		<div id="shop_box">
 			<div id="npc_name_box">NPC NAME</div>
-			<span id="buy_button" class="bb" onclick="uinpc('buy')">Купить</span>
-			<span id="sell_button" class="bb" onclick="uinpc('sell')">Продать</span>
+			<span id="buy_button" class="bb">Купить</span>
+			<span id="sell_button" class="bb">Продать</span>
 			<div id="phrase_box">NPC PHRASE</div>
 			<div id="npc_inv_box">NPC INV BOX</div>
 			<div id="shop_info_box">INFO BOX</div>
@@ -93,16 +92,15 @@
 		<p id="exp_bar">Опыт:</p>
 	</div>
 	<div id="nav_buttons">
-		<img src="img/buttons/button_active.png" id="action_button" onclick="show_box('action_box', 'action_button')"><br>
-		<img src="img/buttons/button_unactive.png" id="map_button" onclick="show_box('map_box', 'map_button')"><br>
-		<img src="img/buttons/button_unactive.png" id="stats_button" onclick="show_box('inv_box', 'stats_button', 'inv_button'); inv.show()"><br>
+		<img src="img/buttons/button_active.png" id="action_button"><br>
+		<img src="img/buttons/button_unactive.png" id="map_button"><br>
+		<img src="img/buttons/button_unactive.png" id="stats_button"><br>
 	</div>
 </div>
-<script type="text/javascript" src="main.js"></script>
-<script type="text/javascript" src="ui.js"></script>
+
 <!-- technical buttons -->
-<button onclick="save_all()">S A V E</button>
-<button onclick="cheats()">C H E A T</button>
-<button onclick="reset()">R E S E T</button>
+<button id = "button_save" onclick="save_all()">S A V E</button>
+<button id = "button_cheat" onclick="cheats()">C H E A T</button>
+<button id = "button_reset" onclick="reset()">R E S E T</button>
 </body>
 </html>

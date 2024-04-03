@@ -367,3 +367,18 @@ img:hover{
 	width: 65px;
 	padding-left: 5px;
 }
+
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.row > div {
+	width: auto;
+}
+
+.plus_button {
+	height: 15px;
+	width: 15px;
+}

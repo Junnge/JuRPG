@@ -1,430 +1,56 @@
+"use strict";
+
+import { Item } from "./classes/item.js";
+import { Player } from "./classes/character-player.js";
+import { Inv } from "./classes/inventory.js";
+import { Enemy } from "./classes/character-enemy.js";
+import { gameContent, arrLoad } from "./engine/database.js";
+import { action_status } from "./communication.js";
+import { _status_update } from "./ui/status-update.js";
+import { H, randomInt } from "./engine/common.js";
+import { spend_ammo } from "./systems/effects.js";
+
 var game_version = "1.06";
 
-
-
-//ф-я для генерации цельных чисел в диапазоне [min, max]
-function randomInt(min, max) {
-	var rand = min - 0.5 + Math.random() * (max - min + 1)
-	rand = Math.round(rand);
-	return rand;
+export var gameState = {
+	current_event: undefined,
+	player: undefined,
+	inventory: undefined,
+	current_fight: undefined
 }
 
-function loadJSON(file, callback) {
-	var rawFile = new XMLHttpRequest();
-	rawFile.overrideMimeType("application/json");
-	rawFile.open("GET", file, true);
-	rawFile.onreadystatechange = function() {
-		if (rawFile.readyState === 4 && rawFile.status == "200") {
-			callback(rawFile.responseText, file);
-		}
+export function status_update(text) {
+	_status_update(gameState.player, gameState.current_fight, text)
+}
+
+function send_update() {
+	action_status(gameState, gameContent, fight, adventure)
+}
+
+function gameLoad(argument) {
+	if (arrLoad() == 0) {
+		setTimeout(gameLoad, 50);
+		return;
 	}
-	rawFile.send(null);
-}
 
-function jsoncallback(text, file){
-	dataArrays[file] = JSON.parse(text);
-}
+	gameState.inventory = new Inv();
+	gameState.player = new Player('Путник', 'boy');
+	gameState.current_fight = new Fight(gameState.player);
 
-
-function arrLoad(argument) {
-	if (Object.keys(dataArrays).length != 6){
-		console.log('loading');
-		setTimeout(arrLoad, 50);
-		return 0;
-	}
-	arrItems = dataArrays["data/items.json"];
-	arrEnemies = dataArrays["data/enemies.json"];
-	arrLocations = dataArrays["data/locations.json"];
-	arrActivities = dataArrays["data/activities.json"];
-	arrNpcs = dataArrays["data/npcs.json"];
-	arrFindings = dataArrays["data/findings.json"];
-	//enemyObject.change("emptyenemy");
-	inv = new Inv();
-	player = new Player('Путник', 'boy');
-	current_fight = new Fight(player);
 	if ("player" in localStorage) load_all();
-	if (player.status in arrActivities){
-		cur_event = new Event('activity', player.status);
+
+	if (gameState.player.status in gameContent.activities){
+		gameState.current_event = new Event('activity', gameState.player.status);
 	}
+
 	//document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 	status_update('Добро пожаловать в пустошь.');
-	action_status();
+	send_update() ;
 	console.log('arrays loaded');
 }
 
-class Item {
-	constructor(id){
-		for (var key in arrItems[id]) {
-			this[key] = arrItems[id][key]
-		}
-		this.id = id;
-	}
-
-	toJSON(){
-		return this.id
-	}
-
-	is_armor(){
-		return ("armor" in this)
-	}
-
-	is_weapon(){
-		return ("damage" in this)
-	}
-
-	is_ranged(){
-		return (this["ranged"] == true)
-	}
-
-	is_equippable(){
-		return ["weapon", "head", "body"].contains(this.slot)
-	}
-
-	ammo(){
-		return arrItems[this.id + "_ammo"]
-	}
-}
-
-class Char {
-	constructor(name, hp, max_hp, weapon, armor){
-		this.name = name;
-		this._hp = hp;
-		this.hp_max = max_hp;
-		this.slots = {weapon: weapon, body: armor, head: new Item("equip_item")};
-		this.next_attack_is_crit = false;
-	}
-
-	get hp() {
-		return this._hp;
-	}
-
-	set hp(amount) {
-		this._hp = amount;
-		if (this._hp > this.hp_max) this.hp = this.hp_max;
-		if (this._hp < 0) this.hp = 0;
-	}
-
-	get is_dead() {
-		return this._hp == 0;
-	}
-
-	get_attack_damage() {
-		let item = this.slots.weapon
-		if (item.is_ranged()) return this.slots.weapon.damage;
-		if (this.special == undefined) return (this.slots.weapon.damage)
-		return (this.slots.weapon.damage) * (1 + this.special.strength / 5)
-	}
-
-	get armor() {
-		var armory = 0;
-		for (var key in this.slots){
-			var equipped_item = this.slots[key];
-			if ("armor" in equipped_item) {
-				armory += equipped_item.armor;
-			}
-		}
-		return armory;
-	}
-
-	get_attack_range() {
-		return this.slots.weapon.effective_range;
-	}
-
-	get_weapon_name() {
-		return this.slots.weapon.name
-	}
-
-	get_accuracy() {
-		return 0.7
-	}
-
-	get_crit_chance() {
-		return 0.1
-	}
-
-	get_crit_mult() {
-		return 3
-	}
-
-	spend_ammo(){
-		return true;
-	};
-}
-
-class Enemy extends Char {
-	constructor(id){
-		//console.log(id)
-		//console.log(arrEnemies)
-		var weapon_id = arrEnemies[id].weapon;
-		if (weapon_id == undefined) weapon_id = "basicweapon";
-		super(arrEnemies[id].name,
-			arrEnemies[id].hp,
-			arrEnemies[id].hp,
-			new Item(weapon_id),
-			new Item("basicarmor"));
-		this.id = id;
-		this.exp = arrEnemies[id].exp;
-		this.loot = arrEnemies[id].loot;
-	}
-
-
-	save(){
-		localStorage.enemy = `${this.id} ${this.hp}`;
-	}
-
-	save_to_string(){
-		return `${this.id} ${this.hp}`
-	}
-
-	static load_from_string(s) {
-		var data = s.split(' ');
-		var enemy = new this(data[0]);
-		enemy.hp = Number(data[1]);
-		return enemy;
-	}
-
-	die() {
-		let got_exp = player.give_exp(this.exp);
-		var rand_caps_amount = randomInt(1, 10);
-		var rand_loot = loot(this.loot);
-		inv.add("cap", rand_caps_amount);
-		inv.add(rand_loot.item, 1);
-		status_update(`Вы убили ${H(this.name)} и получили ${got_exp} опыта, нашли ${rand_caps_amount} ${H('Крышка')} и ${H(arrItems[rand_loot.item].name)}`);
-		if (!this.slots.weapon.pseudo_item) {
-			inv.add(this.slots.weapon.id, 1)
-			status_update(`Вы подобрали с трупа ${this.slots.weapon.name}`);
-		}
-		status_update();
-	}
-
-}
-
-class Player extends Char {
-	constructor(name, sex){
-		super(name, 100, 100, new Item("fists"), new Item("basicarmor"));
-		this.lvl = 0;
-		this.exp = 0;
-		this.skill_points = 0;
-		this.status = "idle";
-		this.location = "rock";
-		this.sex = sex;
-		this.in_fight = 0;
-		this.special_points = 10;
-		this.special = {
-			strength : 1,
-			perception : 1,
-			endurance : 1,
-			charisma : 1,
-			intellegence : 1,
-			agility : 1,
-			luck : 1
-		};
-	}
-	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
-	give_exp(x){
-		let modifier = 1 + this.special.intellegence / 10
-		let add_exp = Math.floor(x * modifier)
-		this.exp = this.exp + add_exp;
-		while (this.exp >= this.get_next_lvl_exp()) {
-			this.lvlup();
-		}
-		return add_exp
-	}
-
-	lvlup(){
-		this.base_damage++;
-		this.skill_points++;
-		this.exp = this.exp - this.get_next_lvl_exp();
-		this.lvl++;
-		this.set_hp_max();
-		this.full_heal();
-		status_update(`Теперь вы ${this.lvl} уровня`);
-	}
-
-	set_hp_max(argument) {
-		this.hp_max = 100 + this.special.endurance * 10 + this.lvl * 10;
-	}
-
-	full_heal(){
-		this.hp = this.hp_max;
-	}
-
-	//Подсчет необходимиого кол-ва опыта для поднятия уровня
-	get_next_lvl_exp(){
-		return 10 * (this.lvl + 1);
-	}
-
-	travel(id){
-		if (this.in_fight == 1) {
-			show_box('action_box', 'action_button');
-			status_update('Вы в бою!');
-		// } else if (activity.is_cd){
-		// 	show_box('action_box', 'action_button');
-		// 	status_update(arrActivities[activity.type].process);
-		} else {
-			this.location = id;
-			//activity = new Activity(arrLocations[id]);
-			show_box('action_box', 'action_button');
-			status_update(`Вы добрались до ${H(arrLocations[id].name)}`);
-			//document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
-		}
-	}
-
-	equip(id){
-		var item = new Item(id);
-		if (item.slot in this.slots){
-			this.slots[item.slot] = item;
-			console.log(id, 'equipped');
-		}
-		inv.remove(id, 1);
-	}
-
-	unequip(slot_id){
-		if (slot_id in this.slots){
-			if (slot_id == 'weapon') {
-				if (this.slots.weapon.id != "fists") {
-					inv.add(this.slots.weapon.id, 1);
-					this.slots.weapon = new Item("fists");
-				}
-			} else {
-				var item_id = this.slots[slot_id].id;
-				if (item_id != "equip_item") {
-					inv.add(item_id, 1);
-					this.slots[slot_id] = new Item("equip_item");
-				}
-			}
-		}
-	}
-
-	save(){
-		var arr = [this.name, this.lvl, this.exp, this.skill_points, this.base_damage, this.location, this.special_points, this.hp, this.hp_max, this.next_attack_is_crit, this.status];
-		localStorage.player =  arr.join(' ');
-		localStorage.special = JSON.stringify(this.special);
-		//localStorage.equip = JSON.stringify(this.slots, (function(slot_name, item){return item.id}));
-		localStorage.equip = JSON.stringify({weapon: this.slots.weapon.id, body: this.slots.body.id, head: this.slots.head.id});
-	}
-
-	load(){
-		var data = localStorage.player.split(' ');
-		this.name = data[0];
-		this.lvl = Number(data[1]);
-		this.exp = Number(data[2]);
-		this.skill_points = Number(data[3]);
-		this.base_damage = Number(data[4]);
-		this.location = data[5];
-		this.special_points = Number(data[6]);
-		this.hp = Number(data[7]);
-		this.hp_max = Number(data[8]);
-		this.next_attack_is_crit = Boolean(data[9]);
-		this.status = data[10];
-		this.special = JSON.parse(localStorage.special);
-		var s = JSON.parse(localStorage.equip);
-		for (var key in s) {
-			s[key] = new Item(s[key])
-		};
-		this.slots = s;
-		//this.slots = JSON.parse(localStorage.equip, (function(slot_name, item_id){return new Item(item_id)}));
-	}
-
-	die() {
-		status_update('Вы погибли.')
-	}
-
-	get_accuracy() {
-		return (1 - 1/(this.special.agility + this.special.luck/5 + 2))
-	}
-
-	get_crit_chance() {
-		return 0.1 + this.special.luck/100
-	}
-
-	get_stealth() {
-		return 0.1 + this.special.perception/20 + this.special.luck/100
-	}
-
-	spend_ammo() {
-		var ammo_id = this.slots.weapon.id + "_ammo";
-		var the_weapon_uses_ammo = arrItems[ammo_id] != undefined;
-		if (the_weapon_uses_ammo) {
-			try {
-				inv.remove(ammo_id, 1)
-				return true;
-			} catch (error) {
-				if (error == "Not enough items") {
-					status_update("У вас закончились патроны.")
-					return false;
-				}
-			}
-		}
-		return true;
-
-	}
-}
-
-function Inv() {
-	this.stuff = {};
-
-	this.remove = function(item, count){
-		if (this.stuff[item] > count){
-			this.stuff[item] -= count;
-		} else if (this.stuff[item] == count){
-			delete this.stuff[item];
-		} else {
-			throw "Not enough items";
-		}
-	}
-
-	this.add = function(item, count){
-		if (item in this.stuff) {
-			this.stuff[item] += count
-		} else {
-			this.stuff[item] = count
-		}
-	}
-
-	this.buy = function(item, price, amount){
-		this.remove("cap", price*amount);
-		this.add(item, amount);
-	}
-
-	this.sell = function(item, price, amount){
-		this.remove(item, amount);
-		this.add("cap", price*amount);
-	}
-
-	this.show = function(){
-		document.getElementById('stuff_box').innerHTML = '';
-		console.log(this.stuff)
-		for (var item in this.stuff) {
-			console.log(item)
-			if (arrItems[item].slot != undefined){
-				document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" onclick="player.unequip('${arrItems[item].slot}'); player.equip('${item}')
-				inv.show()" >${arrItems[item].name} (${this.stuff[item]})</a>`
-			} else document.getElementById('stuff_box').innerHTML += `<br><a id="${item}" >${arrItems[item].name} (${this.stuff[item]})</a>`
-			if (arrItems[item].heal != undefined && this.stuff[item] > 0){
-				document.getElementById('stuff_box').innerHTML += `	 <img src="img/buttons/skill_increase_button.png" onclick="player.hp += (arrItems.${item}.heal); status_update(); inv.remove('${item}', 1); inv.show()">`;
-			}
-		}
-
-		document.getElementById('equip_box').innerHTML = '';
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('weapon'); inv.show()">Руки: [${player.slots.weapon.name}]</a><br>`;
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('head'); inv.show()">Голова: [${player.slots.head.name}]</a><br>`;
-		document.getElementById('equip_box').innerHTML += `<a onclick="player.unequip('body'); inv.show()">Тело: [${player.slots.body.name}]</a><br>`;
-			//document.getElementById('inv_box').innerHTML += '<p>'+arrItems[item].name+" ("+this.stuff[item]+")</p>";
-
-	}
-
-	this.save = function(){
-		localStorage.inv = JSON.stringify(this.stuff);
-	}
-
-	this.load = function(){
-		this.stuff = JSON.parse(localStorage.inv);
-	}
-}
-
-
 function Event(type, id){
+	console.log("event id:" + id)
 	switch (type) {
 		case "item":
 			return new ItemEvent(id);
@@ -445,7 +71,7 @@ class ItemEvent{
 	process(){
 		var item = new Item(this.id);
 		status_update("Вы нашли " + H(item.name));
-		inv.add(id, 1);
+		gameState.inventory.add(id, 1);
 	}
 }
 
@@ -456,18 +82,18 @@ class EnemyEvent{
 		this.enemy = new Enemy(this.id);
 	}
 	go() {
-		current_fight.init();
-		current_fight.add_fighter(player, 0);
-		current_fight.add_fighter(this.enemy, 1);
+		gameState.current_fight.init();
+		gameState.current_fight.add_fighter(gameState.player, gameState.inventory, 0);
+		gameState.current_fight.add_fighter(this.enemy, undefined, 1);
 		status_update();
-		player.status = "in_combat";
+		gameState.player.status = "in_combat";
 	}
 	process(){
 		status_update("Вы встретили " + H(this.enemy.name));
-		if (stealth_roll()) {
+		if (stealth_roll(gameState.player)) {
 			status_update("Вам удалось подкрасться незаметно. Следующий Ваш удар будет критическим.");
-			player.next_attack_is_crit = true;
-			player.status = "stealth";
+			gameState.player.next_attack_is_crit = true;
+			gameState.player.status = "stealth";
 			status_update();
 		};
 		this.go();
@@ -480,11 +106,11 @@ class FindingEvent{
 		this.id = id;
 	}
 	process(){
-		player.status = "idle";
-		var finding = arrFindings[this.id];
+		gameState.player.status = "idle";
+		var finding = gameContent.findings[this.id];
 		var item_loot = loot(finding.loot);
-		status_update(`Вы обнаружили ${H(finding.name)}. Обыскав его, вы нашли ${H(arrItems[item_loot.item].name)}`);
-		inv.add(item_loot.item, 1)
+		status_update(`Вы обнаружили ${H(finding.name)}. Обыскав его, вы нашли ${H(gameContent.items[item_loot.item].name)}`);
+		gameState.inventory.add(item_loot.item, 1)
 	}
 }
 
@@ -492,69 +118,118 @@ class ActivityEvent{
 	constructor(id){
 		this.type = "activity";
 		this.id = id;
-		this.items = arrActivities[id].items;
+		this.items = gameContent.activities[id].items;
 		this.cd = 20000;
 	}
 
 	go() {
 		this.timestamp = performance.now();
-		status_update(arrActivities[this.id].start + ` ${H(Math.floor(this.cd/1000)+' секунд')}`);
+
+		console.log("!!!")
+		console.log(this.id)
+		console.log(gameContent.activities)
+
+		status_update(gameContent.activities[this.id].start + ` ${H(Math.floor(this.cd/1000)+' секунд')}`);
 		var that = this;
 		setTimeout(function(){that.finish()}, this.cd);
-		player.status = "busy";
+		gameState.player.status = "busy";
 		var timerId = setTimeout(function tick() {
-			if (player.status == "busy"){
-				action_status();
+			if (gameState.player.status == "busy"){
+				send_update() ;
 				timerId = setTimeout(tick, 1000);
 			}
 		}, 1000);
-		action_status();
+		send_update() ;
 	}
 
 	process() {
-		status_update(arrActivities[this.id].found)
-		player.status = this.id;
-		action_status();
+		status_update(gameContent.activities[this.id].found)
+		gameState.player.status = this.id;
+		send_update() ;
 	}
 
 	finish(){
 		var loot_id = this.items[randomInt(0, this.items.length-1)];
 		var xp = 1;
-		inv.add(loot_id, 1);
-		let got_exp = player.give_exp(xp);
-		status_update(arrActivities[this.id].finish + `${H(arrItems[loot_id].name)} и получили ${got_exp} опыта.`);
-		player.status = "idle";
-		action_status();
+		gameState.inventory.add(loot_id, 1);
+		let got_exp = gameState.player.give_exp(xp);
+		status_update(gameContent.activities[this.id].finish + `${H(gameContent.items[loot_id].name)} и получили ${got_exp} опыта.`);
+		gameState.player.status = "idle";
+		send_update() ;
 
 	}
 }
 
 
-
 //Бой с монстром
-function fight(){
-	if (current_fight.started == 1) {
-		current_fight.run();
+function fight(fight){
+	if (fight.started == 1) {
+		fight.run();
 	}
 }
 
 //Путешествие в пyстоши, генерация событий
-function adventure(){
+function adventure(player){
 	if (player.is_dead){
 		status_update("Простите, но Вы мертвы");
 		return;
 	}
-	var event_data = loot(arrLocations[player.location].events);
-	cur_event = Event(event_data.type, event_data.item);
-	cur_event.process();
-	action_status();
+	var event_data = loot(gameContent.locations[player.location].events);
+	console.log("???")
+	console.log(event_data)
+	gameState.current_event = Event(event_data.type, event_data.item);
+	gameState.current_event.process();
+	send_update() ;
 }
 
-function stealth_roll(){
-	dice = Math.random()
+function stealth_roll(player){
+	let dice = Math.random()
 	return (player.get_stealth() > dice)
 }
 
+function kill(player, enemy) {
+	if (player != gameState.player) {
+		return;
+	}
+
+	let got_exp = player.give_exp(enemy.exp);
+	var rand_caps_amount = randomInt(1, 10);
+	var rand_loot = loot(enemy.loot);
+	gameState.inventory.add("cap", rand_caps_amount);
+	gameState.inventory.add(rand_loot.item, 1);
+	status_update(`Вы убили ${H(enemy.name)} и получили ${got_exp} опыта, нашли ${rand_caps_amount} ${H('Крышка')} и ${H(gameContent.items[rand_loot.item].name)}`);
+	if (!enemy.slots.weapon.pseudo_item) {
+		gameState.inventory.add(enemy.slots.weapon.id, 1)
+		status_update(`Вы подобрали с трупа ${H(enemy.slots.weapon.name)}`);
+	}
+	status_update();
+}
+
+export function equip(player, inventory, id){
+	var item = new Item(id);
+	if (item.slot in player.slots){
+		player.slots[item.slot] = item;
+		console.log(id, 'equipped');
+	}
+	inventory.remove(id, 1);
+}
+
+export function unequip(player, inventory, slot_id){
+	if (slot_id in player.slots){
+		if (slot_id == 'weapon') {
+			if (player.slots.weapon.id != "fists") {
+				inventory.add(player.slots.weapon.id, 1);
+				player.slots.weapon = new Item("fists");
+			}
+		} else {
+			var item_id = player.slots[slot_id].id;
+			if (item_id != "equip_item") {
+				inventory.add(item_id, 1);
+				player.slots[slot_id] = new Item("equip_item");
+			}
+		}
+	}
+}
 
 function Fight(player){
 	this.player = player;
@@ -569,12 +244,12 @@ function Fight(player){
 		this.player.in_fight = 1;
 	};
 
-	this.add_fighter = function(fighter, team, coord = 'None'){
+	this.add_fighter = function(fighter, inventory, team, coord = 'None'){
 		console.log(coord)
 		if (coord == 'None'){
 			coord = this.distance * team
 		}
-		tmp = {fighter: fighter, team: team, coord: coord}
+		let tmp = {fighter: fighter, inventory: inventory, team: team, coord: coord}
 		this.fighters.push(tmp);
 		if (fighter === this.player) {
 			this.player_position = tmp
@@ -601,15 +276,15 @@ function Fight(player){
 	this.stop = function(){
 		this.started = 0
 		this.player.in_fight = 0
-		player.status = "idle";
-		action_status();
+		this.player.status = "idle";
+		send_update() ;
 	}
 
 	this.get_target = function(i){
-		tmp_distance = this.distance + 1;
-		tmp = -1;
+		let tmp_distance = this.distance + 1;
+		let tmp = -1;
 		for (var t = 0; t < this.fighters.length ; t++){
-			j = this.fighters[t]
+			let j = this.fighters[t]
 			if ((Math.abs(i.coord - j.coord) < tmp_distance) && (i.team != j.team) && (j.fighter.hp > 0)) {
 				tmp_distance = Math.abs(i.coord - j.coord);
 				tmp = j;
@@ -619,7 +294,7 @@ function Fight(player){
 	}
 
 	this.get_player_target_name = function() {
-		tmp = this.get_target(this.player_position)
+		let tmp = this.get_target(this.player_position)
 		if (tmp == -1){
 			return('Нет врагов')
 		} else {
@@ -628,7 +303,7 @@ function Fight(player){
 	}
 
 	this.get_player_target_hp = function() {
-		tmp = this.get_target(this.player_position)
+		let tmp = this.get_target(this.player_position)
 		if (tmp == -1){
 			return('0')
 		} else {
@@ -638,29 +313,33 @@ function Fight(player){
 
 	this.turn = function(){
 		for (var k = 0; k < this.fighters.length ; k++){
-			i = this.fighters[k]
+			let i = this.fighters[k]
 			if (i.fighter.hp > 0) {
-				tmp = this.get_target(i)
-				tmp_distance = Math.abs(i.coord - tmp.coord)
+				let tmp = this.get_target(i)
+				let tmp_distance = Math.abs(i.coord - tmp.coord)
 				if (i.fighter.hp != 0 && tmp != -1) {
 					if (i.fighter.get_attack_range() < tmp_distance) {
 						this.move_forward(i);
 					} else {
-						this.attack(i.fighter, tmp.fighter);
+						console.log(i)
+						console.log(tmp)
+						this.attack(i.fighter, i.inventory, tmp.fighter, tmp.inventory, tmp_distance);
 					}
 				}
 			}
 		}
 	}
 
-	this.attack = function(a, b, dist){
-		var is_succesful = a.spend_ammo();
+	this.attack = function(a, a_inventory, b, b_inventory, dist){
+		var is_succesful = spend_ammo(a, a_inventory);
+
+		status_update()
 		if (!is_succesful) {
 			console.log('no ammo')
 			return;
 		}
-		acc = a.get_accuracy();
-		dice = Math.random();
+		let acc = a.get_accuracy();
+		let dice = Math.random();
 		/*console.log('____________')
 		console.log(acc)
 		console.log(dice)
@@ -670,12 +349,23 @@ function Fight(player){
 			return;
 		}
 		dice = Math.random();
-		crit = a.get_crit_chance();
+		let crit = a.get_crit_chance();
 		console.log(dice)
 		console.log(crit)
 		console.log(a.next_attack_is_crit)
+
+		let damage = 0;
+		let base_attacker_damage = a.get_attack_damage(dist)
+
+		console.log(base_attacker_damage)
+
 		if (crit > dice || a.next_attack_is_crit) {
-			damage = Math.trunc(a.get_attack_damage(dist) * a.get_crit_mult() - b.armor)
+
+			console.log(a.get_crit_mult())
+
+			base_attacker_damage = base_attacker_damage * a.get_crit_mult()
+
+			damage = Math.trunc(base_attacker_damage - b.armor)
 			a.next_attack_is_crit = false
 		} else {
 			damage = a.get_attack_damage(dist) - b.armor;
@@ -686,7 +376,7 @@ function Fight(player){
 		b.hp -= damage;
 		status_update(`${H(a.name)} нанес ${H(b.name)} ${damage} урона с помощью ${H(a.get_weapon_name())}`);
 		if (b.hp == 0) {
-			b.die();
+			kill(a, b);
 		}
 	}
 
@@ -701,10 +391,10 @@ function Fight(player){
 	}
 
 	this.get_winner = function(){
-		flag_0 = 1;
-		flag_1 = 1;
+		let flag_0 = 1;
+		let flag_1 = 1;
 		for (var k = 0; k < this.fighters.length ; k++){
-			i = this.fighters[k]
+			let i = this.fighters[k]
 			if ((i.fighter.hp != 0) && (i.team == 0)){
 				flag_0 = 0;
 			}
@@ -726,7 +416,7 @@ function Fight(player){
 	this.save = function() {
 		var arr = [];
 		for (var k = 0; k < this.fighters.length ; k++){
-			i = this.fighters[k]
+			let i = this.fighters[k]
 			if (i.fighter instanceof Enemy) {
 				arr.push(i.fighter.save_to_string() + ` ${i.team} ${i.coord}`);
 			} else {
@@ -741,19 +431,25 @@ function Fight(player){
 
 	this.load = function(player) {
 		this.player = player
-		arr = localStorage.fight.split('^');
+
+		if (localStorage.fight == undefined) {
+			localStorage.clear()
+			document.location.reload(true);
+		}
+
+		var arr = localStorage.fight.split('^');
 		this.fighters = [];
 		if (arr[0] != "") {
 			this.started = 1
 			for (var k = 0; k < arr.length ; k++){
-				i = arr[k]
-				tmp_arr = i.split(' ');
+				let i = arr[k]
+				let tmp_arr = i.split(' ');
 				console.log(tmp_arr)
 				if (tmp_arr[0] != '@player') {
-					tmp = Enemy.load_from_string(`${tmp_arr[0]} ${tmp_arr[1]}`);
-					this.add_fighter(tmp, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]));
+					let tmp = Enemy.load_from_string(`${tmp_arr[0]} ${tmp_arr[1]}`);
+					this.add_fighter(tmp, undefined, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]));
 				} else {
-					this.add_fighter(this.player, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]))
+					this.add_fighter(this.player, gameState.inventory, parseInt(tmp_arr[2]), parseInt(tmp_arr[3]))
 				}
 			}
 		}
@@ -765,10 +461,10 @@ function Fight(player){
 
 function load_all(){
 	if(localStorage.version == game_version){
-		player.load();
+		gameState.player.load();
 		//enemyObject.load();
-		current_fight.load(player)
-		inv.load();
+		gameState.current_fight.load(gameState.player)
+		gameState.inventory.load();
 		console.log('save loaded');
 		status_update('Загружено сохранение!');
 	} else {
@@ -777,16 +473,16 @@ function load_all(){
 	}
 }
 
-function save_all(){
+export function save_all(){
 	localStorage.version = game_version;
-	player.save();
+	gameState.player.save();
 	//enemyObject.save();
-	current_fight.save()
-	inv.save();
+	gameState.current_fight.save()
+	gameState.inventory.save();
 	console.log('games saved');
 	status_update('Игра сохранена!');
 }
-function reset(){
+export function reset(){
 	var remove = function(x){localStorage.removeItem(x)};
 	["enemy", "player", "inv", "equip", "special", "fight"].forEach(remove);
 	document.location.reload(true);
@@ -794,22 +490,14 @@ function reset(){
 
 setInterval(save_all, 60000);
 
-//Вывод text в лог сообщений, обновление всех показателей на панелях
-function status_update(text) {
-	if (text!=undefined) {document.getElementById('action_box').innerHTML += "<p>" + text + "</p>";}
-	document.getElementById('exp_bar').innerHTML = "Опыт: " + player.exp + " | " + player.get_next_lvl_exp();
-	document.getElementById('health_bar_enemy').innerHTML = "Здоровье: "+current_fight.get_player_target_hp();
-	document.getElementById('health_bar_hero').innerHTML = "Здоровье: " + player.hp + "|" + player.hp_max;
-	document.getElementById('enemy_name').innerHTML = "Имя: "+current_fight.get_player_target_name();
-	document.getElementById('action_box').scrollTop = 999999;
-}
+
 
 function loot(lootlist){
 	var weightsum = 0;
 	for(var i = 0; i < lootlist.length; i++){
 		weightsum += lootlist[i].rare;
 	}
-	rand = randomInt(1, weightsum);
+	let rand = randomInt(1, weightsum);
 	var i = 0;
 	var tmp = 0;
 	while(tmp < rand){
@@ -820,28 +508,12 @@ function loot(lootlist){
 	return lootlist[i-1];
 }
 
-function cheats(){
-	for (var item in arrItems) {
-		inv.add(item, 100)
+export function cheats(){
+	for (var item in gameContent.items) {
+		gameState.inventory.add(item, 100)
 	};
-	inv.add("cap", 1000000);
+	gameState.inventory.add("cap", 1000000);
 }
 
-var cur_event;
-var player;
-var current_fight;
-var arrEnemies;
-var arrItems;
-var arrLocations;
-var arrActivities;
-var arrNpcs;
-var arrFindings;
-var dataArrays = {};
-console.log("json loading")
-loadJSON("data/items.json", jsoncallback);
-loadJSON("data/enemies.json", jsoncallback);
-loadJSON("data/locations.json", jsoncallback);
-loadJSON("data/activities.json", jsoncallback);
-loadJSON("data/npcs.json", jsoncallback);
-loadJSON("data/findings.json", jsoncallback);
-arrLoad();
+
+gameLoad();
