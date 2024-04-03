@@ -229,6 +229,7 @@ export function unequip(player, inventory, slot_id){
 			}
 		}
 	}
+
 }
 
 function Fight(player){

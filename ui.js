@@ -124,13 +124,16 @@ function show_inventory(player, inventory) {
 	body_box.innerHTML = `Тело: ${H(player.slots.body.name)}`
 
 	weapon_box.onclick = (e) => {
-		unequip(player, inventory, "weapon")
+		unequip(player, inventory, "weapon");
+		show_inventory(player, inventory);
 	}
 	head_box.onclick = (e) => {
-		unequip(player, inventory, "head")
+		unequip(player, inventory, "head");
+		show_inventory(player, inventory);
 	}
 	body_box.onclick = (e) => {
-		unequip(player, inventory, "body")
+		unequip(player, inventory, "body");
+		show_inventory(player, inventory);
 	}
 
 	equip_box.appendChild(weapon_box);
