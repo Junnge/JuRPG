@@ -1,3 +1,4 @@
+import { ITEM_SLOT } from "../engine/types.js";
 import { Item } from "./item.js";
 
 /**
@@ -9,8 +10,16 @@ export class Character {
 		this.name = name;
 		this._hp = hp;
 		this.hp_max = max_hp;
+
+		/**
+		 * @type {Record<ITEM_SLOT, Item>}
+		 */
 		this.slots = {weapon: weapon, body: armor, head: new Item("equip_item")};
 		this.next_attack_is_crit = false;
+
+		this.loot = []
+
+		this.exp = 1
 
 		/**
 		 * @type {import("../engine/types.js").SPECIAL}
@@ -42,20 +51,19 @@ export class Character {
 
 	get_attack_damage(distance) {
 		let item = this.slots.weapon
+		if (item.damage == undefined) return 0
+
 		if (item.is_ranged()) return this.slots.weapon.damage;
-		if (this.special == undefined) return (this.slots.weapon.damage)
-		return (this.slots.weapon.damage) * (1 + this.special.strength / 5)
+		return (item.damage) * (1 + this.special.strength / 5)
 	}
 
 	get armor() {
-		var armory = 0;
+		var total_armor = 0;
 		for (var key in this.slots){
 			var equipped_item = this.slots[key];
-			if ("armor" in equipped_item) {
-				armory += equipped_item.armor;
-			}
+			total_armor += equipped_item.armor
 		}
-		return armory;
+		return total_armor;
 	}
 
 	get_attack_range() {
@@ -76,5 +84,9 @@ export class Character {
 
 	get_crit_mult() {
 		return 3
+	}
+
+	give_exp(x) {
+		return
 	}
 }

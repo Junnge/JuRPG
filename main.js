@@ -9,11 +9,13 @@ import { action_status } from "./communication.js";
 import { _status_update } from "./ui/status-update.js";
 import { H, randomInt } from "./engine/common.js";
 import { spend_ammo } from "./systems/effects.js";
+import { ITEM_SLOT } from "./engine/types.js";
+import { Character } from "./classes/character.js";
 
 var game_version = "1.07";
 
 /**
- * @type {GameState}
+ * @type {import("./engine/types.js").GameState}
  */
 export var gameState = {
 	current_event: undefined,
@@ -138,14 +140,25 @@ class ActivityEvent{
 
 		status_update(gameContent.activities[this.id].start + ` ${H(Math.floor(this.cd/1000)+' секунд')}`);
 		var that = this;
-		setTimeout(function(){that.finish()}, this.cd);
+
+		setTimeout(
+			function(){
+				that.finish()
+			}, this.cd
+		);
+
 		gameState.player.status = "busy";
-		var timerId = setTimeout(function tick() {
-			if (gameState.player.status == "busy"){
-				send_update() ;
-				timerId = setTimeout(tick, 1000);
-			}
-		}, 1000);
+
+		((activity) => {
+			var timerId = setTimeout(
+			function tick() {
+				if (gameState.player.status == "busy") {
+					activity.roll_loot();
+					send_update();
+					timerId = setTimeout(tick, 1000);
+				}
+			}, 1000
+		)})(this);
 		send_update() ;
 	}
 
@@ -155,15 +168,17 @@ class ActivityEvent{
 		send_update() ;
 	}
 
-	finish(){
+	roll_loot() {
 		var loot_id = this.items[randomInt(0, this.items.length-1)];
-		var xp = 1;
+		var xp = randomInt(0, 1);
 		gameState.inventory.add(loot_id, 1);
 		let got_exp = gameState.player.give_exp(xp);
 		status_update(gameContent.activities[this.id].finish + `${H(gameContent.items[loot_id].name)} и получили ${got_exp} опыта.`);
+	}
+
+	finish(){
 		gameState.player.status = "idle";
 		send_update() ;
-
 	}
 }
 
@@ -194,6 +209,12 @@ function stealth_roll(player){
 	return (player.get_stealth() > dice)
 }
 
+/**
+ *
+ * @param {Character} player
+ * @param {Character} enemy
+ * @returns
+ */
 function kill(player, enemy) {
 	if (player != gameState.player) {
 		return;
@@ -212,15 +233,28 @@ function kill(player, enemy) {
 	status_update();
 }
 
+/**
+ *
+ * @param {Player} player
+ * @param {Inventory} inventory
+ * @param {import("./engine/types.js").ItemID} id
+ */
 export function equip(player, inventory, id){
 	var item = new Item(id);
-	if (item.slot in player.slots){
-		player.slots[item.slot] = item;
-		console.log(id, 'equipped');
+	if (item.slot == undefined) {
+		return
 	}
+	player.slots[item.slot] = item;
+	console.log(id, 'equipped');
 	inventory.remove(id, 1);
 }
 
+/**
+ *
+ * @param {Player} player
+ * @param {Inventory} inventory
+ * @param {ITEM_SLOT} slot_id
+ */
 export function unequip(player, inventory, slot_id){
 	if (slot_id in player.slots){
 		if (slot_id == 'weapon') {
@@ -350,6 +384,15 @@ function Fight(player){
 		}
 	}
 
+	/**
+	 *
+	 * @param {Character} a
+	 * @param {Inventory|undefined} a_inventory
+	 * @param {Character} b
+	 * @param {Inventory|undefined} b_inventory
+	 * @param {number} dist
+	 * @returns
+	 */
 	this.attack = function(a, a_inventory, b, b_inventory, dist){
 
 		var is_succesful = spend_ammo(a, a_inventory);

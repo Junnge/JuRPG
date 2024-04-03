@@ -41,7 +41,9 @@ export class Item {
 	 * @returns {boolean}
 	 */
 	is_weapon(){
-		return ("damage" in gameContent.items[this.id])
+		let value = gameContent.items[this.id].damage
+		if (value == undefined) return false
+		return false
 	}
 
 	/**
@@ -66,5 +68,33 @@ export class Item {
 	 */
 	ammo(){
 		return this.id + "_ammo"
+	}
+
+	get name() {
+		return gameContent.items[this.id].name
+	}
+
+	get effective_range() {
+		return gameContent.items[this.id].effective_range
+	}
+
+	get damage() {
+		let value = gameContent.items[this.id].damage
+		if (value == undefined) return 0
+		return value
+	}
+
+	get slot() {
+		return gameContent.items[this.id].slot
+	}
+
+	get armor() {
+		let value = gameContent.items[this.id].armor
+		if (value == undefined) return 0;
+		return value
+	}
+
+	get pseudo_item() {
+		return (gameContent.items[this.id].pseudo_item == true)
 	}
 }

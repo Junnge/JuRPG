@@ -4,6 +4,9 @@ import { action_log } from "../ui/status-update.js";
 import { Character } from "./character.js";
 import { Item } from "./item.js";
 
+/**
+ * @class
+ */
 export class Player extends Character {
 	constructor(name, sex){
 		super(name, 100, 100, new Item("fists"), new Item("basic_armor_1"));
@@ -17,7 +20,12 @@ export class Player extends Character {
 		this.special_points = 10;
 		this.base_damage = 0;
 	}
-	//Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
+
+	/**
+	 * Ф-я начисления опыта и повышения уровня если достигнута нужная отметка
+	 * @param {number} x
+	 * @returns {number} фактическое количество полученного опыта
+	 */
 	give_exp(x){
 		let modifier = 1 + this.special.intellegence / 10
 		let add_exp = Math.floor(x * modifier)
@@ -53,7 +61,7 @@ export class Player extends Character {
 
 	travel(id){
 		if (this.in_fight == 1) {
-			show_box('action_box', 'action_button');
+			show_box('action_box', 'action_button', undefined);
 			action_log('Вы в бою!');
 		// } else if (activity.is_cd){
 		// 	show_box('action_box', 'action_button');
@@ -61,7 +69,7 @@ export class Player extends Character {
 		} else {
 			this.location = id;
 			//activity = new Activity(gameContent.locations[id]);
-			show_box('action_box', 'action_button');
+			show_box('action_box', 'action_button', undefined);
 			action_log(`Вы добрались до ${H(gameContent.locations[id].name)}`);
 			//document.getElementById('activity_button').src='img/buttons/'+activity.type+'_button_unactive.png';
 		}

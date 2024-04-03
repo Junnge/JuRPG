@@ -26,7 +26,7 @@
 /**
  * Represents equipment slot of the item
  * @readonly
- * @enum {string|undefined}
+ * @enum {string}
  */
 export var ITEM_SLOT = {
     BODY: "body",
@@ -54,6 +54,8 @@ export var ITEM_SLOT = {
  * @property {string|undefined} description
  * @property {boolean} ranged
  * @property {number} effective_range
+ * @property {number|undefined} damage
+ * @property {boolean|undefined} pseudo_item
  */
 
 /**
@@ -75,4 +77,5 @@ export var ITEM_SLOT = {
 /**
  * @typedef {Object} GameState
  * @property {import('../classes/inventory').Inventory} inventory
+ * @property {import('../classes/character-player').Player} player
  */
