@@ -34,5 +34,80 @@
                 "amount": 1
             }
         ]
+    },
+
+    "basic_armour_3_wolf": {
+        "inputs": [
+            {
+                "id": "basic_armor_2",
+                "amount": 1
+            },
+            {
+                "id": "wolfleather",
+                "amount": 1
+            }
+        ],
+        "outputs": [
+            {
+                "id": "basic_armor_3",
+                "amount": 1
+            }
+        ]
+    },
+    "basic_armour_3_gec": {
+        "inputs": [
+            {
+                "id": "basic_armor_2",
+                "amount": 1
+            },
+            {
+                "id": "gecleather",
+                "amount": 1
+            }
+        ],
+        "outputs": [
+            {
+                "id": "basic_armor_3",
+                "amount": 1
+            }
+        ]
+    },
+
+    "leather_armor": {
+        "inputs": [
+            {
+                "id": "basic_armor_3",
+                "amount": 1
+            },
+            {
+                "id": "wolfleather",
+                "amount": 2
+            }
+        ],
+        "outputs": [
+            {
+                "id": "leather_armor",
+                "amount": 1
+            }
+        ]
+    },
+
+    "reptile_armor": {
+        "inputs": [
+            {
+                "id": "basic_armor_3",
+                "amount": 1
+            },
+            {
+                "id": "gecleather",
+                "amount": 2
+            }
+        ],
+        "outputs": [
+            {
+                "id": "reptile_armor",
+                "amount": 1
+            }
+        ]
     }
 }
