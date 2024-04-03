@@ -30,7 +30,6 @@ export function jsoncallback(text, file){
 	dataArrays[file] = JSON.parse(text);
 }
 
-
 export function arrLoad(argument) {
     console.log("json loading")
 

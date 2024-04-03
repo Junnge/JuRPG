@@ -2,6 +2,7 @@ import { H } from "./engine/common.js";
 import { gameContent } from "./engine/database.js";
 import { cheats, equip, gameState, reset, save_all, status_update, unequip } from "./main.js";
 import { get_buying_price, get_selling_price } from "./systems/trade.js";
+import { populate_container_with_crafts } from "./ui/craft.js";
 
 var special_visible_names = {
 	strength : "Сила",
@@ -286,6 +287,12 @@ bind_on_click("shop_2_icon", (e) => {
 bind_on_click("shop_3_icon", (e) => {
 	show_box('shop_box', 'map_button');
 	uinpc(gameState.player, gameState.inventory, 'buy','miles');
+})
+
+const craft_box = document.getElementById("craft_box");
+bind_on_click("workshop_icon", (e) => {
+	show_box('craft_box', 'map_button');
+	populate_container_with_crafts(gameState, gameContent, craft_box)
 })
 
 bind_on_click("buy_button", (e) => {

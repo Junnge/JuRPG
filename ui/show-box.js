@@ -10,6 +10,7 @@ function show_box(box, button, button2) {
 	document.getElementById('city_map_box').style = "visibility: hidden;";
 	document.getElementById('shop_box').style = "visibility: hidden;";
 	document.getElementById('hero_box').style = "visibility: hidden;";
+	document.getElementById('craft_box').style = "visibility: hidden;";
 
 	document.getElementById('inv_box').style = "visibility: hidden;";
 	document.getElementById('statistics_box').style = "visibility: hidden;";

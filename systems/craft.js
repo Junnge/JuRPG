@@ -1,23 +1,54 @@
-export function craft(gameContent, crafter, inventory, craft_data) {
+import { H } from "../engine/common.js";
+
+/**
+ *
+ * @param {GameContent} gameContent
+ * @param {Character} crafter
+ * @param {Inventory} inventory
+ * @param {string} craft_id
+ * @returns {string[]}
+ */
+export function can_craft(gameContent, crafter, inventory, craft_id) {
     let reasons = []
 
     // checking inputs:
+    let craft_data = gameContent.crafts[craft_id]
 
-    for (input of craft_data.inputs) {
+    if (craft_data == undefined) {
+        alert("Invalid craft id: " + craft_id)
+        return reasons;
+    }
+
+    for (let input of craft_data.inputs) {
         if (inventory.has(input.id) < input.amount) {
-            reasons.push("Недостаточно " + gameContent.items[input.id].name)
+            reasons.push("Недостаточно " + H(gameContent.items[input.id].name))
         }
     }
 
+    return reasons
+}
+
+/**
+ *
+ * @param {GameContent} gameContent
+ * @param {Character} crafter
+ * @param {Inventory} inventory
+ * @param {string} craft_id
+ * @returns {string[]}
+ */
+export function craft(gameContent, crafter, inventory, craft_id) {
+    let reasons = can_craft(gameContent, crafter, inventory, craft_id);
     if (reasons.length > 0) return reasons;
+
+    let craft_data = gameContent.crafts[craft_id];
 
     // everything is OK, apply the recipe
 
-    for (input of craft_data.inputs) {
-        inventory.remove(input.id, input.amount)
+    for (let input of craft_data.inputs) {
+        inventory.remove(input.id, input.amount);
     }
-    for (output of craft_data.output) {
-        inventory.add(output.id, output.amount)
+    for (let output of craft_data.outputs) {
+        inventory.add(output.id, output.amount);
     }
 
     return reasons;

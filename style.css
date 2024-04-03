@@ -61,6 +61,16 @@
 	margin-left: 15px;
 	margin-top: 9px;
 }
+
+.main_ui_box {
+	border: 1px solid #23FB8E;
+	width: 530px;
+	height: 390px;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+}
+
 #map_box{
 	border: 1px solid #23FB8E;
 	width: 530px;
@@ -346,6 +356,11 @@ div.map_icon{
 	left: 425px;
 }
 
+#workshop{
+	top: 150px;
+	left: 300px;
+}
+
 a:hover{
 	cursor: default;
 }
@@ -381,4 +396,8 @@ img:hover{
 .plus_button {
 	height: 15px;
 	width: 15px;
+}
+
+.gray_text {
+	color: gray;
 }
