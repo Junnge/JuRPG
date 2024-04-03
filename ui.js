@@ -182,9 +182,12 @@ document.getElementById("npc_inv_box").onwheel = (e) => {
 	document.getElementById("npc_inv_box").scrollBy(0, e.deltaY *4);
 	e.preventDefault();
 }
-
 document.getElementById('stuff_box').onwheel = function(e){
 	document.getElementById("stuff_box").scrollBy(0, e.deltaY *4);
+	e.preventDefault();
+}
+document.getElementById('craft_box').onwheel = function(e){
+	document.getElementById("craft_box").scrollBy(0, e.deltaY *4);
 	e.preventDefault();
 }
 
