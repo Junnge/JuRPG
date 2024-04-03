@@ -79,6 +79,8 @@ function show_inventory(player, inventory) {
 
 	console.log(inventory.stuff)
 
+	let info_box = document.getElementById('item_info_box');
+
 	for (let item in inventory.stuff) {
 		let name = gameContent.items[item].name
 		let amount = inventory.stuff[item]
@@ -87,6 +89,9 @@ function show_inventory(player, inventory) {
 		let item_node = document.createElement("div");
 		item_node.classList.add("row")
 		inventory_box.appendChild(item_node);
+		item_node.onmouseenter = (e) => {
+			info_box.innerHTML = gameContent.items[item].description
+		}
 
 		let name_node = document.createElement("div");
 		name_node.innerHTML = display_string
@@ -174,6 +179,11 @@ document.getElementById("action_box").onwheel = function(e){
 }
 document.getElementById("npc_inv_box").onwheel = (e) => {
 	document.getElementById("npc_inv_box").scrollBy(0, e.deltaY *4);
+	e.preventDefault();
+}
+
+document.getElementById('stuff_box').onwheel = function(e){
+	document.getElementById("stuff_box").scrollBy(0, e.deltaY *4);
 	e.preventDefault();
 }
 
