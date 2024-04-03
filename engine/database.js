@@ -6,11 +6,15 @@ export var gameContent = {
 	locations: {},
 	activities: {},
 	npcs: {},
-	findings: {}
+	findings: {},
+	crafts: {}
 }
 
+var JSONs_to_load = 0
 
 export function loadJSON(file, callback) {
+	JSONs_to_load++;
+
 	var rawFile = new XMLHttpRequest();
 	rawFile.overrideMimeType("application/json");
 	rawFile.open("GET", file, true);
@@ -26,16 +30,21 @@ export function jsoncallback(text, file){
 	dataArrays[file] = JSON.parse(text);
 }
 
+
 export function arrLoad(argument) {
     console.log("json loading")
+
+	JSONs_to_load = 0;
+
     loadJSON("data/items.json", jsoncallback);
     loadJSON("data/enemies.json", jsoncallback);
     loadJSON("data/locations.json", jsoncallback);
     loadJSON("data/activities.json", jsoncallback);
     loadJSON("data/npcs.json", jsoncallback);
     loadJSON("data/findings.json", jsoncallback);
+	loadJSON("data/crafts.json", jsoncallback);
 
-	if (Object.keys(dataArrays).length != 6){
+	if (Object.keys(dataArrays).length != JSONs_to_load){
 		console.log('loading');
 		return 0;
 	} else {
@@ -51,4 +60,5 @@ function finalize() {
 	gameContent.activities = dataArrays["data/activities.json"];
 	gameContent.npcs = dataArrays["data/npcs.json"];
 	gameContent.findings = dataArrays["data/findings.json"];
+	gameContent.crafts = dataArrays["data/crafts.json"];
 }

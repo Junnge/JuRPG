@@ -1,0 +1,38 @@
+{
+    "basic_armour_2_wolf": {
+        "inputs": [
+            {
+                "id": "basic_armor_1",
+                "amount": 1
+            },
+            {
+                "id": "wolfleather",
+                "amount": 1
+            }
+        ],
+        "outputs": [
+            {
+                "id": "basic_armor_2",
+                "amount": 1
+            }
+        ]
+    },
+    "basic_armour_2_gec": {
+        "inputs": [
+            {
+                "id": "basic_armor_1",
+                "amount": 1
+            },
+            {
+                "id": "gecleather",
+                "amount": 1
+            }
+        ],
+        "outputs": [
+            {
+                "id": "basic_armor_2",
+                "amount": 1
+            }
+        ]
+    }
+}

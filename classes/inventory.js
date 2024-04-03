@@ -19,6 +19,13 @@ export function Inv() {
 		}
 	}
 
+	this.has = function(item) {
+		if (item in this.stuff) {
+			return this.stuff[item]
+		}
+		return 0;
+	}
+
 	this.buy = function(item, price, amount){
 		this.remove("cap", price*amount);
 		this.add(item, amount);
