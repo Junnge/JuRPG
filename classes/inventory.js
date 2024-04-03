@@ -1,7 +1,18 @@
-export function Inv() {
-	this.stuff = {};
+/**
+ * Implements functionality of storing various game items.
+ * @class
+ */
+export class Inventory {
+	constructor() {
+		this.stuff = {};
+	}
 
-	this.remove = function(item, count){
+	/**
+	 *
+	 * @param {ItemID} item ID of the item
+	 * @param {number} count
+	 */
+	remove(item, count){
 		if (this.stuff[item] > count){
 			this.stuff[item] -= count;
 		} else if (this.stuff[item] == count){
@@ -11,7 +22,12 @@ export function Inv() {
 		}
 	}
 
-	this.add = function(item, count){
+	/**
+	 *
+	 * @param {ItemID} item
+	 * @param {number} count
+	 */
+	add(item, count){
 		if (item in this.stuff) {
 			this.stuff[item] += count
 		} else {
@@ -19,28 +35,51 @@ export function Inv() {
 		}
 	}
 
-	this.has = function(item) {
+	/**
+	 *
+	 * @param {ItemID} item
+	 * @returns number
+	 */
+	has(item) {
 		if (item in this.stuff) {
 			return this.stuff[item]
 		}
 		return 0;
 	}
 
-	this.buy = function(item, price, amount){
+	/**
+	 *
+	 * @param {ItemID} item
+	 * @param {number} price
+	 * @param {number} amount
+	 */
+	buy(item, price, amount){
 		this.remove("cap", price*amount);
 		this.add(item, amount);
 	}
 
-	this.sell = function(item, price, amount){
+	/**
+	 *
+	 * @param {ItemID} item
+	 * @param {number} price
+	 * @param {number} amount
+	 */
+	sell(item, price, amount){
 		this.remove(item, amount);
 		this.add("cap", price*amount);
 	}
 
-	this.save = function(){
+	/**
+	 * Saves inventory to localStorage
+	 */
+	save(){
 		localStorage.inv = JSON.stringify(this.stuff);
 	}
 
-	this.load = function(){
+	/**
+	 * Loads inventory from localStorage
+	 */
+	load(){
 		this.stuff = JSON.parse(localStorage.inv);
 	}
 }

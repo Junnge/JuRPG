@@ -4,8 +4,8 @@ import { H } from "../engine/common.js";
  *
  * @param {GameContent} gameContent
  * @param {Character} crafter
- * @param {Inventory} inventory
- * @param {string} craft_id
+ * @param {import('../classes/inventory').Inventory} inventory
+ * @param {CraftID} craft_id
  * @returns {string[]}
  */
 export function can_craft(gameContent, crafter, inventory, craft_id) {
@@ -32,8 +32,8 @@ export function can_craft(gameContent, crafter, inventory, craft_id) {
  *
  * @param {GameContent} gameContent
  * @param {Character} crafter
- * @param {Inventory} inventory
- * @param {string} craft_id
+ * @param {import('../classes/inventory').Inventory} inventory
+ * @param {CraftID} craft_id
  * @returns {string[]}
  */
 export function craft(gameContent, crafter, inventory, craft_id) {

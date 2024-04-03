@@ -1,6 +1,15 @@
 /**
+ * @typedef {string} ItemID
+ */
+
+/**
+ * @typedef {string} CraftID
+ */
+
+
+/**
  * @typedef {Object} ItemWithAmount
- * @property {string} id
+ * @property {ItemID} id
  * @property {Number} amount
  */
 
@@ -11,10 +20,15 @@
  */
 
 /**
- * @typedef {Object<string, CraftData>} CraftsContainer
+ * @typedef {Object<ItemID, CraftData>} CraftsContainer
  */
 
 /**
  * @typedef {Object} GameContent
  * @property {CraftsContainer} crafts
+ */
+
+/**
+ * @typedef {Object} GameState
+ * @property {import('../classes/inventory').Inventory} inventory
  */

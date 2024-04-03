@@ -2,7 +2,7 @@
 
 import { Item } from "./classes/item.js";
 import { Player } from "./classes/character-player.js";
-import { Inv } from "./classes/inventory.js";
+import { Inventory } from "./classes/inventory.js";
 import { Enemy } from "./classes/character-enemy.js";
 import { gameContent, arrLoad } from "./engine/database.js";
 import { action_status } from "./communication.js";
@@ -12,6 +12,9 @@ import { spend_ammo } from "./systems/effects.js";
 
 var game_version = "1.07";
 
+/**
+ * @type {GameState}
+ */
 export var gameState = {
 	current_event: undefined,
 	player: undefined,
@@ -33,7 +36,7 @@ function gameLoad(argument) {
 		return;
 	}
 
-	gameState.inventory = new Inv();
+	gameState.inventory = new Inventory();
 	gameState.player = new Player('Путник', 'boy');
 	gameState.current_fight = new Fight(gameState.player);
 
