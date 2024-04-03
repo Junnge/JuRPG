@@ -119,7 +119,7 @@ class ActivityEvent{
 		this.type = "activity";
 		this.id = id;
 		this.items = gameContent.activities[id].items;
-		this.cd = 20000;
+		this.cd = 5000;
 	}
 
 	go() {
@@ -171,7 +171,7 @@ function fight(fight){
 //Путешествие в пyстоши, генерация событий
 function adventure(player){
 	if (player.is_dead){
-		status_update("Простите, но Вы мертвы");
+		status_update("Вы мертвы. Нажмите RESET чтобы начать сначала.");
 		return;
 	}
 	var event_data = loot(gameContent.locations[player.location].events);
@@ -512,8 +512,8 @@ export function cheats(){
 	for (var item in gameContent.items) {
 		gameState.inventory.add(item, 100)
 	};
-	gameState.inventory.add("cap", 1000000);
+	gameState.inventory.add("cap", 999900);
+	status_update("Вы получили по 100 штук каждой вещи в игре и немного крышек");
 }
 
-
-gameLoad();
+gameLoad()
