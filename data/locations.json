@@ -25,8 +25,9 @@
 			{"type": "activity", "item": "hunting", "rare": 5},
 			{"type": "activity", "item": "searching", "rare": 5},
 
-			{"type": "finding", "item": "box", "rare": 2},
-			{"type": "finding", "item": "corpse", "rare" : 5},
+			{"type": "finding", "item": "box", "rare": 4},
+			{"type": "finding", "item": "ancient_bones", "rare": 2},
+			{"type": "finding", "item": "corpse", "rare" : 8},
 			{"type": "finding", "item": "corpse_wolf", "rare": 10}
 		]
 	}

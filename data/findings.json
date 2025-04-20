@@ -12,6 +12,12 @@
 			{"item" : "axe", "rare" : 20}
 		]
 	},
+	"ancient_bones": {
+		"name": "Древний скелет",
+		"loot": [
+			{"item" : "1796_light_cavalry_sabre", "rare" : 1}
+		]
+	},
 	"corpse_wolf" : {
 		"name" : "Обглоданый труп койота",
 		"loot": [

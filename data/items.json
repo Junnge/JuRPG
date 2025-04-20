@@ -35,6 +35,14 @@
 		"description": "Лучше чем кулаки.",
 		"effective_range": 0
 	},
+	"1796_light_cavalry_sabre" : {
+		"name" : "Кавалерийская сабля (1796)",
+		"price" : 1000,
+		"damage": 50,
+		"slot": "weapon",
+		"description": "Раритет, который приобрёл особую ценность в наше время.",
+		"effective_range": 1
+	},
 	"axe": {
 		"name" : "Топор",
 		"price" : 40,

@@ -117,7 +117,12 @@ function show_inventory(player, inventory) {
 		}
 	}
 
-	equip_box = document.getElementById('equip_box')
+	let equip_box = document.getElementById('equip_box')
+
+	if (equip_box == undefined) {
+		alert("No equip_box");
+		return;
+	}
 
 	equip_box.innerHTML = '';
 
