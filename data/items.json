@@ -157,6 +157,14 @@
 		"slot": "head",
 		"description": "Кепка с надписью Make America great again. Вы понятия не имеете что это oзначает."
 	},
+	"flag_usa_spear" : {
+		"name" : "Копьё с флагом",
+		"price" : 20,
+		"damage": 15,
+		"slot": "weapon",
+		"effective_range": 3,
+		"description": "Копьё с флагом древней цивилизации America"
+	},
 	"meat" : {
 		"name": "Мясо",
 		"price": 10,

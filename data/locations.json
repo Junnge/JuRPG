@@ -10,6 +10,7 @@
 			{"type": "activity", "item": "searching", "rare": 15},
 
 			{"type": "finding", "item": "military_vault", "rare": 1},
+			{"type": "finding", "item": "magaglot", "rare": 1},
 			{"type": "finding", "item": "box_clothes_1", "rare": 15},
 			{"type": "finding", "item": "box_clothes_2", "rare": 5}
 		]

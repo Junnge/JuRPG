@@ -12,6 +12,13 @@
 			{"item" : "axe", "rare" : 20}
 		]
 	},
+	"magaglot": {
+		"name": "Останки древнего мутанта",
+		"loot": [
+			{"item" : "baseball_cap", "rare" : 50},
+			{"item" : "flag_usa_spear", "rare" : 50}
+		]
+	},
 	"ancient_bones": {
 		"name": "Древний скелет",
 		"loot": [
